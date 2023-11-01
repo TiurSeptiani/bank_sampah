@@ -1,0 +1,18 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	background-color: #242424;
+}
+
+.content {
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.content::-webkit-scrollbar {
+	display: none;
+}
