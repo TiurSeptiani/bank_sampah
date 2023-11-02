@@ -1,0 +1,8 @@
+.btn-submit {
+    display: flex;
+    justify-content: end;
+}
+
+.datatable {
+    margin-top: 50px;
+}

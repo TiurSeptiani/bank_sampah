@@ -1,12 +1,10 @@
-import { Button, Col, Divider, Form, Input, Select } from "antd";
-import React from "react";
-import DataTable from "./components/datatable";
-import "../../styles/inventaris/inventaris.css"
+import { DatePicker } from 'antd'
+import React from 'react'
 
-function Inventaris() {
-	return (
-		<div>
-			<Form layout='vertical'>
+function Transaksi() {
+  return (
+    <div>
+      <Form layout='vertical'>
 				<Form.Item
 					label='Nama Nasabah'
 					colon={false}
@@ -29,25 +27,17 @@ function Inventaris() {
 					/>
 				</Form.Item>
 				<Form.Item
-					label='Bahan Sampah'
+					label='Tanggal'
 					colon={false}
-					name='bahanSampah'
+					name='tanggal'
 					rules={[
 						{
 							required: true,
-							message: "Tolong masukkan nama bahan sampah!",
+							message: "Tolong masukkan tanggal!",
 						},
 					]}
 				>
-					<Select
-						mode='tags'
-						style={{
-							width: "100%",
-						}}
-						placeholder='Masukkan nama bahan sampah'
-						// onChange={handleChange}
-						// options={options}
-					/>
+					 <DatePicker />
 				</Form.Item>
 				<Form.Item
 					label='Jenis Sampah'
@@ -99,12 +89,8 @@ function Inventaris() {
 					</Button>
 				</Form.Item>
 			</Form>
-			<Col className="datatable">
-				<Divider orientation='left'>Hasil</Divider>
-				<DataTable />
-			</Col>
-		</div>
-	);
+    </div>
+  )
 }
 
-export default Inventaris;
+export default Transaksi

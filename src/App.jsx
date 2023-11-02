@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
 	ExclamationCircleOutlined,
 	FormOutlined,
@@ -15,10 +16,11 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme, Col, Image } from "antd";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import Beranda from "./pages/beranda/index";
+import Beranda from "./pages/beranda/data";
 import Inventaris from "./pages/inventaris/index";
 
 import Logo from "./assets/logo.png";
+import Anggota from "./pages/anggota/index";
 
 const { Header, Sider, Content } = Layout;
 const App = () => {
@@ -54,9 +56,9 @@ const App = () => {
 							label: "Inventaris",
 						},
 						{
-							key: "/data-nasabah",
+							key: "/data-anggota",
 							icon: <TeamOutlined />,
-							label: "Data Nasabah",
+							label: "Anggota",
 						},
 						{
 							key: "/transaksi",
@@ -118,6 +120,8 @@ const App = () => {
 					<Routes>
 						<Route path='/' element={<Beranda />} />
 						<Route path='/inventaris' element={<Inventaris />} />
+						<Route path='/data-anggota' element={<Anggota />} />
+						<Route path='/data-anggota' element={<Anggota />} />
 					</Routes>
 				</Content>
 			</Layout>

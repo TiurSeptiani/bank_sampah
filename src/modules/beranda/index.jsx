@@ -1,10 +1,14 @@
 import { SwapOutlined, TeamOutlined } from "@ant-design/icons";
-import { Card, Col, Divider, Row, Space, Typography } from "antd";
+import { Card, Col, Divider, Row, Space, Table, Typography } from "antd";
 import React from "react";
 import DataTable from "./components/datatable";
+import { useSelector } from "react-redux";
 
 const { Title } = Typography;
-function Beranda() {
+function Beranda({actions}) {
+	const hargaSampah = useSelector((state) => state.hargaSampah);
+	// console.log("HARGA SAMPAH", hargaSampah.data);
+
 	const dataCard = [
 		{
 			title: "Jumlah Nasabah",
@@ -26,10 +30,9 @@ function Beranda() {
 	return (
 		<Row>
 			<Col span={24} className='container'>
-				<Divider orientation='left'>List Update Informasi</Divider>
 				{dataCard.map((data, Index) => (
 					<Card
-						key={Index}
+						key={data.dataIndex}
 						hoverable
 						title={
 							<span style={{ color: "#001529" }}>
@@ -53,7 +56,7 @@ function Beranda() {
 
 			<Col span={24} className='datatable mt-5'>
 				<Divider orientation='left'>List Update Harga Sampah</Divider>
-                <DataTable />
+				<DataTable hargaSampah={hargaSampah} actions={actions} />
 			</Col>
 		</Row>
 	);
