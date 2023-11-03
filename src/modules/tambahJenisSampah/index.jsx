@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Select } from "antd";
 import React, { useState } from "react";
 
 function FormJenisSampah({ handleOnSubmit, loadingOnSubmit }) {
@@ -8,7 +8,7 @@ function FormJenisSampah({ handleOnSubmit, loadingOnSubmit }) {
 		setLoadingSimpan(true);
 		handleOnSubmit(values);
 	};
-	
+
 	return (
 		<div>
 			<Form layout='vertical' onFinish={handleSubmit}>
@@ -55,15 +55,27 @@ function FormJenisSampah({ handleOnSubmit, loadingOnSubmit }) {
 					rules={[
 						{
 							required: true,
-							message: "Tolong masukkan satuan berat sampah!",
+							message: "Tolong masukkan satuan harga sampah!",
 						},
 					]}
 				>
-					<Input
-						style={{
-							width: "100%",
-						}}
-						placeholder='Masukkan nama satuan berat sampah'
+					<Select
+						placeholder="Masukan satuan"
+						allowClear
+						options={[
+							{
+								value: "Kilogram",
+								label: "Kilogram",
+							},
+							{
+								value: "Biji",
+								label: "Biji",
+							},
+							{
+								value: "Liter",
+								label: "Liter",
+							},
+						]}
 					/>
 				</Form.Item>
 
