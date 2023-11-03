@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import {
+	DiffOutlined,
 	ExclamationCircleOutlined,
 	FormOutlined,
 	HomeOutlined,
@@ -18,6 +19,7 @@ import { Layout, Menu, Button, theme, Col, Image } from "antd";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Beranda from "./pages/beranda/data";
 import Inventaris from "./pages/inventaris/index";
+import JenisSampah from "./pages/tambahJenisSampah";
 
 import Logo from "./assets/logo.png";
 import Anggota from "./pages/anggota/index";
@@ -80,6 +82,11 @@ const App = () => {
 							icon: <ExclamationCircleOutlined />,
 							label: "Informasi",
 						},
+						{
+							key: "/tambah-jenis-sampah",
+							icon: <DiffOutlined />,
+							label: "Tambah Jenis",
+						},
 					]}
 				/>
 			</Sider>
@@ -121,7 +128,8 @@ const App = () => {
 						<Route path='/' element={<Beranda />} />
 						<Route path='/inventaris' element={<Inventaris />} />
 						<Route path='/data-anggota' element={<Anggota />} />
-						<Route path='/data-anggota' element={<Anggota />} />
+						{/* <Route path='/data-anggota' element={<Anggota />} /> */}
+						<Route path="/tambah-jenis-sampah" element={<JenisSampah />} />
 					</Routes>
 				</Content>
 			</Layout>

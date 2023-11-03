@@ -1,7 +1,10 @@
 import React from "react";
-import { Space, Table } from "antd";
+import { Button, Space, Table } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 
-const DataTable = ({ hargaSampah }) => {
+const DataTable = ({ hargaSampah, actions }) => {
+	const rowKey = "idJenisSampah"
+
 	const columns = [
 		{
 			title: "No",
@@ -10,32 +13,58 @@ const DataTable = ({ hargaSampah }) => {
 		},
 		{
 			title: "Nama Jenis Sampah",
-			dataIndex: "jenis",
+			dataIndex: "namaJenisSampah",
 		},
 		{
 			title: "Harga",
-			dataIndex: "harga",
+			dataIndex: "hargaJenisSampah",
 		},
 		{
-			title: "Action",
-			key: "action",
-			width: 200,
-			render: (_, record) => (
-				<Space size='middle'>
-					<a>Hapus</a>
-				</Space>
-			),
+			title: "Satuan",
+			dataIndex: "satuan",
 		},
+		// {
+		// 	title: "Action",
+		// 	key: "action",
+		// 	width: 200,
+		// 	render: (_, record) => (
+		// 		<Space size='middle'>
+		// 			<a>Hapus</a>
+		// 		</Space>
+		// 	),
+		// },
 	];
 
-	// const allColumns = {
-		
-	// }
+	const allColumns =
+		actions && actions.length > 0
+			? [
+					...columns,
+					{
+						title: "Aksi",
+						dataIndex: rowKey,
+						fixed: "right",
+						render: (key, record, e) => {
+							return (
+							
+									<Button
+										type='primary'
+										className='more'
+										ghost
+										onClick={(e) => e.preventDefault()}
+									>
+										<DeleteOutlined /> Hapus
+									</Button>
+							
+							);
+						},
+					},
+			  ]
+			: columns;
 
 	return (
 		<Table
 			pagination={false}
-			columns={columns}
+			columns={allColumns}
 			dataSource={Object.values(hargaSampah.data)}
 			scroll={{ x: 100 }}
 		/>

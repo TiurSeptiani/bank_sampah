@@ -16,7 +16,7 @@ function Index() {
 		{
 			title: "Habis",
 			onClick: (id, record) => {
-				console.log();
+				console.log("ID",record);
 			},
 		},
 	];
