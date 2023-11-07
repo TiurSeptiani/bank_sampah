@@ -1,8 +1,9 @@
-import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 import { datatableHargaSampah } from "./hargaSampahThunk"
 
 const initialState = {
-    data: []
+    data: [],
+    loadingData: false,
 }
 
 const dataSlice = createSlice({

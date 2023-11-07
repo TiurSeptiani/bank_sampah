@@ -8,3 +8,7 @@ export const getListHargaSampah = () => {
 export const postJenisSampah = (data) => {
 	return axios.post(`${apiDev}/list-harga-sampah.json`, data)
 }
+
+export const deleteJenisSampah = (id) => {
+	return axios.delete(`${apiDev}/list-harga-sampah/${id}.json`)
+}

@@ -1,1 +1,1 @@
-export const apiDev = "https://bank-sampah-anugerah-59e18-default-rtdb.asia-southeast1.firebasedatabase.app"
+export const apiDev = "https://bank-sampah-f83ae-default-rtdb.asia-southeast1.firebasedatabase.app"

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import {
+	CalculatorOutlined,
 	DiffOutlined,
 	ExclamationCircleOutlined,
 	FormOutlined,
@@ -17,15 +18,21 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme, Col, Image } from "antd";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import Beranda from "./pages/beranda/data";
-import Inventaris from "./pages/inventaris/index";
-import JenisSampah from "./pages/tambahJenisSampah";
+import Beranda from "./privateLayout/pages/beranda/data.jsx";
+import Inventaris from "./privateLayout/pages/inventaris/index.jsx";
+import JenisSampah from "./privateLayout/pages/tambahJenisSampah/index.jsx";
+import Registrasi from "./privateLayout/pages/registrasi/index.jsx";
+import Anggota from "./privateLayout/pages/anggota/index.jsx";
+import DataSampah from "./privateLayout/pages/dataSampah/index.jsx"
 
 import Logo from "./assets/logo.png";
-import Anggota from "./pages/anggota/index";
+import Login from "./publicLayout/pages/loginPage.jsx";
+import { useSelector } from "react-redux";
 
 const { Header, Sider, Content } = Layout;
 const App = () => {
+	// const { isAuth } = useSelector((state) => state.login);
+
 	const [collapsed, setCollapsed] = useState(false);
 	const {
 		token: { colorBgContainer },
@@ -34,6 +41,11 @@ const App = () => {
 	const navigate = useNavigate();
 
 	return (
+		// <Layout style={{ height: "100vh" }}>
+		// 	<Routes>
+		// 		<Route path="/" element={<Login />} />
+		// 	</Routes>
+		// </Layout>
 		<Layout style={{ height: "100vh" }}>
 			<Sider trigger={null} collapsible collapsed={collapsed}>
 				<Col>
@@ -52,25 +64,16 @@ const App = () => {
 							icon: <HomeOutlined />,
 							label: "Beranda",
 						},
-						{
-							key: "/inventaris",
-							icon: <FormOutlined />,
-							label: "Inventaris",
-						},
+
 						{
 							key: "/data-anggota",
 							icon: <TeamOutlined />,
 							label: "Anggota",
 						},
 						{
-							key: "/transaksi",
-							icon: <SwapOutlined />,
-							label: "Transaksi",
-						},
-						{
-							key: "/registrasi",
-							icon: <UserAddOutlined />,
-							label: "Registrasi",
+							key: "/data-sampah",
+							icon: <CalculatorOutlined />,
+							label: "Data Sampah",
 						},
 						{
 							key: "/tabungan",
@@ -78,14 +81,30 @@ const App = () => {
 							label: "Tabungan",
 						},
 						{
-							key: "/informasi",
-							icon: <ExclamationCircleOutlined />,
-							label: "Informasi",
+							key: "/transaksi",
+							icon: <SwapOutlined />,
+							label: "Transaksi",
+						},
+
+						{
+							key: "/inventaris",
+							icon: <FormOutlined />,
+							label: "Inventaris",
+						},
+						{
+							key: "/registrasi",
+							icon: <UserAddOutlined />,
+							label: "Registrasi",
 						},
 						{
 							key: "/tambah-jenis-sampah",
 							icon: <DiffOutlined />,
 							label: "Tambah Jenis",
+						},
+						{
+							key: "/informasi",
+							icon: <ExclamationCircleOutlined />,
+							label: "Informasi",
 						},
 					]}
 				/>
@@ -115,7 +134,7 @@ const App = () => {
 					/>
 				</Header>
 				<Content
-				className="content"
+					className='content'
 					style={{
 						margin: "24px 16px",
 						padding: 24,
@@ -126,10 +145,17 @@ const App = () => {
 				>
 					<Routes>
 						<Route path='/' element={<Beranda />} />
-						<Route path='/inventaris' element={<Inventaris />} />
 						<Route path='/data-anggota' element={<Anggota />} />
-						{/* <Route path='/data-anggota' element={<Anggota />} /> */}
-						<Route path="/tambah-jenis-sampah" element={<JenisSampah />} />
+						<Route path='/registrasi' element={<Registrasi />} />
+						<Route path='/inventaris' element={<Inventaris />} />
+						<Route
+							path='/tambah-jenis-sampah'
+							element={<JenisSampah />}
+						/>
+						<Route
+							path='/data-sampah'
+							element={<DataSampah />}
+						/>
 					</Routes>
 				</Content>
 			</Layout>

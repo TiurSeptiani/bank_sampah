@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getListHargaSampah, postJenisSampah } from "./hargaSampahRequest";
+import { deleteJenisSampah, getListHargaSampah, postJenisSampah } from "./hargaSampahRequest";
 
 export const datatableHargaSampah = createAsyncThunk(
 	"hargaSampah/datatable",
@@ -9,7 +9,7 @@ export const datatableHargaSampah = createAsyncThunk(
 			if (response.status === 200) {
 				return response.data;
 			} else {
-				throw new Error("Gagal mengambil data dari API");
+				throw new Error("Gagal mengambil data");
 			}
 		} catch (error) {
 			throw error;
@@ -18,7 +18,7 @@ export const datatableHargaSampah = createAsyncThunk(
 );
 
 export const addJenisSampah = createAsyncThunk(
-	"hargaSampah/add",
+	"hargaSampah/create",
 	async (value) => {
 		try {
 			const response = await postJenisSampah(value);
@@ -27,7 +27,25 @@ export const addJenisSampah = createAsyncThunk(
 			if (status === 200) {
 				return data;
 			} else {
-				throw new Error("Gagal mengambil data dari API");
+				throw new Error("Gagal menambahkan data");
+			}
+		} catch (error) {
+			throw error;
+		}
+	}
+);
+
+export const handleDeleteOneJenisSampah = createAsyncThunk(
+	"hargaSampah/delete",
+	async (value) => {
+		try {
+			const response = await deleteJenisSampah(value);
+
+			const { data, status } = response;
+			if (status === 200) {
+				return data;
+			} else {
+				throw new Error("Gagal menghapus data");
 			}
 		} catch (error) {
 			throw error;
