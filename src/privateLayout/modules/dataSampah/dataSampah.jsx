@@ -1,23 +1,25 @@
-import { Card, Col, Divider, List, Table, Typography } from "antd";
 import React from "react";
+import { Card, Col, Divider, List, Table, Typography } from "antd";
 import { useSelector } from "react-redux";
 
 function DataSampah() {
   const { data } = useSelector((state) => state.dataInventaris);
 
-  const { Title, Text } = Typography
+  console.log("DATA INVEN", data);
+
+  const { Title, Text } = Typography;
 
   const groupedData = {};
 
   if (data) {
     Object.values(data).forEach((item) => {
-      const { bahanSampah, beratSampah, harga, jenisSampah, namaNasabah, satuan } = item;
+      const { bahanSampah, beratSampah, harga, jenisSampah, namaNasabah, satuan, tglSetor } = item;
 
       if (!groupedData[bahanSampah]) {
         groupedData[bahanSampah] = [];
       }
 
-      groupedData[bahanSampah].push({ bahanSampah, beratSampah, harga, jenisSampah, namaNasabah, satuan });
+      groupedData[bahanSampah].push({ bahanSampah, beratSampah, harga, jenisSampah, namaNasabah, satuan, tglSetor });
     });
   }
 
@@ -47,6 +49,11 @@ function DataSampah() {
       dataIndex: "harga",
       key: "harga",
     },
+    {
+      title: "Tanggal Setor",
+      dataIndex: "tglSetor",
+      key: "tglSetor",
+    },
   ];
 
   return (
@@ -59,8 +66,12 @@ function DataSampah() {
             dataSource={groupedData[bahanSampah]}
             footer={() => (
               <Col>
-                 <Title level={5}>Total Harga:  <Text keyboard>Rp.{groupedData[bahanSampah].reduce((acc, item) => acc + parseInt(item.harga), 0).toFixed(2)}</Text> </Title>
-                <Title level={5}>Total Berat:  <Text keyboard> {groupedData[bahanSampah].reduce((acc, item) => acc + parseInt(item.beratSampah), 0).toFixed(2)} Kilogram</Text></Title>
+                <Title level={5}>
+                  Total Harga: <Text keyboard>Rp.{groupedData[bahanSampah].reduce((acc, item) => acc + parseInt(item.harga), 0).toFixed(2)}</Text>
+                </Title>
+                <Title level={5}>
+                  Total Berat: <Text keyboard> {groupedData[bahanSampah].reduce((acc, item) => acc + parseFloat(item.beratSampah), 0).toFixed(2)} Kilogram</Text>
+                </Title>
               </Col>
             )}
           />

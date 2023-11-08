@@ -6,8 +6,6 @@ import { useSelector } from "react-redux";
 function Anggota() {
 	const { data } = useSelector((state) => state.dataNasabah);
   
-	console.log("DATA", data);
-  
 	const columns = [
 	  {
 		title: "No",
@@ -36,13 +34,11 @@ function Anggota() {
 	  },
 	];
   
-	// Pisahkan data "Petugas" dan "Anggota"
 	const anggotaData = Object.values(data).filter((item) => item.status === "Nasabah");
 	const petugasData = Object.values(data).filter((item) => item.status === "Petugas");
   
 	return (
 	  <>
-		{/* List Petugas */}
 		{petugasData.length > 0 && (
 		  <Col>
 			<Divider orientation="left">List Petugas</Divider>
@@ -50,7 +46,6 @@ function Anggota() {
 		  </Col>
 		)}
   
-		{/* List Anggota */}
 		<Col>
 		  <Divider orientation="left">List Anggota</Divider>
 		  <Table columns={columns} dataSource={anggotaData} scroll={{ x: 100 }} />

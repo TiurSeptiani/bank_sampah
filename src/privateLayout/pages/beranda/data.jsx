@@ -7,6 +7,7 @@ import {
 	datatableHargaSampah,
 	handleDeleteOneJenisSampah,
 } from "../../../store/reducers/hargaSampah/hargaSampahThunk"
+import { listDataPengguna } from "../../../store/reducers/registrasiUsers/registrasiUsersThunk";
 
 function Index() {
 	const dispatch = useDispatch();
@@ -14,6 +15,7 @@ function Index() {
 
 	useEffect(() => {
 		dispatch(datatableHargaSampah());
+		dispatch(listDataPengguna());
 	}, [dispatch]);
 
 	const handleDeleteJenisSampah = (id) => {
