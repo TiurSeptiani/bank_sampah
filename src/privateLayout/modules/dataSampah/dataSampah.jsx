@@ -1,11 +1,12 @@
-import { Divider, Table } from "antd";
+import { Card, Col, Divider, List, Table, Typography } from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
 
 function DataSampah() {
   const { data } = useSelector((state) => state.dataInventaris);
 
-  // Membuat objek kosong untuk mengelompokkan berdasarkan bahanSampah
+  const { Title, Text } = Typography
+
   const groupedData = {};
 
   if (data) {
@@ -57,15 +58,10 @@ function DataSampah() {
             columns={columns}
             dataSource={groupedData[bahanSampah]}
             footer={() => (
-              <div id="informasi">
-                <p>---{bahanSampah}---</p>
-                <p>
-                  Total Harga: {groupedData[bahanSampah].reduce((acc, item) => acc + parseFloat(item.harga), 0).toFixed(2)}
-                </p>
-                <p>
-                  Total Berat: {groupedData[bahanSampah].reduce((acc, item) => acc + parseFloat(item.beratSampah), 0).toFixed(2)} Kilogram
-                </p>
-              </div>
+              <Col>
+                 <Title level={5}>Total Harga:  <Text keyboard>Rp.{groupedData[bahanSampah].reduce((acc, item) => acc + parseInt(item.harga), 0).toFixed(2)}</Text> </Title>
+                <Title level={5}>Total Berat:  <Text keyboard> {groupedData[bahanSampah].reduce((acc, item) => acc + parseInt(item.beratSampah), 0).toFixed(2)} Kilogram</Text></Title>
+              </Col>
             )}
           />
         </div>
