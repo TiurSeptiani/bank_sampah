@@ -6,70 +6,74 @@ import { useDispatch, useSelector } from "react-redux";
 import { listDataPengguna } from "../../../store/reducers/registrasiUsers/registrasiUsersThunk";
 
 const { Title } = Typography;
-function Beranda({handleDeleteJenisSampah, loadingOnSubmit}) {
+function Beranda({ handleDeleteJenisSampah, loadingOnSubmit }) {
 	const jenisSampah = useSelector((state) => state.jenisSampah);
-	const dispatch = useDispatch()
-
-
+	const dataNasabah = useSelector((state) => state.dataNasabah.data); // Data Nasabah
+	const dispatch = useDispatch();
+  
 	useEffect(() => {
-		dispatch(listDataPengguna())
-		.unwrap()
-		.then((response) => {
-			console.log("RESPONSE", response);
-		})
-	}, [dispatch])
-
+	  dispatch(listDataPengguna());
+	}, [dispatch]);
+  
+	// Menghitung jumlah "Nasabah" dan "Petugas"
+	const countNasabah = Object.values(dataNasabah).filter(
+	  (user) => user.status === "Nasabah"
+	).length;
+	const countPetugas = Object.values(dataNasabah).filter(
+	  (user) => user.status === "Petugas"
+	).length;
+  
 	const dataCard = [
-		{
-			title: "Jumlah Nasabah",
-			dataIndex: 23,
-			icon: <TeamOutlined />,
-		},
-		{
-			title: "Jumlah Transaksi",
-			dataIndex: 19,
-			icon: <SwapOutlined />,
-		},
-		{
-			title: "Jumlah Petugas",
-			dataIndex: 9,
-			icon: <TeamOutlined />,
-		},
+	  {
+		title: "Jumlah Nasabah",
+		dataIndex: countNasabah, // Menggunakan hasil perhitungan
+		icon: <TeamOutlined />,
+	  },
+	  {
+		title: "Jumlah Transaksi",
+		dataIndex: 19, // Misalnya, jumlah transaksi yang statis
+		icon: <SwapOutlined />,
+	  },
+	  {
+		title: "Jumlah Petugas",
+		dataIndex: countPetugas, // Menggunakan hasil perhitungan
+		icon: <TeamOutlined />,
+	  },
 	];
-
+  
 	return (
-		<Row>
-			<Col span={24} className='container'>
-				{dataCard.map((data, Index) => (
-					<Card
-						key={data.title}
-						hoverable
-						title={
-							<span style={{ color: "#001529" }}>
-								{data.title}
-							</span>
-						}
-						size='middle'
-						className='card'
-					>
-						<Col className='card-content'>
-							<Col>
-								<Title>{data.dataIndex}</Title>
-							</Col>
-							<Col className='icon'>
-								<Title level={1}>{data.icon}</Title>
-							</Col>
-						</Col>
-					</Card>
-				))}
-			</Col>
-
-			<Col span={24} className='datatable mt-5'>
-				<Divider orientation='left'>List Update Harga Sampah</Divider>
-				<DataTable {...{handleDeleteJenisSampah, loadingOnSubmit, jenisSampah}} />
-			</Col>
-		</Row>
+	  <Row>
+		<Col span={24} className="container">
+		  {dataCard.map((data, Index) => (
+			<Card
+			  key={data.title}
+			  hoverable
+			  title={
+				<span style={{ color: "#001529" }}>
+				  {data.title}
+				</span>
+			  }
+			  size="middle"
+			  className="card"
+			>
+			  <Col className="card-content">
+				<Col>
+				  <Title>{data.dataIndex}</Title>
+				</Col>
+				<Col className="icon">
+				  <Title level={1}>{data.icon}</Title>
+				</Col>
+			  </Col>
+			</Card>
+		  ))}
+		</Col>
+  
+		<Col span={24} className="datatable mt-5">
+		  <Divider orientation="left">List Update Harga Sampah</Divider>
+		  <DataTable {...{ handleDeleteJenisSampah, loadingOnSubmit, jenisSampah }} />
+		</Col>
+	  </Row>
 	);
-}
-
-export default Beranda;
+  }
+  
+  export default Beranda;
