@@ -3,13 +3,12 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 function DataSampah() {
- const { data } = useSelector((state) => state.dataInventaris);
- console.log("DATA", data);
+  const { data } = useSelector((state) => state.dataInventaris);
 
- // Membuat objek kosong untuk mengelompokkan berdasarkan bahanSampah
- const groupedData = {};
+  // Membuat objek kosong untuk mengelompokkan berdasarkan bahanSampah
+  const groupedData = {};
 
- if (data) {
+  if (data) {
     Object.values(data).forEach((item) => {
       const { bahanSampah, beratSampah, harga, jenisSampah, namaNasabah, satuan } = item;
 
@@ -19,9 +18,9 @@ function DataSampah() {
 
       groupedData[bahanSampah].push({ bahanSampah, beratSampah, harga, jenisSampah, namaNasabah, satuan });
     });
- }
+  }
 
- const columns = [
+  const columns = [
     {
       title: "Jenis Sampah",
       dataIndex: "jenisSampah",
@@ -47,18 +46,32 @@ function DataSampah() {
       dataIndex: "harga",
       key: "harga",
     },
- ];
+  ];
 
- return (
+  return (
     <div>
       {Object.keys(groupedData).map((bahanSampah) => (
         <div key={bahanSampah}>
-          <Divider orientation='left'>{bahanSampah}</Divider>
-          <Table columns={columns} dataSource={groupedData[bahanSampah]} />
+          <Divider orientation="left">{bahanSampah}</Divider>
+          <Table
+            columns={columns}
+            dataSource={groupedData[bahanSampah]}
+            footer={() => (
+              <div id="informasi">
+                <p>---{bahanSampah}---</p>
+                <p>
+                  Total Harga: {groupedData[bahanSampah].reduce((acc, item) => acc + parseFloat(item.harga), 0).toFixed(2)}
+                </p>
+                <p>
+                  Total Berat: {groupedData[bahanSampah].reduce((acc, item) => acc + parseFloat(item.beratSampah), 0).toFixed(2)} Kilogram
+                </p>
+              </div>
+            )}
+          />
         </div>
       ))}
     </div>
- );
+  );
 }
 
 export default DataSampah;

@@ -1,18 +1,31 @@
 import { Button, Col, Divider, Form, Input, Select } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DataTable from "./components/datatable";
 import "../../../styles/inventaris/inventaris.css";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 function Inventaris({ createDataInventaris, loadingOnSubmit }) {
 	const { data: dataNasabah } = useSelector((state) => state.dataNasabah);
-	const { data: dataJenisSampah } = useSelector((state) => state.jenisSampah);
 	const { data: dataSampah } = useSelector((state) => state.dataSampah);
-	const [loadingKirim, setLoadingKirim] = useState(false);
+	const [selectedBahan, setSelectedBahan] = useState(""); // State to store the selected "bahan"
+	console.log("BAHAN", selectedBahan);
 
 	const handleSubmit = (value) => {
-		// setLoadingKirim(true)
-		createDataInventaris(value);
+		// Get the selected "bahan" based on the selectedBahan ID
+		const selectedBahanData = dataSampah[selectedBahan];
+		if (selectedBahanData) {
+			const data = {
+				...value,
+				bahanSampah: selectedBahanData.bahan,
+				tglSetor: moment().format("DD MMMM YYYY, HH:mm"),
+			};
+			createDataInventaris(data);
+		}
+	};
+
+	const handleBahanChange = (value) => {
+		setSelectedBahan(value);
 	};
 
 	return (
@@ -64,14 +77,16 @@ function Inventaris({ createDataInventaris, loadingOnSubmit }) {
 							width: "100%",
 						}}
 						placeholder='Masukkan nama bahan sampah'
+						onChange={handleBahanChange}
 					>
-						{Object.values(dataSampah).map((nama) => (
-							<Select.Option key={nama.bahan} value={nama.bahan}>
-								{nama.bahan}
+						{Object.keys(dataSampah).map((sampahId) => (
+							<Select.Option key={sampahId} value={sampahId}>
+								{dataSampah[sampahId].bahan}
 							</Select.Option>
 						))}
 					</Select>
 				</Form.Item>
+
 				<Form.Item
 					label='Jenis Sampah'
 					colon={false}
@@ -91,15 +106,34 @@ function Inventaris({ createDataInventaris, loadingOnSubmit }) {
 						placeholder='Masukkan nama jenis sampah'
 						allowClear
 					>
-						{Object.values(dataJenisSampah).map((jenis) => (
-							<Select.Option
-								key={jenis.namaJenisSampah}
-								value={jenis.namaJenisSampah}
-							>
-								{jenis.namaJenisSampah}
-							</Select.Option>
-						))}
+						{selectedBahan &&
+							dataSampah[selectedBahan]?.jenis.map((jenis) => (
+								<Select.Option key={jenis} value={jenis}>
+									{jenis}
+								</Select.Option>
+							))}
 					</Select>
+				</Form.Item>
+
+				<Form.Item
+					// labelCol={{ span: 3 }}
+					// wrapperCol={{ span: 15 }}
+					label='Berat Sampah'
+					colon={false}
+					name='beratSampah'
+					rules={[
+						{
+							required: true,
+							message: "Tolong masukkan berat sampah!!",
+						},
+					]}
+				>
+					<Input
+						style={{
+							width: "100%",
+						}}
+						placeholder='Masukkan berat sampah'
+					/>
 				</Form.Item>
 
 				<Form.Item
@@ -133,29 +167,10 @@ function Inventaris({ createDataInventaris, loadingOnSubmit }) {
 					/>
 				</Form.Item>
 
-				<Form.Item
-					// labelCol={{ span: 3 }}
-					// wrapperCol={{ span: 15 }}
-					label='Berat Sampah'
-					colon={false}
-					name='beratSampah'
-					rules={[
-						{
-							required: true,
-							message: "Tolong masukkan berat sampah!!",
-						},
-					]}
-				>
-					<Input
-						style={{
-							width: "100%",
-						}}
-						placeholder='Masukkan berat sampah'
-					/>
-				</Form.Item>
-
 				<Form.Item className='btn-submit'>
-					<Button htmlType='submit'>Submit</Button>
+					<Button htmlType='submit' loading={loadingOnSubmit}>
+						Submit
+					</Button>
 				</Form.Item>
 			</Form>
 			<Col className='datatable'>
