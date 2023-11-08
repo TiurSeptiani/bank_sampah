@@ -1,32 +1,37 @@
-import { EnvironmentOutlined, HomeOutlined, LockOutlined, MailOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Form, Input, Select, message } from 'antd'
-import moment from 'moment'
-import React, { useState } from 'react'
-import 'moment/locale/id';
-moment.locale('id');
+import {
+	EnvironmentOutlined,
+	HomeOutlined,
+	LockOutlined,
+	MailOutlined,
+	PhoneOutlined,
+	UserOutlined,
+} from "@ant-design/icons";
+import { Button, Form, Input, Select, message, Divider } from "antd";
+import moment from "moment";
+import React, { useState } from "react";
+import "moment/locale/id";
+moment.locale("id");
 
-function Registrasi({handleCreateUser, loadingOnSubmit}) {
-
-	const [loadingKirim, setLoadingKirim] = useState(false)
+function Registrasi({ handleCreateUser, loadingOnSubmit }) {
+	const [loadingKirim, setLoadingKirim] = useState(false);
 
 	const handleSubmit = (value) => {
-		setLoadingKirim(true)
-		const { password, confirm_password} = value
-		if(password == confirm_password ) {
+		setLoadingKirim(true);
+		const { password, confirm_password } = value;
+		if (password == confirm_password) {
 			const dataForSubmit = {
 				...value,
-				tanggalBergabung: moment().format('DD MMMM YYYY, HH:mm')
-			}
-			handleCreateUser(dataForSubmit)
+				tanggalBergabung: moment().format("DD MMMM YYYY, HH:mm"),
+			};
+			handleCreateUser(dataForSubmit);
 		} else {
-			message.error("Password dan Confirm Password harus sama!")
+			message.error("Password dan Confirm Password harus sama!");
 		}
-		
-	}
+	};
 
-  return (
-    <div>
-      <Form layout='vertical' onFinish={handleSubmit}>
+	return (
+		<div>
+			<Form layout='vertical' onFinish={handleSubmit}>
 				<Form.Item
 					label='Nama Lengkap'
 					colon={false}
@@ -39,7 +44,9 @@ function Registrasi({handleCreateUser, loadingOnSubmit}) {
 					]}
 				>
 					<Input
-                        prefix={<UserOutlined className="site-form-item-icon" />}
+						prefix={
+							<UserOutlined className='site-form-item-icon' />
+						}
 						style={{
 							width: "100%",
 						}}
@@ -58,7 +65,9 @@ function Registrasi({handleCreateUser, loadingOnSubmit}) {
 					]}
 				>
 					<Input
-                        prefix={<MailOutlined className="site-form-item-icon" />}
+						prefix={
+							<MailOutlined className='site-form-item-icon' />
+						}
 						style={{
 							width: "100%",
 						}}
@@ -66,7 +75,7 @@ function Registrasi({handleCreateUser, loadingOnSubmit}) {
 					/>
 				</Form.Item>
 
-                <Form.Item
+				<Form.Item
 					label='Password'
 					colon={false}
 					name='password'
@@ -82,8 +91,10 @@ function Registrasi({handleCreateUser, loadingOnSubmit}) {
 					]}
 				>
 					<Input
-                     prefix={<LockOutlined className="site-form-item-icon" />}
-                        type='password'
+						prefix={
+							<LockOutlined className='site-form-item-icon' />
+						}
+						type='password'
 						style={{
 							width: "100%",
 						}}
@@ -91,7 +102,7 @@ function Registrasi({handleCreateUser, loadingOnSubmit}) {
 					/>
 				</Form.Item>
 
-                <Form.Item
+				<Form.Item
 					label='Confirm Password'
 					colon={false}
 					name='confirm_password'
@@ -103,8 +114,10 @@ function Registrasi({handleCreateUser, loadingOnSubmit}) {
 					]}
 				>
 					<Input
-                     prefix={<LockOutlined className="site-form-item-icon" />}
-                        type='password'
+						prefix={
+							<LockOutlined className='site-form-item-icon' />
+						}
+						type='password'
 						style={{
 							width: "100%",
 						}}
@@ -124,7 +137,9 @@ function Registrasi({handleCreateUser, loadingOnSubmit}) {
 					]}
 				>
 					<Input
-                    prefix={<PhoneOutlined className="site-form-item-icon" />}
+						prefix={
+							<PhoneOutlined className='site-form-item-icon' />
+						}
 						style={{
 							width: "100%",
 						}}
@@ -144,16 +159,18 @@ function Registrasi({handleCreateUser, loadingOnSubmit}) {
 					]}
 				>
 					<Input
-                        prefix={<HomeOutlined className="site-form-item-icon" />}
+						prefix={
+							<HomeOutlined className='site-form-item-icon' />
+						}
 						style={{
 							width: "100%",
 						}}
 						placeholder='Masukkan alamat'
 					/>
 				</Form.Item>
-
-				
-
+					
+					<Divider />
+			
 				<Form.Item
 					label='Nomor RT'
 					colon={false}
@@ -165,7 +182,8 @@ function Registrasi({handleCreateUser, loadingOnSubmit}) {
 						},
 					]}
 				>
-					<Input type='number' prefix={<EnvironmentOutlined className="site-form-item-icon" />}
+					<Input
+						type='number'
 						style={{
 							width: "100%",
 						}}
@@ -184,7 +202,7 @@ function Registrasi({handleCreateUser, loadingOnSubmit}) {
 					]}
 				>
 					<Select
-						placeholder="Masukan Status"
+						placeholder='Masukan Status'
 						allowClear
 						options={[
 							{
@@ -209,8 +227,8 @@ function Registrasi({handleCreateUser, loadingOnSubmit}) {
 					</Button>
 				</Form.Item>
 			</Form>
-    </div>
-  )
+		</div>
+	);
 }
 
-export default Registrasi
+export default Registrasi;
