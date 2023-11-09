@@ -8,3 +8,7 @@ export const postPenggunaBaru = (data) => {
 export const getListPengguna = () => {
     return axios.get(`${apiDev}/data-pengguna.json`)
 }
+
+export const deletePengguna = (id) => {
+    return axios.delete(`${apiDev}/data-pengguna/${id}.json`)
+}

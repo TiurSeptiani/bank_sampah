@@ -98,11 +98,11 @@ const DataTable = ({
 		  )
 		: [];
 
-	const totalPages = Math.ceil(filteredData.length / pagination.pageSize);
+	// const totalPages = Math.ceil(filteredData.length / pagination.pageSize);
 
 	return (
 		<div>
-			<Col span={5} style={{ marginBottom: "20px" }}>
+			<Col style={{ marginBottom: "20px" }}>
 				<Input
 					prefix={<SearchOutlined className='site-form-item-icon' />}
 					placeholder='Cari Nama Jenis Sampah'

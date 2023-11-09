@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getListPengguna, postPenggunaBaru } from "./registrasiUsersRequest";
+import { deletePengguna, getListPengguna, postPenggunaBaru } from "./registrasiUsersRequest";
 
 export const handleCreateOneUser = createAsyncThunk(
 	"registrasiPenguuna/create",
@@ -32,3 +32,18 @@ export const listDataPengguna = createAsyncThunk(
 		}
 	}
 );
+
+export const handleDeleteOnePengguna = createAsyncThunk(
+	"registrasiPengguna/delete",
+	async (value ) => {
+		try {
+			const response = await deletePengguna(value)
+			const { data, status } = response
+			if(status === 200) {
+				return data
+			}
+		} catch (error) {
+			
+		}
+	}
+)

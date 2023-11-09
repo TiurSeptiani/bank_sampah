@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { handleCreateOneUser, listDataPengguna } from "./registrasiUsersThunk";
+import { deletePengguna } from "./registrasiUsersRequest";
 
 const initialState = {
     data: []

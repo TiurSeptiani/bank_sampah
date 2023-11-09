@@ -219,7 +219,7 @@ function Registrasi({ handleCreateUser, loadingOnSubmit }) {
 
 				<Form.Item className='btn-submit'>
 					<Button
-						loading={loadingOnSubmit}
+						// loading={loadingOnSubmit}
 						htmlType='submit'
 						// disabled={loadingOnSubmit}
 					>
