@@ -1,18 +1,33 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import DataSampah from '../../modules/dataSampah/dataSampah'
 import { useDispatch } from 'react-redux';
-import { listDataInventaris } from '../../../store/reducers/dataInventaris/dataInventarisThunk';
+import { handleDeleteOneDataInventaris, listDataInventaris } from '../../../store/reducers/dataInventaris/dataInventarisThunk';
+import { listDataPengguna } from '../../../store/reducers/registrasiUsers/registrasiUsersThunk';
+import { message } from 'antd';
 
 function Index() {
   const dispatch = useDispatch()
+  const [loadingOnSubmit, setLoadingOnSubmit] = useState(false)
+
+  const handleDeleteDataSampah = (id) => {
+		setLoadingOnSubmit(true);
+		dispatch(handleDeleteOneDataInventaris(id))
+			.unwrap()
+			.then((res) => {
+				setLoadingOnSubmit(false);
+				message.success("Data Sampah berhasil di hapus");
+				dispatch(listDataInventaris());
+			});
+	};
 
   useEffect(() => {
 		dispatch(listDataInventaris());
+    	dispatch(listDataPengguna());
 	}, [dispatch]);
 
   return (
     <div>
-      <DataSampah />
+      <DataSampah {...{handleDeleteDataSampah, loadingOnSubmit}} />
     </div>
   )
 }

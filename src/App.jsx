@@ -6,6 +6,7 @@ import {
   ExclamationCircleOutlined,
   FormOutlined,
   HomeOutlined,
+  LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   SwapOutlined,
@@ -24,12 +25,14 @@ import JenisSampah from "./privateLayout/pages/tambahJenisSampah/index.jsx";
 import Registrasi from "./privateLayout/pages/registrasi/index.jsx";
 import Anggota from "./privateLayout/pages/anggota/index.jsx";
 import DataSampah from "./privateLayout/pages/dataSampah/index.jsx";
+import Transaksi from "./privateLayout/pages/transaksi/index.jsx";
 import Logo from "./assets/logo.png";
 import Login from "./publicLayout/pages/loginPage.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../src/firebase.js";
 import { getCurrentUser, logoutUser } from "./store/reducers/auth/authThunk.js";
 import { onAuthStateChanged } from "firebase/auth";
+import { listDataPengguna } from "./store/reducers/registrasiUsers/registrasiUsersThunk.js";
 
 
 const { Header, Sider, Content } = Layout;
@@ -42,11 +45,12 @@ const App = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   const navigate = useNavigate();
- 
+
 
   useEffect(() => {
 	onAuthStateChanged(auth, (user) => {
 		dispatch(getCurrentUser(user))
+		dispatch(listDataPengguna())
 	  });
   }, [dispatch])
 
@@ -96,6 +100,8 @@ const App = () => {
           style={{
             padding: 0,
             background: colorBgContainer,
+            display: "flex",
+            justifyContent: "space-between"
           }}
         >
           <Button
@@ -110,14 +116,13 @@ const App = () => {
           />
           <Button
             type="text"
-            icon={ <MenuFoldOutlined />}
+            icon={ <LogoutOutlined />}
             onClick={logout}
             style={{
               fontSize: "16px",
               width: 64,
               height: 64,
-            }}
-          />
+            }} />
         </Header>
         <Content
           className="content"
@@ -136,6 +141,7 @@ const App = () => {
             <Route path="/inventaris" element={<Inventaris />} />
             <Route path="/tambah-jenis-sampah" element={<JenisSampah />} />
             <Route path="/data-sampah" element={<DataSampah />} />
+            <Route path="/transaksi" element={<Transaksi />} />
           </Routes>
         </Content>
       </Layout>

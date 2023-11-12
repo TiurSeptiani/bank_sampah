@@ -7,6 +7,7 @@ import { datatableHargaSampah } from "../../../store/reducers/hargaSampah/hargaS
 import { listDataSampah } from "../../../store/reducers/dataSampah/dataSampahThunk";
 import {
 	createOneDataInventaris,
+	handleDeleteOneDataInventaris,
 	listDataInventaris,
 } from "../../../store/reducers/dataInventaris/dataInventarisThunk";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +16,46 @@ function Index() {
 	const dispatch = useDispatch();
 	const [loadingOnSubmit, setLoadingOnSubmit] = useState(false);
 	const listJenisSampah = useSelector((state) => state.jenisSampah);
-	const navigate = useNavigate()
+	const navigate = useNavigate();
+
+	const createDataInventaris = (data) => {
+		setLoadingOnSubmit(true);
+		const jenisSampahArray = Object.values(listJenisSampah.data);
+		const selectedJenisSampah = jenisSampahArray.find(
+			(jenis) => jenis.namaJenisSampah === data.jenisSampah
+		);
+
+		if (selectedJenisSampah) {
+			const harga =
+				data.beratSampah * selectedJenisSampah.hargaJenisSampah;
+			const dataForSubmit = {
+				...data,
+				harga,
+			};
+			dispatch(createOneDataInventaris(dataForSubmit))
+				.unwrap()
+				.then((res) => {
+					setLoadingOnSubmit(false);
+					message.success("Data berhasil dikirim!");
+					dispatch(listDataInventaris());
+				});
+		} else {
+			setLoadingOnSubmit(false);
+			message.error("Jenis sampah tidak ditemukan.");
+		}
+	};
+
+
+	const handleDeleteDataSampah = (id) => {
+		setLoadingOnSubmit(true);
+		dispatch(handleDeleteOneDataInventaris(id))
+			.unwrap()
+			.then((res) => {
+				setLoadingOnSubmit(false);
+				message.success("Data Sampah berhasil di hapus");
+				dispatch(listDataInventaris());
+			});
+	};
 
 	useEffect(() => {
 		dispatch(listDataPengguna());
@@ -24,36 +64,9 @@ function Index() {
 		dispatch(listDataInventaris());
 	}, [dispatch]);
 
-	const createDataInventaris = (data) => {
-		setLoadingOnSubmit(true);
-		const jenisSampahArray = Object.values(listJenisSampah.data);
-		const selectedJenisSampah = jenisSampahArray.find(
-		  (jenis) => jenis.namaJenisSampah === data.jenisSampah
-		);
-	  
-		if (selectedJenisSampah) {
-		  const harga = data.beratSampah * selectedJenisSampah.hargaJenisSampah;
-		  const dataForSubmit = {
-			...data,
-			harga,
-		  };
-		  dispatch(createOneDataInventaris(dataForSubmit))
-			.unwrap()
-			.then((res) => {
-			  setLoadingOnSubmit(false);
-			  message.success("Data berhasil dikirim!");
-			  dispatch(listDataInventaris())
-			});
-		} else {
-		  setLoadingOnSubmit(false);
-		  message.error("Jenis sampah tidak ditemukan.");
-		}
-	  };
-	  
-
 	return (
 		<Col>
-			<Inventaris {...{ createDataInventaris, loadingOnSubmit }} />
+			<Inventaris {...{ createDataInventaris, loadingOnSubmit, handleDeleteDataSampah }} />
 		</Col>
 	);
 }

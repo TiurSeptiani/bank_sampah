@@ -10,10 +10,13 @@ import { Button, Form, Input, Select, message, Divider } from "antd";
 import moment from "moment";
 import React, { useState } from "react";
 import "moment/locale/id";
+import { useSelector } from "react-redux";
 moment.locale("id");
 
 function Registrasi({ handleCreateUser, loadingOnSubmit }) {
 	const [loadingKirim, setLoadingKirim] = useState(false);
+	const { currentUser } = useSelector(state => state.auth)
+	const { data } = useSelector((state) => state.dataNasabah)
 
 	const handleSubmit = (value) => {
 		setLoadingKirim(true);
@@ -22,12 +25,16 @@ function Registrasi({ handleCreateUser, loadingOnSubmit }) {
 			const dataForSubmit = {
 				...value,
 				tanggalBergabung: moment().format("DD MMMM YYYY, HH:mm"),
+				saldo: 0
 			};
 			handleCreateUser(dataForSubmit);
 		} else {
 			message.error("Password dan Confirm Password harus sama!");
 		}
 	};
+
+	const isPetugas = Object.values(data).some(user => user.status === "Petugas" && user.uid === currentUser.uid)
+
 
 	return (
 		<div>
@@ -219,9 +226,9 @@ function Registrasi({ handleCreateUser, loadingOnSubmit }) {
 
 				<Form.Item className='btn-submit'>
 					<Button
-						// loading={loadingOnSubmit}
+						loading={loadingOnSubmit}
 						htmlType='submit'
-						// disabled={loadingOnSubmit}
+						disabled={loadingOnSubmit}
 					>
 						Submit
 					</Button>

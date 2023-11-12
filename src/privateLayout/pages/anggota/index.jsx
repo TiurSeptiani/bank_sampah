@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Anggota from '../../modules/anggota/anggota'
 import { useDispatch } from 'react-redux'
-import { handleCreateOneUser, handleDeleteOnePengguna, listDataPengguna } from '../../../store/reducers/registrasiUsers/registrasiUsersThunk'
+import { handleDeleteOnePengguna, listDataPengguna } from '../../../store/reducers/registrasiUsers/registrasiUsersThunk'
 import { message } from 'antd'
 
 function Index() {

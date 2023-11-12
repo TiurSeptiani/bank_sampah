@@ -4,17 +4,17 @@ import DataTable from "./components/datatable";
 import "../../../styles/inventaris/inventaris.css";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import DataTableTotal from "./components/datatableTotal";
 
-function Inventaris({ createDataInventaris, loadingOnSubmit }) {
+function Inventaris({ createDataInventaris, loadingOnSubmit, handleDeleteDataSampah }) {
   const { data: dataNasabah } = useSelector((state) => state.dataNasabah);
   const { data: dataSampah } = useSelector((state) => state.dataSampah);
-  const [selectedBahan, setSelectedBahan] = useState(""); // State to store the selected "bahan"
-  console.log("BAHAN", selectedBahan);
+  const [selectedBahan, setSelectedBahan] = useState(""); 
+  const { currentUser } = useSelector(state => state.auth)
 
-  const [form] = Form.useForm(); // Create a form instance
+  const [form] = Form.useForm();
 
   const handleSubmit = (values) => {
-    // Get the selected "bahan" based on the selectedBahan ID
     const selectedBahanData = dataSampah[selectedBahan];
     if (selectedBahanData) {
       const data = {
@@ -23,8 +23,6 @@ function Inventaris({ createDataInventaris, loadingOnSubmit }) {
         tglSetor: moment().format("DD MMMM YYYY, HH:mm"),
       };
       createDataInventaris(data);
-
-      // Reset the form fields after successful submission
       form.resetFields();
     }
   };
@@ -33,9 +31,11 @@ function Inventaris({ createDataInventaris, loadingOnSubmit }) {
     setSelectedBahan(value);
   };
 
+  const isPetugas = Object.values(dataNasabah).some(user => user.status === "Petugas" && user.uid === currentUser.uid)
+
   return (
     <div>
-      <Form layout="vertical" form={form} onFinish={handleSubmit}>
+      <Form disabled={!isPetugas} layout="vertical" form={form} onFinish={handleSubmit}>
         <Form.Item
           label="Nama Nasabah"
           colon={false}
@@ -176,9 +176,16 @@ function Inventaris({ createDataInventaris, loadingOnSubmit }) {
           </Button>
         </Form.Item>
       </Form>
+
+
       <Col className="datatable">
-        <Divider orientation="left">Hasil</Divider>
-        <DataTable />
+        <Divider orientation="left">Setoran Sampah</Divider>
+        <DataTable handleDeleteDataSampah={handleDeleteDataSampah} />
+      </Col>
+      
+      <Col className="datatable">
+        <Divider orientation="left">Total Keseluruhan Setoran</Divider>
+        <DataTableTotal />
       </Col>
     </div>
   );

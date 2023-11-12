@@ -11,20 +11,13 @@ const DataTable = ({
 }) => {
 	const rowKey = "idJenisSampah";
 	const [loadingHapus, setLoadingHapus] = useState(false);
-	const dispatch = useDispatch();
 	const [searchText, setSearchText] = useState("");
 	const [pagination, setPagination] = useState({
 		current: 1,
 		pageSize: 10,
 	});
 	const { currentUser } = useSelector(state => state.auth)
-	const { data } = useSelector((state) => state.dataNasabah);
-
-	// const currentUserUid = userKeys.length > 0 ? data[userKeys[0]].uid : null;
-
-	console.log("DATA NASABAH", data.uid);
-	console.log("DATA NASABAH", data);
-	console.log("DATA CURRENT", currentUser);
+	const { data } = useSelector((state) => state.dataNasabah)
 
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [deleteId, setDeleteId] = useState(null);
@@ -75,36 +68,34 @@ const DataTable = ({
 			width: 100,
 		},
 	];
-
-	const allColumns = Object.keys(data).includes(currentUser.uid) && data[currentUser.uid].status === "Petugas"
-  ? [
-      ...columns,
-      {
-        title: "Aksi",
-        dataIndex: rowKey,
-        fixed: "right",
-        width: 70,
-        render: (key, record) => {
-          return (
-            <div>
-              <Button
-                type='primary'
-                className='more'
-                ghost
-                onClick={(e) =>
-                  handleDeleteClick(e, record.namaJenisSampah)
-                }
-              >
-                <DeleteOutlined /> Hapus
-              </Button>
-            </div>
-          );
-        }
-      }
-    ]
-  : columns;
-
-
+	const allColumns =
+  currentUser &&
+  data &&
+  Object.values(data).some(user => user.status === "Petugas" && user.uid === currentUser.uid)
+    ? [
+        ...columns,
+        {
+          title: "Aksi",
+          dataIndex: rowKey,
+          fixed: "right",
+          width: 70,
+          render: (key, record) => {
+            return (
+              <div>
+                <Button
+                  type='primary'
+                  className='more'
+                  ghost
+                  onClick={(e) => handleDeleteClick(e, record.namaJenisSampah)}
+                >
+                  <DeleteOutlined /> Hapus
+                </Button>
+              </div>
+            );
+          },
+        },
+      ]
+    : columns;
 
 	const filteredData = jenisSampah.data
 		? Object.values(jenisSampah.data).filter((item) =>

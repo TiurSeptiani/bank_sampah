@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Registrasi from "../../modules/registrasi";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase";
 import { message } from "antd";
 import { useDispatch } from "react-redux";
-import { handleCreateOneUser } from "../../../store/reducers/registrasiUsers/registrasiUsersThunk";
-import { ref, set, getDatabase  } from "firebase/database";
+import { handleCreateOneUser, listDataPengguna } from "../../../store/reducers/registrasiUsers/registrasiUsersThunk";
 import { useNavigate } from "react-router-dom";
 
 function Index() {
@@ -13,10 +12,14 @@ function Index() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate()
 
+	useEffect(() => {
+		dispatch(listDataPengguna());;
+	}, [dispatch]);
+
 	const handleCreateUser = (data) => {
 		setLoadingOnSubmit(true);
-		const { email, password, status } = data;
-		createUserWithEmailAndPassword(auth, email, password, status)
+		const { email, password } = data;
+		createUserWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
 				const uid = userCredential.user.uid
 				const dataForSubmit = {...data, uid}
@@ -32,8 +35,6 @@ function Index() {
 				console.log(error);
 			});
 	};
-
-  
 
 	return (
 		<div>

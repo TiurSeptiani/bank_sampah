@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getDataSampah } from "./dataSampahRequest";
+import { deleteDataSampah, getDataSampah } from "./dataSampahRequest";
 
 export const listDataSampah = createAsyncThunk(
     "dataSampah/list",

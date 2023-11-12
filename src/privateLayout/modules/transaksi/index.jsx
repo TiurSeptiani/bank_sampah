@@ -1,10 +1,12 @@
-import { DatePicker } from 'antd'
-import React from 'react'
+import { Button, Col, DatePicker, Divider, Empty, Form, Input, Select } from "antd";
+import React from "react";
+import { useSelector } from "react-redux";
 
 function Transaksi() {
-  return (
-    <div>
-      <Form layout='vertical'>
+	const { data: dataNasabah } = useSelector((state) => state.dataNasabah);
+	return (
+		<div>
+			<Form layout='vertical'>
 				<Form.Item
 					label='Nama Nasabah'
 					colon={false}
@@ -17,19 +19,26 @@ function Transaksi() {
 					]}
 				>
 					<Select
-						mode='tags'
+						showSearch
 						style={{
 							width: "100%",
 						}}
 						placeholder='Masukkan nama nasabah'
-						// onChange={handleChange}
-						// options={options}
-					/>
+					>
+						{Object.values(dataNasabah).map((nasabah) => (
+							<Select.Option
+								key={nasabah.namaLengkap}
+								value={nasabah.namaLengkap}
+							>
+								{nasabah.namaLengkap}
+							</Select.Option>
+						))}
+					</Select>
 				</Form.Item>
 				<Form.Item
-					label='Tanggal'
+					label='Waktu Transaksi'
 					colon={false}
-					name='tanggal'
+					name='tglTransaksi'
 					rules={[
 						{
 							required: true,
@@ -37,39 +46,16 @@ function Transaksi() {
 						},
 					]}
 				>
-					 <DatePicker />
+					<DatePicker />
 				</Form.Item>
 				<Form.Item
-					label='Jenis Sampah'
+					label='Jumlah'
 					colon={false}
-					name='jenisSampah'
+					name='jumlah'
 					rules={[
 						{
 							required: true,
-							message: "Tolong masukkan nama jenis sampah!",
-						},
-					]}
-				>
-					<Select
-						mode='tags'
-						style={{
-							width: "100%",
-						}}
-						placeholder='Masukkan nama jenis sampah'
-						// onChange={handleChange}
-						// options={options}
-					/>
-				</Form.Item>
-				<Form.Item
-					// labelCol={{ span: 3 }}
-					// wrapperCol={{ span: 15 }}
-					label='Berat Sampah'
-					colon={false}
-					name='beratSampah'
-					rules={[
-						{
-							required: true,
-							message: "Tolong masukkan berat sampah!!",
+							message: "Tolong jumlah penarikkan",
 						},
 					]}
 				>
@@ -77,20 +63,21 @@ function Transaksi() {
 						style={{
 							width: "100%",
 						}}
-						placeholder='Masukkan nama jenis sampah'
-						// onChange={handleChange}
-						// options={options}
+						placeholder='Masukkan jumlah penarikkan'
 					/>
 				</Form.Item>
 
-				<Form.Item className="btn-submit">
-					<Button>
-						Submit
-					</Button>
+				<Form.Item className='btn-submit'>
+					<Button>Submit</Button>
 				</Form.Item>
 			</Form>
-    </div>
-  )
+
+			<Divider style={{marginTop: "50px"}} orientation="left">Riwayat Transaksi</Divider>
+			<Col>
+			<Empty />
+			</Col>
+		</div>
+	);
 }
 
-export default Transaksi
+export default Transaksi;
