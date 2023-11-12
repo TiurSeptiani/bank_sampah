@@ -15,10 +15,12 @@ function Index() {
 
 	const handleCreateUser = (data) => {
 		setLoadingOnSubmit(true);
-		const { email, password } = data;
-		createUserWithEmailAndPassword(auth, email, password)
-			.then(() => {
-				dispatch(handleCreateOneUser(data))
+		const { email, password, status } = data;
+		createUserWithEmailAndPassword(auth, email, password, status)
+			.then((userCredential) => {
+				const uid = userCredential.user.uid
+				const dataForSubmit = {...data, uid}
+				dispatch(handleCreateOneUser(dataForSubmit))
 					.unwrap()
 					.then(() => {
 						setLoadingOnSubmit(false);

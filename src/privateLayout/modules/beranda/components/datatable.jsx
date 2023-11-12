@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Space, Table, Input, Col, Empty, Modal } from "antd";
 import { DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { datatableHargaSampah } from "../../../../store/reducers/hargaSampah/hargaSampahThunk";
+import { listDataPengguna } from "../../../../store/reducers/registrasiUsers/registrasiUsersThunk";
 
 const DataTable = ({
 	jenisSampah,
@@ -17,6 +17,14 @@ const DataTable = ({
 		current: 1,
 		pageSize: 10,
 	});
+	const { currentUser } = useSelector(state => state.auth)
+	const { data } = useSelector((state) => state.dataNasabah);
+
+	// const currentUserUid = userKeys.length > 0 ? data[userKeys[0]].uid : null;
+
+	console.log("DATA NASABAH", data.uid);
+	console.log("DATA NASABAH", data);
+	console.log("DATA CURRENT", currentUser);
 
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [deleteId, setDeleteId] = useState(null);
@@ -66,29 +74,37 @@ const DataTable = ({
 			dataIndex: "satuan",
 			width: 100,
 		},
-		{
-			title: "Aksi",
-			dataIndex: rowKey,
-			fixed: "right",
-			width: 70,
-			render: (key, record) => {
-				return (
-					<div>
-						<Button
-							type='primary'
-							className='more'
-							ghost
-							onClick={(e) =>
-								handleDeleteClick(e, record.namaJenisSampah)
-							}
-						>
-							<DeleteOutlined /> Hapus
-						</Button>
-					</div>
-				);
-			},
-		},
 	];
+
+	const allColumns = Object.keys(data).includes(currentUser.uid) && data[currentUser.uid].status === "Petugas"
+  ? [
+      ...columns,
+      {
+        title: "Aksi",
+        dataIndex: rowKey,
+        fixed: "right",
+        width: 70,
+        render: (key, record) => {
+          return (
+            <div>
+              <Button
+                type='primary'
+                className='more'
+                ghost
+                onClick={(e) =>
+                  handleDeleteClick(e, record.namaJenisSampah)
+                }
+              >
+                <DeleteOutlined /> Hapus
+              </Button>
+            </div>
+          );
+        }
+      }
+    ]
+  : columns;
+
+
 
 	const filteredData = jenisSampah.data
 		? Object.values(jenisSampah.data).filter((item) =>
@@ -98,7 +114,6 @@ const DataTable = ({
 		  )
 		: [];
 
-	// const totalPages = Math.ceil(filteredData.length / pagination.pageSize);
 
 	return (
 		<div>
@@ -120,7 +135,7 @@ const DataTable = ({
 						setPagination({ ...pagination, current });
 					},
 				}}
-				columns={columns}
+				columns={allColumns}
 				dataSource={filteredData.slice(
 					(pagination.current - 1) * pagination.pageSize,
 					pagination.current * pagination.pageSize

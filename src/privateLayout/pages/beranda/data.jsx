@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Beranda from "../../modules/beranda";
 import { Col, message } from "antd";
 import "../../../styles/beranda/beranda.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
 	datatableHargaSampah,
 	handleDeleteOneJenisSampah,

@@ -2,7 +2,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col, Form, Input, Typography } from "antd";
 import React from "react";
 
-function Index({ handleLogin }) {
+function Index({handleLogin, loadinOnSubmit}) {
 
   const { Title } = Typography
 
@@ -20,7 +20,7 @@ function Index({ handleLogin }) {
         </div>
 				<Form className='login-form' onFinish={handleSubmit}>
 					<Form.Item
-						name='Email'
+						name='email'
 						rules={[
 							{
 								required: true,
@@ -32,7 +32,7 @@ function Index({ handleLogin }) {
 							prefix={
 								<UserOutlined className='site-form-item-icon' />
 							}
-							placeholder='Username'
+							placeholder='Email'
 						/>
 					</Form.Item>
 					<Form.Item
@@ -58,6 +58,7 @@ function Index({ handleLogin }) {
 							type='primary'
 							htmlType='submit'
 							className='login-form-button'
+							disabled={loadinOnSubmit}
 						>
 							Masuk
 						</Button>

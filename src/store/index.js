@@ -3,7 +3,7 @@ import hargaSampahSlice from "./reducers/hargaSampah/hargaSampahSlice";
 import registrasiPengguna from "./reducers/registrasiUsers/registrasiUsersSlice"
 import dataSampahSlice from "./reducers/dataSampah/dataSampahSlice";
 import dataInventarisSlice from "./reducers/dataInventaris/dataInventarisSlice";
-// import loginPageSlice from "./reducers/loginPage/loginPageSlice";
+import authSlice from "./reducers/auth/authSlice";
 
 export const store = configureStore({
     reducer: {
@@ -11,6 +11,6 @@ export const store = configureStore({
         dataNasabah : registrasiPengguna,
         dataSampah: dataSampahSlice,
         dataInventaris : dataInventarisSlice,
-        // login: loginPageSlice
+        auth : authSlice
     }
 })
