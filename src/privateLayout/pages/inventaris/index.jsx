@@ -6,69 +6,105 @@ import { listDataPengguna } from "../../../store/reducers/registrasiUsers/regist
 import { datatableHargaSampah } from "../../../store/reducers/hargaSampah/hargaSampahThunk";
 import { listDataSampah } from "../../../store/reducers/dataSampah/dataSampahThunk";
 import {
-	createOneDataInventaris,
-	handleDeleteOneDataInventaris,
-	listDataInventaris,
+  createOneDataInventaris,
+  handleDeleteOneDataInventaris,
+  listDataInventaris,
 } from "../../../store/reducers/dataInventaris/dataInventarisThunk";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { apiDev } from "../../../constans";
 
 function Index() {
-	const dispatch = useDispatch();
-	const [loadingOnSubmit, setLoadingOnSubmit] = useState(false);
-	const listJenisSampah = useSelector((state) => state.jenisSampah);
-	const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loadingOnSubmit, setLoadingOnSubmit] = useState(false);
+  const listJenisSampah = useSelector((state) => state.jenisSampah);
+  const { data } = useSelector((state) => state.dataInventaris);
+  const { data: dataNasabah } = useSelector((state) => state.dataNasabah);
+  const navigate = useNavigate();
 
-	const createDataInventaris = (data) => {
-		setLoadingOnSubmit(true);
-		const jenisSampahArray = Object.values(listJenisSampah.data);
-		const selectedJenisSampah = jenisSampahArray.find(
-			(jenis) => jenis.namaJenisSampah === data.jenisSampah
-		);
+  useEffect(() => {
+    dispatch(listDataInventaris());
+    dispatch(listDataPengguna());
+  }, [dispatch]);
 
-		if (selectedJenisSampah) {
-			const harga =
-				data.beratSampah * selectedJenisSampah.hargaJenisSampah;
-			const dataForSubmit = {
-				...data,
-				harga,
-			};
-			dispatch(createOneDataInventaris(dataForSubmit))
-				.unwrap()
-				.then((res) => {
-					setLoadingOnSubmit(false);
-					message.success("Data berhasil dikirim!");
-					dispatch(listDataInventaris());
-				});
-		} else {
-			setLoadingOnSubmit(false);
-			message.error("Jenis sampah tidak ditemukan.");
-		}
-	};
+  const createDataInventaris = async (data) => {
+    setLoadingOnSubmit(true);
+    const jenisSampahArray = Object.values(listJenisSampah.data);
+    const selectedJenisSampah = jenisSampahArray.find(
+      (jenis) => jenis.namaJenisSampah === data.jenisSampah
+    );
 
+    if (selectedJenisSampah) {
+      const harga = data.beratSampah * selectedJenisSampah.hargaJenisSampah;
+      const dataForSubmit = {
+        ...data,
+        harga,
+      };
 
-	const handleDeleteDataSampah = (id) => {
-		setLoadingOnSubmit(true);
-		dispatch(handleDeleteOneDataInventaris(id))
-			.unwrap()
-			.then((res) => {
-				setLoadingOnSubmit(false);
-				message.success("Data Sampah berhasil di hapus");
-				dispatch(listDataInventaris());
-			});
-	};
+      // Menggunakan find untuk mendapatkan nasabahData berdasarkan namaLengkap
+      const nasabahData = Object.values(dataNasabah).find(
+        (nasabah) => nasabah.namaLengkap === dataForSubmit.namaNasabah
+      );
 
-	useEffect(() => {
-		dispatch(listDataPengguna());
-		dispatch(datatableHargaSampah());
-		dispatch(listDataSampah());
-		dispatch(listDataInventaris());
-	}, [dispatch]);
+      if (nasabahData) {
+        // Menggunakan find untuk mendapatkan nasabahKey berdasarkan nasabahData
+        const nasabahKey = Object.keys(dataNasabah).find(
+          (key) => dataNasabah[key] === nasabahData
+        );
 
-	return (
-		<Col>
-			<Inventaris {...{ createDataInventaris, loadingOnSubmit, handleDeleteDataSampah }} />
-		</Col>
-	);
+        const updatedSaldo = nasabahData.saldo + harga;
+
+        try {
+          await axios.patch(`${apiDev}/data-pengguna/${nasabahKey}.json`, {
+            saldo: updatedSaldo,
+          });
+          await dispatch(createOneDataInventaris(dataForSubmit)).unwrap();
+          setLoadingOnSubmit(false);
+          message.success("Data berhasil dikirim!");
+          dispatch(listDataInventaris());
+        } catch (error) {
+          setLoadingOnSubmit(false);
+          message.error("Gagal mengupdate saldo nasabah.");
+        }
+      } else {
+        setLoadingOnSubmit(false);
+        message.error("Nama nasabah tidak ditemukan.");
+      }
+    } else {
+      setLoadingOnSubmit(false);
+      message.error("Jenis sampah tidak ditemukan.");
+    }
+  };
+
+  const handleDeleteDataSampah = async (id) => {
+    setLoadingOnSubmit(true);
+
+    try {
+      await dispatch(handleDeleteOneDataInventaris(id)).unwrap();
+      setLoadingOnSubmit(false);
+      message.success("Data Sampah berhasil dihapus");
+      dispatch(listDataInventaris());
+    } catch (error) {
+      setLoadingOnSubmit(false);
+      message.error("Terjadi kesalahan");
+      console.error("Error in handleDeleteDataSampah:", error);
+    }
+  };
+
+  useEffect(() => {
+    dispatch(listDataPengguna());
+    dispatch(datatableHargaSampah());
+    dispatch(listDataSampah());
+    dispatch(listDataInventaris());
+  }, [dispatch]);
+
+  return (
+    <Col>
+      <Inventaris
+        {...{ createDataInventaris, loadingOnSubmit, handleDeleteDataSampah }}
+      />
+    </Col>
+  );
 }
 
 export default Index;
