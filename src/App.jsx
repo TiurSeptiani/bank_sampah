@@ -26,6 +26,9 @@ import Registrasi from "./privateLayout/pages/registrasi/index.jsx";
 import Anggota from "./privateLayout/pages/anggota/index.jsx";
 import DataSampah from "./privateLayout/pages/dataSampah/index.jsx";
 import Transaksi from "./privateLayout/pages/transaksi/index.jsx";
+import Tabungan from "./privateLayout/pages/tabungan/index.jsx";
+
+
 import Logo from "./assets/logo.png";
 import Login from "./publicLayout/pages/loginPage.jsx";
 import { useDispatch, useSelector } from "react-redux";
@@ -142,6 +145,7 @@ const App = () => {
             <Route path="/tambah-jenis-sampah" element={<JenisSampah />} />
             <Route path="/data-sampah" element={<DataSampah />} />
             <Route path="/transaksi" element={<Transaksi />} />
+            <Route path="/tabungan" element={<Tabungan />} />
           </Routes>
         </Content>
       </Layout>

@@ -1,14 +1,15 @@
 import { SwapOutlined, TeamOutlined } from "@ant-design/icons";
-import { Card, Col, Divider, Row, Space, Table, Typography } from "antd";
+import { Card, Col, Divider, Row, Typography } from "antd";
 import React, { useEffect, useState } from "react";
 import DataTable from "./components/datatable";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const { Title } = Typography;
 function Beranda({ handleDeleteJenisSampah, loadingOnSubmit }) {
 	const jenisSampah = useSelector((state) => state.jenisSampah);
 	const dataNasabah = useSelector((state) => state.dataNasabah.data);
-	const dispatch = useDispatch();
+	const dataTransaksi = useSelector((state) => state.dataTransaksi.data);
+	const [totalTransaksi, setTotalTransaksi] = useState(0);
 
 	const countNasabah = Object.values(dataNasabah).filter(
 		(user) => user.status === "Nasabah"
@@ -16,6 +17,15 @@ function Beranda({ handleDeleteJenisSampah, loadingOnSubmit }) {
 	const countPetugas = Object.values(dataNasabah).filter(
 		(user) => user.status === "Petugas"
 	).length;
+
+
+    useEffect(() => {
+		
+        if (dataTransaksi) {
+            setTotalTransaksi(Object.keys(dataTransaksi).length);
+        }
+    }, [dataTransaksi])
+
 
 	const dataCard = [
 		{
@@ -25,7 +35,7 @@ function Beranda({ handleDeleteJenisSampah, loadingOnSubmit }) {
 		},
 		{
 			title: "Jumlah Transaksi",
-			dataIndex: 19,
+			dataIndex: totalTransaksi,
 			icon: <SwapOutlined />,
 		},
 		{

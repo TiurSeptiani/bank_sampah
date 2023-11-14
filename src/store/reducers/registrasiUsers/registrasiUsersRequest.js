@@ -12,5 +12,3 @@ export const getListPengguna = () => {
 export const deletePengguna = (id) => {
     return axios.delete(`${apiDev}/data-pengguna/${id}.json`)
 }
-
-export const putDataPengguna = () => {}

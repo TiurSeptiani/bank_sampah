@@ -1,0 +1,6 @@
+#card-tabungan {
+    background-color: wheat;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
