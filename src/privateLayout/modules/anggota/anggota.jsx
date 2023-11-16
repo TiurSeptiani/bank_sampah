@@ -12,7 +12,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
   const [searchTermPetugas, setSearchTermPetugas] = useState("");
   const [searchTermAnggota, setSearchTermAnggota] = useState("");
 
-  const { currentUser } = useSelector(state => state.auth)
+  const { currentUser } = useSelector((state) => state.auth);
 
   const handleDelete = (e, namaLengkap) => {
     e.preventDefault();
@@ -68,8 +68,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       title: "Tanggal Bergabung",
       dataIndex: "tanggalBergabung",
       width: 200,
-    }
-    
+    },
   ];
 
   const columnsNasabah = [
@@ -103,72 +102,76 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       dataIndex: "tanggalBergabung",
       width: 200,
     },
-    {
-      title: "Saldo",
-      dataIndex: "saldo",
-      width: 200,
-    }
-    
   ];
-  
 
   const allColumnsPetugas =
-  currentUser &&
-  data &&
-  Object.values(data).some(user => user.status === "Petugas" && user.uid === currentUser.uid)
-    ? [
-        ...columnsPetugas,
-        {
-          title: "Aksi",
-          dataIndex: rowKey,
-          fixed: "right",
-          width: 70,
-          render: (key, record) => {
-            return (
-              <div>
-                <Button
-                  type='primary'
-                  className='more'
-                  ghost
-                  onClick={(e) => handleDelete(e, record.namaLengkap)}
-                >
-                  <DeleteOutlined />
-                </Button>
-              </div>
-            );
+    currentUser &&
+    data &&
+    Object.values(data).some(
+      (user) => user.status === "Petugas" && user.uid === currentUser.uid
+    )
+      ? [
+          ...columnsPetugas,
+          {
+            title: "Aksi",
+            dataIndex: rowKey,
+            fixed: "right",
+            width: 70,
+            render: (key, record) => {
+              return (
+                <div>
+                  <Button
+                    type="primary"
+                    className="more"
+                    ghost
+                    onClick={(e) => handleDelete(e, record.namaLengkap)}
+                  >
+                    <DeleteOutlined />
+                  </Button>
+                </div>
+              );
+            },
           },
-        },
-      ]
-    : columnsPetugas;
+          
+        ]
+      : columnsPetugas;
 
   const allColumnsNasabah =
-  currentUser &&
-  data &&
-  Object.values(data).some(user => user.status === "Petugas" && user.uid === currentUser.uid)
-    ? [
-        ...columnsNasabah,
-        {
-          title: "Aksi",
-          dataIndex: rowKey,
-          fixed: "right",
-          width: 70,
-          render: (key, record) => {
-            return (
-              <div>
-                <Button
-                  type='primary'
-                  className='more'
-                  ghost
-                  onClick={(e) => handleDelete(e, record.namaLengkap)}
-                >
-                  <DeleteOutlined />
-                </Button>
-              </div>
-            );
+    currentUser &&
+    data &&
+    Object.values(data).some(
+      (user) => user.status === "Petugas" && user.uid === currentUser.uid
+    )
+      ? [
+          ...columnsNasabah,
+          {
+            title: "Saldo",
+            dataIndex: "saldo",
+            width: 200,
           },
-        },
-      ]
-    : columnsNasabah;
+          {
+            title: "Aksi",
+            dataIndex: rowKey,
+            fixed: "right",
+            width: 70,
+            render: (key, record) => {
+              return (
+                <div>
+                  <Button
+                    type="primary"
+                    className="more"
+                    ghost
+                    onClick={(e) => handleDelete(e, record.namaLengkap)}
+                  >
+                    <DeleteOutlined />
+                  </Button>
+                </div>
+              );
+            },
+          }
+          
+        ]
+      : columnsNasabah;
 
   const anggotaData = Object.values(data).filter(
     (item) => item.status === "Nasabah"
@@ -176,26 +179,24 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
   const petugasData = Object.values(data).filter(
     (item) => item.status === "Petugas"
   );
-  const filteredPetugasData = petugasData.filter(
-    (item) =>
-      item.namaLengkap.toLowerCase().includes(searchTermPetugas.toLowerCase())
+  const filteredPetugasData = petugasData.filter((item) =>
+    item.namaLengkap.toLowerCase().includes(searchTermPetugas.toLowerCase())
   );
-  const filteredAnggotaData = anggotaData.filter(
-    (item) =>
-      item.namaLengkap.toLowerCase().includes(searchTermAnggota.toLowerCase())
+  const filteredAnggotaData = anggotaData.filter((item) =>
+    item.namaLengkap.toLowerCase().includes(searchTermAnggota.toLowerCase())
   );
 
   return (
     <>
       {petugasData.length > 0 && (
         <Col>
-          <Divider orientation='left'>List Petugas</Divider>
+          <Divider orientation="left">List Petugas</Divider>
           <Input
             placeholder="Cari nama petugas"
             value={searchTermPetugas}
             onChange={(e) => setSearchTermPetugas(e.target.value)}
             style={{ marginBottom: 16 }}
-			prefix={<SearchOutlined className='site-form-item-icon' />}
+            prefix={<SearchOutlined className="site-form-item-icon" />}
           />
           <Table
             columns={allColumnsPetugas}
@@ -206,13 +207,13 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       )}
 
       <Col>
-        <Divider orientation='left'>List Anggota</Divider>
+        <Divider orientation="left">List Anggota</Divider>
         <Input
           placeholder="Cari nama nasabah"
           value={searchTermAnggota}
           onChange={(e) => setSearchTermAnggota(e.target.value)}
           style={{ marginBottom: 16 }}
-		  prefix={<SearchOutlined className='site-form-item-icon' />}
+          prefix={<SearchOutlined className="site-form-item-icon" />}
         />
         <Table
           columns={allColumnsNasabah}
@@ -222,7 +223,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       </Col>
 
       <Modal
-        title='Konfirmasi Hapus Anggota'
+        title="Konfirmasi Hapus Anggota"
         visible={isModalVisible}
         onOk={handleDeleteConfirm}
         onCancel={handleCancelDelete}
