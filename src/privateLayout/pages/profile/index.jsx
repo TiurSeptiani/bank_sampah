@@ -13,7 +13,7 @@ function Index() {
 
   return (
     <Row>
-      <Col span={24} style={{height: "80vh", display: "flex", justifyContent: "center"}}>
+      <Col span={24} style={{height: "76vh", display: "flex", justifyContent: "center"}}>
         <Tabungan />
       </Col>
     </Row>

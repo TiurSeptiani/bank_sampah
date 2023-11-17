@@ -1,8 +1,23 @@
-import { Col, Divider, Empty, Image, Row, Spin, Typography } from "antd";
+import {
+  Col,
+  Divider,
+  Dropdown,
+  Empty,
+  Image,
+  Row,
+  Space,
+  Spin,
+  Typography,
+} from "antd";
 import React from "react";
 import pic from "../../../assets/Personal.jpg";
 import "../../../styles/tabungan/tabungan.css";
-import { WalletOutlined } from "@ant-design/icons";
+import {
+  DownOutlined,
+  MoreOutlined,
+  SettingOutlined,
+  WalletOutlined,
+} from "@ant-design/icons";
 import { useSelector } from "react-redux";
 function Tabungan() {
   const { Title, Text } = Typography;
@@ -12,70 +27,67 @@ function Tabungan() {
     (user) => user.status === "Nasabah" && user.uid === currentUser.uid
   );
 
+  const items = [
+    {
+      label: <a href="https://www.antgroup.com">Ganti Password</a>,
+      key: "0",
+    },
+    {
+      label: <a href="https://www.aliyun.com">Ganti Email</a>,
+      key: "1",
+    },
+  ];
+
   return (
-    <Col
-      span={10}
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        padding: "30px",
-      }}
-    >
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: "20px",
-          }}
-        >
-          <Image
-            style={{ borderRadius: "50%" }}
-            width={150}
-            height={150}
-            src="error"
-            fallback={pic}
-          />
-        </div>
-        {isNabah ? (
-          <>
-            <div>
-              <Col style={{ display: "flex", justifyContent: "center" }}>
-                <Title style={{fontWeight: "bold"}} level={1}>{isNabah.namaLengkap}</Title>
-              </Col>
-              <Col>
-                <Col id="card-tabungan">
-                  <span>
-                    <p style={{ fontSize: "1.2rem", fontWeight: "400" }}>
-                      Saldo Tabungan
-                    </p>
-                  </span>
-                  <span
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                      marginTop: "10px",
-                    }}
-                  >
-                    <h6 style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
-                      Rp
-                    </h6>
-                    <h1 style={{ fontSize: "3.5rem", letterSpacing: "3px" }}>
-                      {isNabah.saldo}
-                    </h1>
-                  </span>
-                </Col>
-              </Col>
-            </div>
-          </>
-        ) : (
-          <div style={{ height: "80vh", display: "flex", justifyContent: "center", marginTop: "10px" }}>
-            <Spin />
+    <Col id="tabungan">
+      {isNabah && (
+        <div id="tabungan-container">
+        <div className="tabungan-header">
+          <div className="tabungan-foto">
+            <Image
+              id="gambar"
+              style={{ borderRadius: "50%" }}
+              src="error"
+              fallback={pic}
+            />
           </div>
-        )}
+          <div className="tabungan-nama">
+            <div className="tabungan-nama-container">
+              <span className="tabungan-nama-h1">{isNabah.namaLengkap}</span>
+              <span className="tabungan-nama-h2">
+                Email: {isNabah.email}
+              </span>
+            </div>
+            <div className="tabungan-nama-setting">
+              <Dropdown
+                menu={{
+                  items,
+                }}
+                trigger={["click"]}
+              >
+                <a id="setting" onClick={(e) => e.preventDefault()}>
+                  <Space>
+                    <span>
+                      <SettingOutlined />
+                    </span>
+                  </Space>
+                </a>
+              </Dropdown>
+            </div>
+          </div>
+        </div>
+        <div id="tabungan-body">
+          <span className="saldo-tabungan-nama">Saldo Tabungan</span>
+          <span className="saldo-tabungan"
+          >
+            <h6 className="rupiah">Rp</h6>
+            <h1 className="saldo">
+              {isNabah.saldo}
+            </h1>
+          </span>
+        </div>
       </div>
-      <div></div>
+      )}
     </Col>
   );
 }

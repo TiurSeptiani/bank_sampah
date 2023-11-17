@@ -95,29 +95,14 @@ const App = () => {
             { key: "/", icon: <HomeOutlined />, label: "Beranda" },
             { key: "/profile", icon: <UserOutlined />, label: "Profile" },
             { key: "/data-anggota", icon: <TeamOutlined />, label: "Anggota" },
-            {
-              key: "/data-sampah",
-              icon: <CalculatorOutlined />,
-              label: "Data Sampah",
-            },
-            { key: "/transaksi", icon: <SwapOutlined />, label: "Transaksi" },
-            { key: "/inventaris", icon: <FormOutlined />, label: "Inventaris" },
-            {
-              key: "/registrasi",
-              icon: <UserAddOutlined />,
-              label: "Registrasi",
-            },
-            {
-              key: "/tambah-jenis-sampah",
-              icon: <DiffOutlined />,
-              label: "Tambah Jenis",
-            },
-            {
-              key: "/informasi",
-              icon: <ExclamationCircleOutlined />,
-              label: "Informasi",
-            },
-          ]}
+            // Check if isNasabah is true before rendering the menu items
+            { key: "/data-sampah", icon: <CalculatorOutlined />, label: "Data Sampah", hidden: isNasabah },
+            { key: "/transaksi", icon: <SwapOutlined />, label: "Transaksi", hidden: isNasabah },
+            { key: "/inventaris", icon: <FormOutlined />, label: "Inventaris", hidden: isNasabah },
+            { key: "/registrasi", icon: <UserAddOutlined />, label: "Registrasi", hidden: isNasabah },
+            { key: "/tambah-jenis-sampah", icon: <DiffOutlined />, label: "Tambah Jenis", hidden: isNasabah },
+            { key: "/informasi", icon: <ExclamationCircleOutlined />, label: "Informasi" },
+          ].filter(item => !item.hidden)}
         />
       </Sider>
       <Layout>

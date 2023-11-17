@@ -1,9 +1,132 @@
-#card-tabungan {
-  background-color: #001529;
+#tabungan {
+  width: 50%;
   display: flex;
-  flex-direction: column;
-  padding: 15px 30px;
-  border-radius: 8px;
-  color: #ffffff;
 }
 
+.tabungan-header {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tabungan-foto {
+  padding: 10px;
+}
+
+.tabungan-nama {
+  display: flex;
+  justify-content: center;
+}
+
+#gambar {
+  width: 150px;
+}
+
+#setting {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: #000000;
+}
+
+#tabungan-container {
+  width: 100%;
+  padding: 20px;
+}
+
+.tabungan-nama-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tabungan-nama-h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.tabungan-nama-h2 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+#tabungan-body {
+  margin-top: 20px;
+  background-color: #001529;
+  padding: 10px;
+  border-radius: 8px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.saldo-tabungan-nama {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.saldo-tabungan {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.rupiah {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.saldo {
+  font-size: 3.5rem;
+  letter-spacing: 3px;
+}
+
+@media screen and (max-width: 766px) {
+  #tabungan {
+    justify-content: center !important;
+    width: 100%;
+  }
+  .tabungan-nama-h1 {
+    font-size: 1.3rem;
+  }
+
+  .tabungan-nama-h2 {
+    font-size: 0.9rem;
+  }
+
+  .tabungan-nama {
+    flex-direction: column-reverse;
+  }
+
+  #gambar {
+    width: 100px;
+  }
+
+  #setting {
+    font-size: 1.3rem;
+  }
+  .tabungan-nama-setting {
+    display: flex;
+    justify-content: end;
+  }
+  .tabungan-nama-container {
+    justify-content: center !important;
+    align-items: center;
+  }
+
+  .saldo {
+    font-size: 2rem;
+  }
+
+  .rupiah {
+    font-size: 1rem;
+  }
+
+  .saldo-tabungan-nama {
+    font-size: 1rem;
+  }
+}
