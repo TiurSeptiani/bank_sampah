@@ -26,8 +26,7 @@ import Registrasi from "./privateLayout/pages/registrasi/index.jsx";
 import Anggota from "./privateLayout/pages/anggota/index.jsx";
 import DataSampah from "./privateLayout/pages/dataSampah/index.jsx";
 import Transaksi from "./privateLayout/pages/transaksi/index.jsx";
-import Tabungan from "./privateLayout/pages/tabungan/index.jsx";
-
+import Profile from "./privateLayout/pages/profile/index.jsx";
 
 import Logo from "./assets/logo.png";
 import Login from "./publicLayout/pages/loginPage.jsx";
@@ -37,39 +36,46 @@ import { getCurrentUser, logoutUser } from "./store/reducers/auth/authThunk.js";
 import { onAuthStateChanged } from "firebase/auth";
 import { listDataPengguna } from "./store/reducers/registrasiUsers/registrasiUsersThunk.js";
 
-
 const { Header, Sider, Content } = Layout;
 
 const App = () => {
   const { isAuth } = useSelector((state) => state.auth);
   const [collapsed, setCollapsed] = useState(false);
-  const dispatch = useDispatch()
+  const { data } = useSelector((state) => state.dataNasabah);
+  const { currentUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
   const navigate = useNavigate();
-
+  const isNasabah =
+    currentUser &&
+    data &&
+    Object.values(data).some(
+      (user) => user.status === "Nasabah" && user.uid === currentUser.uid
+    );
+    console.log("isNasabah ?", isNasabah);
 
   useEffect(() => {
-	onAuthStateChanged(auth, (user) => {
-		dispatch(getCurrentUser(user))
-		dispatch(listDataPengguna())
-	  });
-  }, [dispatch])
+    onAuthStateChanged(auth, (user) => {
+      dispatch(getCurrentUser(user));
+      dispatch(listDataPengguna());
+    });
+  }, [dispatch]);
 
   const logout = () => {
-	dispatch(logoutUser())
-	  .then((res) => {
-		if (res) {
-		  navigate("/");
-		 message.success("Berhasil Logout")
-		} else {
-			message.error("Gagal Logout")
-		}
-	  })
-	  .catch((error) => {
-		console.error(error);
-	  });
+    dispatch(logoutUser())
+      .then((res) => {
+        if (res) {
+          navigate("/");
+          message.success("Berhasil Logout");
+        } else {
+          message.error("Gagal Logout");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return isAuth ? (
@@ -87,14 +93,30 @@ const App = () => {
           defaultSelectedKeys={[location.pathname]}
           items={[
             { key: "/", icon: <HomeOutlined />, label: "Beranda" },
+            { key: "/profile", icon: <UserOutlined />, label: "Profile" },
             { key: "/data-anggota", icon: <TeamOutlined />, label: "Anggota" },
-            { key: "/data-sampah", icon: <CalculatorOutlined />, label: "Data Sampah" },
-            { key: "/tabungan", icon: <WalletOutlined />, label: "Tabungan" },
+            {
+              key: "/data-sampah",
+              icon: <CalculatorOutlined />,
+              label: "Data Sampah",
+            },
             { key: "/transaksi", icon: <SwapOutlined />, label: "Transaksi" },
             { key: "/inventaris", icon: <FormOutlined />, label: "Inventaris" },
-            { key: "/registrasi", icon: <UserAddOutlined />, label: "Registrasi" },
-            { key: "/tambah-jenis-sampah", icon: <DiffOutlined />, label: "Tambah Jenis" },
-            { key: "/informasi", icon: <ExclamationCircleOutlined />, label: "Informasi" },
+            {
+              key: "/registrasi",
+              icon: <UserAddOutlined />,
+              label: "Registrasi",
+            },
+            {
+              key: "/tambah-jenis-sampah",
+              icon: <DiffOutlined />,
+              label: "Tambah Jenis",
+            },
+            {
+              key: "/informasi",
+              icon: <ExclamationCircleOutlined />,
+              label: "Informasi",
+            },
           ]}
         />
       </Sider>
@@ -104,7 +126,7 @@ const App = () => {
             padding: 0,
             background: colorBgContainer,
             display: "flex",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
           }}
         >
           <Button
@@ -119,13 +141,14 @@ const App = () => {
           />
           <Button
             type="text"
-            icon={ <LogoutOutlined />}
+            icon={<LogoutOutlined />}
             onClick={logout}
             style={{
               fontSize: "16px",
               width: 64,
               height: 64,
-            }} />
+            }}
+          />
         </Header>
         <Content
           className="content"
@@ -145,7 +168,7 @@ const App = () => {
             <Route path="/tambah-jenis-sampah" element={<JenisSampah />} />
             <Route path="/data-sampah" element={<DataSampah />} />
             <Route path="/transaksi" element={<Transaksi />} />
-            <Route path="/tabungan" element={<Tabungan />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </Content>
       </Layout>
