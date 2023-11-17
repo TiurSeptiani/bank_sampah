@@ -29,9 +29,19 @@
   color: #000000;
 }
 
-#tabungan-container {
+#tabungan-container-nasabah {
   width: 100%;
   padding: 20px;
+  border-radius: 5px;
+}
+
+#tabungan-container-petugas {
+  width: 100%;
+  padding: 20px;
+  height: 30vh;
+  color: #ffffff;
+  background-color: #001529;
+  border-radius: 5px;
 }
 
 .tabungan-nama-container {
