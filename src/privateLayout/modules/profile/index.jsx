@@ -34,21 +34,13 @@ function Tabungan() {
     (user) => user.status === "Petugas" && user.uid === currentUser.uid
   );
 
-  console.log("current", currentUser);
-  console.log("data user", data);
-  console.log("data transaksi", dataTransaksi);
-
   const navigate = useNavigate();
 
   const items = [
     {
       label: <a onClick={() => navigate("/ganti-password")}>Ganti Password</a>,
       key: "0",
-    },
-    {
-      label: <a href="https://www.aliyun.com">Ganti Email</a>,
-      key: "1",
-    },
+    }
   ];
 
   return (

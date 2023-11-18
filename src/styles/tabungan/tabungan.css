@@ -44,7 +44,7 @@
 #tabungan-container-petugas {
   width: 100%;
   padding: 20px;
-  height: 40vh;
+  height: 40%;
   color: #ffffff;
   background-color: #001529;
   border-radius: 5px;
@@ -154,5 +154,15 @@
 
   #tabungan-container-petugas {
     height: 35vh;
+  }
+}
+
+
+@media screen and (max-width: 653px) {
+  #tabungan-container-petugas {
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
   }
 }

@@ -3,7 +3,7 @@ import { Button, Divider, Form, Input, message } from "antd";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-function GantiPassword({ handleChangePassword }) {
+function GantiPassword({ handleChangePassword, setLoadingOnSubmit }) {
   const [loadingKirim, setLoadingKirim] = useState(false);
   const { data } = useSelector((state) => state.dataNasabah);
   const { currentUser } = useSelector((state) => state.auth);
@@ -12,7 +12,6 @@ function GantiPassword({ handleChangePassword }) {
     currentUser &&
     data &&
     Object.values(data).some((user) => user.uid === currentUser.uid);
-
 
   const handleSubmit = (values) => {
     setLoadingKirim(true);
@@ -24,11 +23,14 @@ function GantiPassword({ handleChangePassword }) {
       if (values.passwordLama === userData.password) {
         if (values.passwordBaru === values.konfirmasiPasswordBaru) {
           handleChangePassword(values);
+          setLoadingKirim(false);
         } else {
           message.error("Password baru dan konfirmasi password tidak sesuai");
+          setLoadingKirim(false);
         }
       } else {
         message.error("Password lama tidak sesuai");
+        setLoadingKirim(false);
       }
     }
 
@@ -117,9 +119,9 @@ function GantiPassword({ handleChangePassword }) {
 
         <Form.Item className="btn-submit">
           <Button
-            // loading={loadingSimpan}
+            loading={loadingSimpan}
             htmlType="submit"
-            // disabled={loadingOnSubmit}
+            disabled={setLoadingOnSubmit}
           >
             Submit
           </Button>

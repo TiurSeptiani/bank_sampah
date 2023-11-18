@@ -73,6 +73,10 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       title: "Saldo",
       dataIndex: "saldo",
       width: 200,
+      render: (text) => {
+        const formattedPrice = `Rp. ${parseInt(text).toLocaleString()}`;
+        return <span>{formattedPrice}</span>;
+      },
     },
   ];
 
@@ -108,10 +112,14 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       width: 200,
     },
     {
-            title: "Saldo",
-            dataIndex: "saldo",
-            width: 200,
-          },
+      title: "Saldo",
+      dataIndex: "saldo",
+      width: 200,
+      render: (text) => {
+        const formattedPrice = `Rp. ${parseInt(text).toLocaleString()}`;
+        return <span>{formattedPrice}</span>;
+      },
+    },
   ];
 
   const allColumnsPetugas =
@@ -142,7 +150,6 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
               );
             },
           },
-          
         ]
       : columnsPetugas;
 
@@ -154,7 +161,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     )
       ? [
           ...columnsNasabah,
-          
+
           {
             title: "Aksi",
             dataIndex: rowKey,
@@ -174,8 +181,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
                 </div>
               );
             },
-          }
-          
+          },
         ]
       : columnsNasabah;
 
@@ -207,7 +213,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
           <Table
             columns={allColumnsPetugas}
             dataSource={filteredPetugasData}
-            scroll={{ x: 100 }}
+            scroll={{ x: "100vw" }}
           />
         </Col>
       )}
@@ -224,7 +230,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
         <Table
           columns={allColumnsNasabah}
           dataSource={filteredAnggotaData}
-          scroll={{ x: 100 }}
+          scroll={{ x: "100vw" }}
         />
       </Col>
 

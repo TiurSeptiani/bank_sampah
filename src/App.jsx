@@ -80,7 +80,7 @@ const App = () => {
 
   return isAuth ? (
     <Layout style={{ height: "100vh" }}>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <Sider trigger={null} collapsible collapsed={collapsed} style={{ overflow: "scroll"}}>
         <Col>
           <Image src={Logo} preview={false} />
         </Col>

@@ -3,10 +3,8 @@ import React, { useState } from "react";
 import { v4 as uuidv4  } from "uuid";
 
 function FormJenisSampah({ handleOnSubmit, loadingOnSubmit }) {
-	const [loadingSimpan, setLoadingSimpan] = useState(false);
 
 	const handleSubmit = (values) => {
-		setLoadingSimpan(true);
 		const id = uuidv4()
 		const dataForSubmit = {...values, id}
 		handleOnSubmit(dataForSubmit);
@@ -84,9 +82,8 @@ function FormJenisSampah({ handleOnSubmit, loadingOnSubmit }) {
 
 				<Form.Item className='btn-submit'>
 					<Button
-						loading={loadingSimpan}
+						loading={loadingOnSubmit}
 						htmlType='submit'
-						disabled={loadingOnSubmit}
 					>
 						Submit
 					</Button>

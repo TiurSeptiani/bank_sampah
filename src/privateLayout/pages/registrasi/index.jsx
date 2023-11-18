@@ -57,6 +57,7 @@ function Index() {
       })
       .catch((error) => {
         console.log(error);
+        setLoadingOnSubmit(false);
       });
   };
 

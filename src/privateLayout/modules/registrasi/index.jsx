@@ -28,8 +28,10 @@ function Registrasi({ handleCreateUser, loadingOnSubmit }) {
 				saldo: 0
 			};
 			handleCreateUser(dataForSubmit);
+			setLoadingKirim(false)
 		} else {
 			message.error("Password dan Confirm Password harus sama!");
+			setLoadingKirim(false)
 		}
 	};
 
@@ -226,7 +228,7 @@ function Registrasi({ handleCreateUser, loadingOnSubmit }) {
 
 				<Form.Item className='btn-submit'>
 					<Button
-						loading={loadingOnSubmit}
+						loading={loadingKirim}
 						htmlType='submit'
 						disabled={loadingOnSubmit}
 					>

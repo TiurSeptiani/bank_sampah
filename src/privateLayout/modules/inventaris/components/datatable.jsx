@@ -95,7 +95,7 @@ function DataTable({handleDeleteDataSampah}) {
                       handleDelete(e, record.namaNasabah)
                     }
                   >
-                    <DeleteOutlined />
+                    <DeleteOutlined /> Hapus
                   </Button>
                 </div>
               );

@@ -7,24 +7,32 @@ function CardPenarikan({ handleDeleteDataTransaksi }) {
   const [deleteId, setDeleteId] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  console.log("harga", data);
+
   const handleDelete = (key) => {
     setDeleteId(key);
     setIsModalVisible(true);
   };
 
   const handleConfirmDelete = () => {
-    // Panggil fungsi handleDeleteDataTransaksi dengan deleteId
     handleDeleteDataTransaksi(deleteId);
-
-    // Setelah menghapus, tutup modal dan reset deleteId
     setIsModalVisible(false);
     setDeleteId(null);
   };
 
   const handleCancelDelete = () => {
-    // Jika pembatalan, tutup modal dan reset deleteId
     setIsModalVisible(false);
     setDeleteId(null);
+  };
+
+  const formatCurrency = (amount) => {
+    const formatter = new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    });
+    return formatter.format(amount);
   };
 
   return (
@@ -81,7 +89,7 @@ function CardPenarikan({ handleDeleteDataTransaksi }) {
                         <Col>{data[key].tglPenarikan}</Col>
                       </h4>
                     </Col>
-                    <h2>Rp. {data[key].jumlahPenarikan}</h2>
+                    <h2>{formatCurrency(data[key].jumlahPenarikan)}</h2>
                   </Col>
                 </Card>
               </Col>

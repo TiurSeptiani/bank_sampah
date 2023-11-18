@@ -28,7 +28,7 @@ function Transaksi({ handleTransaksi, handleDeleteDataTransaksi }) {
 		);
 
 		form.setFieldsValue({
-			saldo: selectedNasabahData ? selectedNasabahData.saldo : 0,
+			saldo:  selectedNasabahData ? selectedNasabahData.saldo : 0,
 		});
 	};
 
