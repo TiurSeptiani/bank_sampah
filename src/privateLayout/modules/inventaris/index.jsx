@@ -71,6 +71,54 @@ function Inventaris({
         </Form.Item>
 
         <Form.Item
+          label="Bahan Sampah"
+          colon={false}
+          name="bahanSampah"
+          rules={[
+            {
+              required: true,
+              message: "Tolong masukkan nama bahan sampah!",
+            },
+          ]}
+        >
+          <Select
+  showSearch
+  style={{
+    width: "100%",
+  }}
+  placeholder="Masukkan nama bahan sampah"
+  allowClear
+  options={[
+    {
+      value: "Plastik",
+      label: "Plastik",
+    },
+    {
+      value: "Kertas",
+      label: "Kertas",
+    },
+    {
+      value: "Logam",
+      label: "Logam",
+    },
+    {
+      value: "Jlantah",
+      label: "Jlantah",
+    },
+    {
+      value: "Aqi",
+      label: "Aqi",
+    },
+    {
+      value: "Kaca",
+      label: "Kaca",
+    },
+  ]}
+/>
+
+        </Form.Item>
+
+        <Form.Item
           label="Jenis Sampah"
           colon={false}
           name="jenisSampah"
