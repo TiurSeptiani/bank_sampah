@@ -69,6 +69,11 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       dataIndex: "tanggalBergabung",
       width: 200,
     },
+    {
+      title: "Saldo",
+      dataIndex: "saldo",
+      width: 200,
+    },
   ];
 
   const columnsNasabah = [
@@ -102,6 +107,11 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       dataIndex: "tanggalBergabung",
       width: 200,
     },
+    {
+            title: "Saldo",
+            dataIndex: "saldo",
+            width: 200,
+          },
   ];
 
   const allColumnsPetugas =
@@ -144,11 +154,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     )
       ? [
           ...columnsNasabah,
-          {
-            title: "Saldo",
-            dataIndex: "saldo",
-            width: 200,
-          },
+          
           {
             title: "Aksi",
             dataIndex: rowKey,
