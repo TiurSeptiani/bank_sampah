@@ -1,4 +1,6 @@
 import {
+  Button,
+  Card,
   Col,
   Divider,
   Dropdown,
@@ -19,10 +21,12 @@ import {
   WalletOutlined,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 function Tabungan() {
   const { Title, Text } = Typography;
   const { currentUser } = useSelector((state) => state.auth);
   const { data } = useSelector((state) => state.dataNasabah);
+  const { data: dataTransaksi } = useSelector((state) => state.dataTransaksi);
   const isNasabah = Object.values(data).find(
     (user) => user.status === "Nasabah" && user.uid === currentUser.uid
   );
@@ -30,9 +34,15 @@ function Tabungan() {
     (user) => user.status === "Petugas" && user.uid === currentUser.uid
   );
 
+  console.log("current", currentUser);
+  console.log("data user", data);
+  console.log("data transaksi", dataTransaksi);
+
+  const navigate = useNavigate();
+
   const items = [
     {
-      label: <a href="https://www.antgroup.com">Ganti Password</a>,
+      label: <a onClick={() => navigate("/ganti-password")}>Ganti Password</a>,
       key: "0",
     },
     {
@@ -70,7 +80,7 @@ function Tabungan() {
                   }}
                   trigger={["click"]}
                 >
-                  <a id="setting" onClick={(e) => e.preventDefault()}>
+                  <a id="setting-nasabah" onClick={(e) => e.preventDefault()}>
                     <Space>
                       <span>
                         <SettingOutlined />
@@ -87,6 +97,57 @@ function Tabungan() {
               <h6 className="rupiah">Rp</h6>
               <h1 className="saldo">{isNasabah.saldo}</h1>
             </span>
+          </div>
+          <div style={{ marginTop: "50px", marginBottom: "20px" }}>
+            <Divider orientation="left">Riwayat Transaksi</Divider>
+
+            {dataTransaksi ? (
+              Object.keys(dataTransaksi).map((transactionId) => {
+                const transaction = dataTransaksi[transactionId];
+                if (transaction.namaNasabah === isNasabah.namaLengkap) {
+                  return (
+                    <Col key={transactionId}>
+                      <Card
+                        style={{ backgroundColor: "#f7efe5" }}
+                        hoverable
+                        title={
+                          <span
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            <Col>{transaction.jenis}</Col>
+                          </span>
+                        }
+                        bordered={false}
+                      >
+                        <Col
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            flexWrap: "wrap",
+                            gap: "20px",
+                          }}
+                        >
+                          <Col>
+                            <h1>{transaction.namaNasabah}</h1>
+                            <h4>
+                              <Col>{transaction.tglPenarikan}</Col>
+                            </h4>
+                          </Col>
+                          <h2> - Rp. {transaction.jumlahPenarikan}</h2>
+                        </Col>
+                      </Card>
+                    </Col>
+                  );
+                }
+                return null;
+              })
+            ) : (
+              <Empty />
+            )}
           </div>
         </div>
       )}
@@ -118,7 +179,7 @@ function Tabungan() {
                   }}
                   trigger={["click"]}
                 >
-                  <a id="setting" onClick={(e) => e.preventDefault()}>
+                  <a id="setting-petugas" onClick={(e) => e.preventDefault()}>
                     <Space>
                       <span>
                         <SettingOutlined />

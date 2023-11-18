@@ -24,7 +24,7 @@ function Registrasi({ handleCreateUser, loadingOnSubmit }) {
 		if (password == confirm_password) {
 			const dataForSubmit = {
 				...value,
-				tanggalBergabung: moment().format("DD MMMM YYYY, HH:mm"),
+				tanggalBergabung: Date.now(),
 				saldo: 0
 			};
 			handleCreateUser(dataForSubmit);

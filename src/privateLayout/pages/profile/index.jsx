@@ -3,12 +3,15 @@ import Tabungan from '../../modules/profile'
 import { Col, Row } from 'antd'
 import { useDispatch } from 'react-redux'
 import { listDataPengguna } from '../../../store/reducers/registrasiUsers/registrasiUsersThunk'
+import { handleGetListDataTransaksi } from '../../../store/reducers/dataTransaksi/dataTransaksiThunk'
 
 function Index() {
   const dispatch = useDispatch()
+  
 
   useEffect(() => {
-    dispatch(listDataPengguna());
+    dispatch(listDataPengguna())
+    dispatch(handleGetListDataTransaksi());
   }, [dispatch])
 
   return (

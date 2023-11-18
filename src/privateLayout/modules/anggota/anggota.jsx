@@ -45,7 +45,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       render: (text, record, index) => index + 1,
     },
     {
-      title: "Nama Nasabah",
+      title: "Nama Petugas",
       dataIndex: "namaLengkap",
       width: 200,
     },
