@@ -50,11 +50,6 @@ function DataTable({handleDeleteDataSampah}) {
       width: 300,
     },
     {
-      title: "Bahan Sampah",
-      dataIndex: "bahanSampah",
-      width: 200,
-    },
-    {
       title: "Jenis Sampah",
       dataIndex: "jenisSampah",
       width: 200,

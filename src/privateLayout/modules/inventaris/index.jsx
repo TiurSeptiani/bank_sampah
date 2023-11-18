@@ -6,20 +6,22 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import DataTableTotal from "./components/datatableTotal";
 
-function Inventaris({ createDataInventaris, loadingOnSubmit, handleDeleteDataSampah }) {
+function Inventaris({
+  createDataInventaris,
+  loadingOnSubmit,
+  handleDeleteDataSampah,
+}) {
   const { data: dataNasabah } = useSelector((state) => state.dataNasabah);
   const { data: dataSampah } = useSelector((state) => state.dataSampah);
-  const [selectedBahan, setSelectedBahan] = useState(""); 
-  const { currentUser } = useSelector(state => state.auth)
+  const { data: jenisSampah } = useSelector((state) => state.jenisSampah);
+  const { currentUser } = useSelector((state) => state.auth);
 
   const [form] = Form.useForm();
 
   const handleSubmit = (values) => {
-    const selectedBahanData = dataSampah[selectedBahan];
-    if (selectedBahanData) {
+    if (values) {
       const data = {
         ...values,
-        bahanSampah: selectedBahanData.bahan,
         tglSetor: moment().format("DD MMMM YYYY, HH:mm"),
       };
       createDataInventaris(data);
@@ -27,15 +29,18 @@ function Inventaris({ createDataInventaris, loadingOnSubmit, handleDeleteDataSam
     }
   };
 
-  const handleBahanChange = (value) => {
-    setSelectedBahan(value);
-  };
-
-  const isPetugas = Object.values(dataNasabah).some(user => user.status === "Petugas" && user.uid === currentUser.uid)
+  const isPetugas = Object.values(dataNasabah).some(
+    (user) => user.status === "Petugas" && user.uid === currentUser.uid
+  );
 
   return (
     <div>
-      <Form disabled={!isPetugas} layout="vertical" form={form} onFinish={handleSubmit}>
+      <Form
+        disabled={!isPetugas}
+        layout="vertical"
+        form={form}
+        onFinish={handleSubmit}
+      >
         <Form.Item
           label="Nama Nasabah"
           colon={false}
@@ -66,33 +71,6 @@ function Inventaris({ createDataInventaris, loadingOnSubmit, handleDeleteDataSam
         </Form.Item>
 
         <Form.Item
-          label="Bahan Sampah"
-          colon={false}
-          name="bahanSampah"
-          rules={[
-            {
-              required: true,
-              message: "Tolong masukkan nama bahan sampah!",
-            },
-          ]}
-        >
-          <Select
-            showSearch
-            style={{
-              width: "100%",
-            }}
-            placeholder="Masukkan nama bahan sampah"
-            onChange={handleBahanChange}
-          >
-            {Object.keys(dataSampah).map((sampahId) => (
-              <Select.Option key={sampahId} value={sampahId}>
-                {dataSampah[sampahId].bahan}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-
-        <Form.Item
           label="Jenis Sampah"
           colon={false}
           name="jenisSampah"
@@ -111,12 +89,14 @@ function Inventaris({ createDataInventaris, loadingOnSubmit, handleDeleteDataSam
             placeholder="Masukkan nama jenis sampah"
             allowClear
           >
-            {selectedBahan &&
-              dataSampah[selectedBahan]?.jenis.map((jenis) => (
-                <Select.Option key={jenis} value={jenis}>
-                  {jenis}
-                </Select.Option>
-              ))}
+            {Object.values(jenisSampah).map((data) => (
+              <Select.Option
+                key={data.namaJenisSampah}
+                value={data.namaJenisSampah}
+              >
+                {data.namaJenisSampah}
+              </Select.Option>
+            ))}
           </Select>
         </Form.Item>
 
@@ -177,12 +157,11 @@ function Inventaris({ createDataInventaris, loadingOnSubmit, handleDeleteDataSam
         </Form.Item>
       </Form>
 
-
       <Col className="datatable">
         <Divider orientation="left">Setoran Sampah</Divider>
         <DataTable handleDeleteDataSampah={handleDeleteDataSampah} />
       </Col>
-      
+
       <Col className="datatable">
         <Divider orientation="left">Total Keseluruhan Setoran</Divider>
         <DataTableTotal />
