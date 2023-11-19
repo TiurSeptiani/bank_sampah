@@ -1,15 +1,5 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Divider,
-  Empty,
-  List,
-  Modal,
-  Table,
-  Typography,
-} from "antd";
+import { Button, Col, Divider, Empty, Modal, Table, Typography } from "antd";
 import { useSelector } from "react-redux";
 import { DeleteOutlined } from "@ant-design/icons";
 
@@ -20,6 +10,8 @@ function DataSampah({ handleDeleteDataSampah }) {
   const rowKey = "idBahanSampah";
   const [deleteId, setDeleteId] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  console.log("DATA INVEN", dataInventaris.data);
 
   const { Title, Text } = Typography;
   const groupedData = {};
@@ -35,11 +27,20 @@ function DataSampah({ handleDeleteDataSampah }) {
         tglSetor,
       } = item;
 
-      if (!groupedData[bahanSampah]) {
-        groupedData[bahanSampah] = [];
+      const formattedMonth = new Date(tglSetor).toLocaleDateString("en-GB", {
+        month: "long",
+        year: "numeric",
+      });
+
+      if (!groupedData[formattedMonth]) {
+        groupedData[formattedMonth] = {};
       }
 
-      groupedData[bahanSampah].push({
+      if (!groupedData[formattedMonth][bahanSampah]) {
+        groupedData[formattedMonth][bahanSampah] = [];
+      }
+
+      groupedData[formattedMonth][bahanSampah].push({
         bahanSampah,
         beratSampah,
         harga,
@@ -115,6 +116,10 @@ function DataSampah({ handleDeleteDataSampah }) {
       dataIndex: "tglSetor",
       key: "tglSetor",
       width: 250,
+      render: (text) => {
+        const formattedDate = new Date(text).toLocaleDateString("id-ID");
+        return <span>{formattedDate}</span>;
+      },
     },
   ];
 
@@ -152,48 +157,67 @@ function DataSampah({ handleDeleteDataSampah }) {
   return (
     <div>
       {dataInventaris.data ? (
-        Object.keys(groupedData).map((bahanSampah) => (
-          <div key={bahanSampah}>
-            <Divider orientation="left">{bahanSampah}</Divider>
-            <Table
-              columns={allColumns}
-              dataSource={groupedData[bahanSampah]}
-              scroll={{ x: "100vw" }}
-              footer={() => (
-                <Col>
-                  <Title level={5}>
-                    Total Harga:{" "}
-                    <Text keyboard>
-                      Rp.
-                      {groupedData[bahanSampah]
-                        .reduce((acc, item) => acc + parseInt(item.harga), 0)
-                        .toFixed(2)}
-                    </Text>
-                  </Title>
-                  <Title level={5}>
-                    Total Berat:{" "}
-                    <Text keyboard>
-                      {" "}
-                      {groupedData[bahanSampah]
-                        .reduce(
-                          (acc, item) => acc + parseFloat(item.beratSampah),
-                          0
-                        )
-                        .toFixed(2)}{" "}
-                      Kilogram
-                    </Text>
-                  </Title>
-                </Col>
-              )}
-            />
-            <Modal
-              title="Konfirmasi Hapus"
-              visible={isModalVisible}
-              onOk={handleConfirmDelete}
-              onCancel={handleCancelDelete}
-            >
-              <p>Anda yakin ingin menghapus item ini?</p>
-            </Modal>
+        Object.keys(groupedData).map((month) => (
+          <div
+            key={month}
+            style={{
+              marginBottom: "250px",
+              padding: "20px",
+              boxShadow:
+                "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px", borderRadius: "8px"
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "end" }}>
+              <Title level={3}>Waktu setoran: {month}</Title>
+            </div>
+            {Object.keys(groupedData[month]).map((bahanSampah) => (
+              <div key={bahanSampah} style={{ marginBottom: "100px" }}>
+                <Divider orientation="left">{bahanSampah}</Divider>
+                <Table
+                  pagination={false}
+                  columns={allColumns}
+                  dataSource={groupedData[month][bahanSampah]}
+                  scroll={{ x: "100vw" }}
+                  footer={() => (
+                    <Col>
+                      <Title level={5}>
+                        Total Harga:
+                        <Text keyboard>
+                          Rp{" "}
+                          {groupedData[month][bahanSampah]
+                            .reduce(
+                              (acc, item) => acc + parseInt(item.harga),
+                              0
+                            )
+                            .toLocaleString("id-ID")}
+                        </Text>
+                      </Title>
+                      <Title level={5}>
+                        Total Berat:{" "}
+                        <Text keyboard>
+                          {" "}
+                          {groupedData[month][bahanSampah]
+                            .reduce(
+                              (acc, item) => acc + parseFloat(item.beratSampah),
+                              0
+                            )
+                            .toLocaleString("id-ID")}{" "}
+                          Kilogram
+                        </Text>
+                      </Title>
+                    </Col>
+                  )}
+                />
+                <Modal
+                  title="Konfirmasi Hapus"
+                  visible={isModalVisible}
+                  onOk={handleConfirmDelete}
+                  onCancel={handleCancelDelete}
+                >
+                  <p>Anda yakin ingin menghapus item ini?</p>
+                </Modal>
+              </div>
+            ))}
           </div>
         ))
       ) : (

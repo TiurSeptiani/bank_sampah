@@ -26,6 +26,8 @@ function Index() {
 		dispatch(listDataPengguna());
 	}, [dispatch]);
 
+	console.log("DATA INVENTARIS", data);
+
 	const createDataInventaris = async (data) => {
 		setLoadingOnSubmit(true);
 		const jenisSampahArray = Object.values(listJenisSampah.data);

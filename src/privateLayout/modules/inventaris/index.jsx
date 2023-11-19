@@ -12,7 +12,6 @@ function Inventaris({
   handleDeleteDataSampah,
 }) {
   const { data: dataNasabah } = useSelector((state) => state.dataNasabah);
-  const { data: dataSampah } = useSelector((state) => state.dataSampah);
   const { data: jenisSampah } = useSelector((state) => state.jenisSampah);
   const { currentUser } = useSelector((state) => state.auth);
 
@@ -22,7 +21,7 @@ function Inventaris({
     if (values) {
       const data = {
         ...values,
-        tglSetor: moment().format("DD MMMM YYYY, HH:mm"),
+        tglSetor: new Date().getTime()
       };
       createDataInventaris(data);
       form.resetFields();
@@ -82,40 +81,39 @@ function Inventaris({
           ]}
         >
           <Select
-  showSearch
-  style={{
-    width: "100%",
-  }}
-  placeholder="Masukkan nama bahan sampah"
-  allowClear
-  options={[
-    {
-      value: "Plastik",
-      label: "Plastik",
-    },
-    {
-      value: "Kertas",
-      label: "Kertas",
-    },
-    {
-      value: "Logam",
-      label: "Logam",
-    },
-    {
-      value: "Jlantah",
-      label: "Jlantah",
-    },
-    {
-      value: "Aqi",
-      label: "Aqi",
-    },
-    {
-      value: "Kaca",
-      label: "Kaca",
-    },
-  ]}
-/>
-
+            showSearch
+            style={{
+              width: "100%",
+            }}
+            placeholder="Masukkan nama bahan sampah"
+            allowClear
+            options={[
+              {
+                value: "Plastik",
+                label: "Plastik",
+              },
+              {
+                value: "Kertas",
+                label: "Kertas",
+              },
+              {
+                value: "Logam",
+                label: "Logam",
+              },
+              {
+                value: "Jlantah",
+                label: "Jlantah",
+              },
+              {
+                value: "Aqi",
+                label: "Aqi",
+              },
+              {
+                value: "Kaca",
+                label: "Kaca",
+              },
+            ]}
+          />
         </Form.Item>
 
         <Form.Item
