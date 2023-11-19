@@ -27,7 +27,8 @@ import Anggota from "./privateLayout/pages/anggota/index.jsx";
 import DataSampah from "./privateLayout/pages/dataSampah/index.jsx";
 import Transaksi from "./privateLayout/pages/transaksi/index.jsx";
 import Profile from "./privateLayout/pages/profile/index.jsx";
-import GantiPassword from "./privateLayout/pages//gantiPassword/index.jsx";
+import GantiPassword from "./privateLayout/pages/gantiPassword/index.jsx";
+import Informasi from "./privateLayout/pages/informasi/index.jsx";
 
 import Logo from "./assets/logo.png";
 import Login from "./publicLayout/pages/loginPage.jsx";
@@ -95,7 +96,6 @@ const App = () => {
             { key: "/", icon: <HomeOutlined />, label: "Beranda" },
             { key: "/profile", icon: <UserOutlined />, label: "Profile" },
             { key: "/data-anggota", icon: <TeamOutlined />, label: "Anggota" },
-            // Check if isNasabah is true before rendering the menu items
             { key: "/data-sampah", icon: <CalculatorOutlined />, label: "Data Sampah", hidden: isNasabah },
             { key: "/transaksi", icon: <SwapOutlined />, label: "Transaksi", hidden: isNasabah },
             { key: "/inventaris", icon: <FormOutlined />, label: "Inventaris", hidden: isNasabah },
@@ -155,6 +155,7 @@ const App = () => {
             <Route path="/transaksi" element={<Transaksi />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/ganti-password" element={<GantiPassword />} />
+            <Route path="/informasi" element={<Informasi />} />
           </Routes>
         </Content>
       </Layout>
