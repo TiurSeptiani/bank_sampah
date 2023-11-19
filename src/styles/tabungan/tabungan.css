@@ -32,7 +32,7 @@
 #setting-petugas {
   font-size: 1.5rem;
   text-decoration: none;
-  color: #ffffff;
+  color:  #001529;
 }
 
 #tabungan-container-nasabah {
@@ -44,9 +44,9 @@
 #tabungan-container-petugas {
   width: 100%;
   padding: 20px;
-  height: 40%;
-  color: #ffffff;
-  background-color: #001529;
+  height: 30%;
+  color: #001529;
+  /* background-color: #001529; */
   border-radius: 5px;
 }
 
