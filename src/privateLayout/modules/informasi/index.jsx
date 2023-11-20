@@ -15,7 +15,13 @@ function Informasi() {
         <>
           <Image id="gambar-informasi-satu" src={sampul} alt="Sampul" />
           <p>
-            Sampul dari Bank Sampah Anugerah 04 Klitren.
+            Kampung Klitren Lor - RW 04 (RT 13, 14, 15, 16, 17, 18) 
+          </p>
+          <p>
+            Kelurahan Klitren, Kemantren Gondokusuman Kota Yogyakarta. 
+          </p>
+          <p>
+            Telephone / Whatsapp : 08122797221
           </p>
         </>
       ),
