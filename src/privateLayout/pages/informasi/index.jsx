@@ -1,5 +1,6 @@
 import React from 'react'
 import Informasi from '../../modules/informasi'
+import "../../../styles/informasi/informasi.css"
 
 function Index() {
   return (
