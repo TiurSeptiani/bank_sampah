@@ -197,8 +197,8 @@ function Inventaris({
         </Form.Item>
 
         <Form.Item className="btn-submit">
-          <Button htmlType="submit" loading={loadingOnSubmit}>
-            Submit
+          <Button htmlType="submit" disabled={loadingOnSubmit} loading={loadingOnSubmit} style={{fontWeight: "bold", letterSpacing: "1px"}} type='primary'>
+            Kirim
           </Button>
         </Form.Item>
       </Form>

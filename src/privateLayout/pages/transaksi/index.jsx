@@ -5,81 +5,96 @@ import { listDataPengguna } from "../../../store/reducers/registrasiUsers/regist
 import axios from "axios";
 import { apiDev } from "../../../constans";
 import { message } from "antd";
-import { handleCreateDataTransaksi, handleDeleteOneDataTransaksi, handleGetListDataTransaksi } from "../../../store/reducers/dataTransaksi/dataTransaksiThunk";
-
+import {
+  handleCreateDataTransaksi,
+  handleDeleteOneDataTransaksi,
+  handleGetListDataTransaksi,
+} from "../../../store/reducers/dataTransaksi/dataTransaksiThunk";
 
 function Index() {
-	const dispatch = useDispatch();
-	const [loadingOnSubmit, setLoadingOnSubmit] = useState(false);
-	const { data: dataNasabah } = useSelector((state) => state.dataNasabah);
+  const dispatch = useDispatch();
+  const [loadingOnSubmit, setLoadingOnSubmit] = useState(false);
+  const { data: dataNasabah } = useSelector((state) => state.dataNasabah);
 
-	useEffect(() => {
-		dispatch(listDataPengguna());
+  useEffect(() => {
+    dispatch(listDataPengguna());
     dispatch(handleGetListDataTransaksi());
-	}, [dispatch]);
+  }, [dispatch]);
 
-	const handleTransaksi = async (data) => {
-		setLoadingOnSubmit(true);
-		const { saldo, jumlahPenarikan, namaNasabah, tglPenarikan, jenis } =
-			data;
+  const formatCurrency = (amount) => {
+    const formatter = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    });
+    return formatter.format(amount);
+  };
 
-		const nasabah = Object.values(dataNasabah).find(
-			(nasabah) => nasabah.namaLengkap === namaNasabah
-		);
+  const handleTransaksi = async (data) => {
+    setLoadingOnSubmit(true);
+    const { saldo, jumlahPenarikan, namaNasabah, tglPenarikan, jenis } = data;
 
-		if (nasabah) {
-			const nasabahKey = Object.keys(dataNasabah).find(
-				(key) => dataNasabah[key] === nasabah
-			);
+    const nasabah = Object.values(dataNasabah).find(
+      (nasabah) => nasabah.namaLengkap === namaNasabah
+    );
 
-			const saldoAkhir = saldo - jumlahPenarikan;
+    if (nasabah) {
+      const nasabahKey = Object.keys(dataNasabah).find(
+        (key) => dataNasabah[key] === nasabah
+      );
 
-			const dataForSubmit = {
-				jumlahPenarikan,
-				namaNasabah,
-				tglPenarikan,
-				jenis,
-			};
+      const saldoAkhir = saldo - jumlahPenarikan;
 
-			try {
-				await axios.patch(
-					`${apiDev}/data-pengguna/${nasabahKey}.json`,
-					{
-						saldo: saldoAkhir,
-					}
-				);
+      const dataForSubmit = {
+        jumlahPenarikan,
+        namaNasabah,
+        tglPenarikan,
+        jenis,
+      };
 
-				await dispatch(handleCreateDataTransaksi(dataForSubmit));
-				dispatch(listDataPengguna());
-				dispatch(handleGetListDataTransaksi());
-				setLoadingOnSubmit(false);
-				message.success("Berhasil melakukan penarikan");
-			} catch (error) {
-				console.log(error);
-				message.error("gagal melakukan penarikan");
-			}
-		} else {
-			setLoadingOnSubmit(false);
-			message.error("Data nasabah tidak ditemukan");
-		}
-	};
+      try {
+        await axios.patch(`${apiDev}/data-pengguna/${nasabahKey}.json`, {
+          saldo: saldoAkhir,
+        });
 
-	const handleDeleteDataTransaksi = (id) => {
-		setLoadingOnSubmit(true)
-		dispatch(handleDeleteOneDataTransaksi(id))
-		.unwrap()
-		.then(() => {
-			setLoadingOnSubmit(false)
-			message.success("Data transaksi berhasil di hapus")
-			dispatch(handleGetListDataTransaksi());
-		})
-	}
+        await dispatch(handleCreateDataTransaksi(dataForSubmit));
+        dispatch(handleGetListDataTransaksi())
+        .unwrap()
+        .then(() => {
+            dispatch(listDataPengguna());
+            setLoadingOnSubmit(false);
+            message.success("Berhasil melakukan penarikan");
+          });
+      } catch (error) {
+        console.log(error);
+        setLoadingOnSubmit(false);
+        message.error("Gagal melakukan penarikan");
+      }
+    } else {
+      setLoadingOnSubmit(false);
+      message.error("Data nasabah tidak ditemukan");
+    }
+  };
 
-	return (
-		<div>
-			<Transaksi {...{ handleTransaksi, handleDeleteDataTransaksi }} />
-		</div>
-	);
+  const handleDeleteDataTransaksi = (id) => {
+    setLoadingOnSubmit(true);
+    dispatch(handleDeleteOneDataTransaksi(id))
+      .unwrap()
+      .then(() => {
+        setLoadingOnSubmit(false);
+        message.success("Data transaksi berhasil di hapus");
+        dispatch(handleGetListDataTransaksi());
+      });
+  };
+
+  return (
+    <div>
+      <Transaksi
+        {...{ handleTransaksi, handleDeleteDataTransaksi, loadingOnSubmit, formatCurrency }}
+      />
+    </div>
+  );
 }
 
 export default Index;

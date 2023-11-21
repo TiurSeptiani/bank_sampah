@@ -3,11 +3,9 @@ import { Button, Modal, Space, Table } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { DeleteOutlined } from "@ant-design/icons";
 
-function DataTable({handleDeleteDataSampah}) {
+function DataTable({ handleDeleteDataSampah }) {
   const { data } = useSelector((state) => state.dataInventaris);
-  const [sortedData, setSortedData] = useState(
-    data ? Object.values(data) : []
-  );
+  const [sortedData, setSortedData] = useState(data ? Object.values(data) : []);
   const rowKey = "idBahanSampah";
   const { currentUser } = useSelector((state) => state.auth);
   const { data: dataNasabah } = useSelector((state) => state.dataNasabah);
@@ -16,9 +14,7 @@ function DataTable({handleDeleteDataSampah}) {
 
   const handleDelete = (e, namaNasabah) => {
     e.preventDefault();
-    const id = Object.keys(data).find(
-      (key) => data[key].namaNasabah === namaNasabah
-    );
+    const id = Object.keys(data).find((key) => data[key].namaNasabah === namaNasabah);
     if (id) {
       showDeleteModal(id);
     }
@@ -36,23 +32,41 @@ function DataTable({handleDeleteDataSampah}) {
 
   const handleCancelDelete = () => {
     setIsModalVisible(false);
-  };
+  }
 
   const columns = [
     {
       title: "No",
-      width: 10,
-      render: (text, record, index) => index + 1,
+      width: 70,
+      fixed: "left",
+      render: (text, record, index) => index + 1
     },
     {
       title: "Nama Nasabah",
       dataIndex: "namaNasabah",
-      width: 300,
+      width: 200,
     },
     {
       title: "Jenis Sampah",
       dataIndex: "jenisSampah",
       width: 200,
+    },
+    {
+      title: "Tanggal Setoran",
+      dataIndex: "tglSetor",
+      width: 250,
+      render: (text) => {
+        const date = new Date(text);
+        const options = {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+        };
+        const formattedDateTime = date.toLocaleString("id-ID", options);
+        return <span>{formattedDateTime}</span>;
+      },
     },
     {
       title: "Berat Sampah",
@@ -83,7 +97,7 @@ function DataTable({handleDeleteDataSampah}) {
             title: "Aksi",
             dataIndex: rowKey,
             fixed: "right",
-            width: 70,
+            width: 100,
             render: (key, record) => {
               return (
                 <div>
@@ -104,34 +118,34 @@ function DataTable({handleDeleteDataSampah}) {
         ]
       : columns;
 
-  useEffect(() => {
-    if (data) {
-      const newData = Object.values(data);
-      newData.sort((a, b) => {
-        return new Date(b.tglSetor) - new Date(a.tglSetor);
-      });
-      setSortedData(newData);
+      useEffect(() => {
+        if (data) {
+          const newData = Object.values(data);
+          newData.sort((a, b) => {
+            return new Date(b.tglSetor) - new Date(a.tglSetor);
+          });
+          setSortedData(newData);
+        }
+      }, [data]);
+    
+      return (
+        <>
+          <Table
+            pagination={false}
+            columns={allColumns}
+            dataSource={sortedData}
+            scroll={{ x: "100vw" }}
+          />
+          <Modal
+            title='Konfirmasi Hapus'
+            visible={isModalVisible}
+            onOk={handleConfirmDelete}
+            onCancel={handleCancelDelete}
+          >
+            <p>Anda yakin ingin menghapus item ini?</p>
+          </Modal>
+        </>
+      );
     }
-  }, [data]);
-
-  return (
-    <>
-      <Table
-        pagination={false}
-        columns={allColumns}
-        dataSource={sortedData}
-        // scroll={{ x: 10 }}
-      />
-      <Modal
-        title='Konfirmasi Hapus'
-        visible={isModalVisible}
-        onOk={handleConfirmDelete}
-        onCancel={handleCancelDelete}
-      >
-        <p>Anda yakin ingin menghapus item ini?</p>
-      </Modal>
-    </>
-  );
-}
-
-export default DataTable;
+    
+    export default DataTable;

@@ -1,13 +1,18 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col, Form, Input, Typography } from "antd";
-import React from "react";
+import React, { useState } from "react";
 
 function Index({handleLogin, loadinOnSubmit}) {
-
+	const [loadingKirim, setLoadingKirim] = useState(false)
   const { Title } = Typography
 
   const handleSubmit = (data) => {
+	setLoadingKirim(true)
     handleLogin(data)
+	.unwrap()
+	.then(() => {
+		setLoadingKirim(false)
+	})
   }
 
 	return (
@@ -59,6 +64,7 @@ function Index({handleLogin, loadinOnSubmit}) {
 							htmlType='submit'
 							className='login-form-button'
 							disabled={loadinOnSubmit}
+							loading={loadingKirim}
 						>
 							Masuk
 						</Button>

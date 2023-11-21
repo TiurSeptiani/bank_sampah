@@ -11,8 +11,6 @@ function DataSampah({ handleDeleteDataSampah }) {
   const [deleteId, setDeleteId] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  console.log("DATA INVEN", dataInventaris.data);
-
   const { Title, Text } = Typography;
   const groupedData = {};
   if (dataInventaris.data) {
@@ -145,7 +143,7 @@ function DataSampah({ handleDeleteDataSampah }) {
                     ghost
                     onClick={(e) => handleDelete(e, record.namaNasabah)}
                   >
-                    <DeleteOutlined />
+                    <DeleteOutlined /> Hapus
                   </Button>
                 </div>
               );

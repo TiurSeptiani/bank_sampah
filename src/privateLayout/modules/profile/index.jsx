@@ -6,14 +6,13 @@ import {
   Dropdown,
   Empty,
   Image,
-  Row,
+  Input,
   Space,
-  Spin,
   Typography,
 } from "antd";
 import React from "react";
 import pic from "../../../assets/Personal.jpg";
-import "../../../styles/tabungan/tabungan.css";
+import "../../../styles/profile/profile.css";
 import {
   DownOutlined,
   MoreOutlined,
@@ -23,14 +22,18 @@ import {
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 function Tabungan() {
-  const { Title, Text } = Typography;
+  const { Title, Text } = Typography
   const { currentUser } = useSelector((state) => state.auth);
   const { data } = useSelector((state) => state.dataNasabah);
   const { data: dataTransaksi } = useSelector((state) => state.dataTransaksi);
+
   const isNasabah = Object.values(data).find(
     (user) => user.status === "Nasabah" && user.uid === currentUser.uid
   );
   const isPetugas = Object.values(data).find(
+    (user) => user.status === "Petugas" && user.uid === currentUser.uid
+  );
+  const petugas = Object.values(data).find(
     (user) => user.status === "Petugas" && user.uid === currentUser.uid
   );
 
@@ -161,7 +164,7 @@ function Tabungan() {
                   {isPetugas.namaLengkap}
                 </span>
                 <span className="tabungan-nama-h2">
-                  Email: {isPetugas.email}
+                  Status: {isPetugas.status}
                 </span>
               </div>
               <div className="tabungan-nama-setting">
@@ -181,6 +184,25 @@ function Tabungan() {
                 </Dropdown>
               </div>
             </div>
+            
+          </div>
+          <div className="profile-body">
+              <div className="profile-content" >
+                <Title level={5}>Nama Lengkap</Title>
+                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={petugas ? petugas.namaLengkap : ""} />
+              </div>
+              <div className="profile-content" >
+                <Title level={5}>Email</Title>
+                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={petugas ? petugas.email : ""} />
+              </div>
+              <div className="profile-content" >
+                <Title level={5}>Nomor Handphone</Title>
+                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={petugas ? petugas.noHp : ""} />
+              </div>
+              <div className="profile-content" >
+                <Title level={5}>No RT</Title>
+                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={petugas ? petugas.noRt : ""} />
+              </div>
           </div>
         </div>
       )}

@@ -231,8 +231,9 @@ function Registrasi({ handleCreateUser, loadingOnSubmit }) {
 						loading={loadingKirim}
 						htmlType='submit'
 						disabled={loadingOnSubmit}
+						style={{fontWeight: "bold", letterSpacing: "1px"}} type='primary'
 					>
-						Submit
+						Kirim
 					</Button>
 				</Form.Item>
 			</Form>

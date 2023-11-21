@@ -1,96 +1,96 @@
 import { Button, Form, Input, Select } from "antd";
 import React, { useState } from "react";
-import { v4 as uuidv4  } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 function FormJenisSampah({ handleOnSubmit, loadingOnSubmit }) {
+  const handleSubmit = (values) => {
+    handleOnSubmit(values);
+  };
 
-	const handleSubmit = (values) => {
-		const id = uuidv4()
-		const dataForSubmit = {...values, id}
-		handleOnSubmit(dataForSubmit);
-	};
+  return (
+    <div>
+      <Form layout="vertical" onFinish={handleSubmit}>
+        <Form.Item
+          label="Nama Jenis Sampah"
+          colon={false}
+          name="namaJenisSampah"
+          rules={[
+            {
+              required: true,
+              message: "Tolong masukkan nama jenis sampah!",
+            },
+          ]}
+        >
+          <Input
+            style={{
+              width: "100%",
+            }}
+            placeholder="Masukkan nama jenis sampah"
+          />
+        </Form.Item>
+        <Form.Item
+          label="Harga"
+          colon={false}
+          name="hargaJenisSampah"
+          rules={[
+            {
+              required: true,
+              message: "Tolong masukkan harga sampah!",
+            },
+          ]}
+        >
+          <Input
+            style={{
+              width: "100%",
+            }}
+            placeholder="Masukkan harga sampah"
+          />
+        </Form.Item>
+        <Form.Item
+          label="Satuan"
+          colon={false}
+          name="satuan"
+          rules={[
+            {
+              required: true,
+              message: "Tolong masukkan satuan harga sampah!",
+            },
+          ]}
+        >
+          <Select
+            placeholder="Masukan satuan"
+            allowClear
+            options={[
+              {
+                value: "Kilogram",
+                label: "Kilogram",
+              },
+              {
+                value: "Biji",
+                label: "Biji",
+              },
+              {
+                value: "Liter",
+                label: "Liter",
+              },
+            ]}
+          />
+        </Form.Item>
 
-	return (
-		<div>
-			<Form layout='vertical' onFinish={handleSubmit}>
-				<Form.Item
-					label='Nama Jenis Sampah'
-					colon={false}
-					name='namaJenisSampah'
-					rules={[
-						{
-							required: true,
-							message: "Tolong masukkan nama jenis sampah!",
-						},
-					]}
-				>
-					<Input
-						style={{
-							width: "100%",
-						}}
-						placeholder='Masukkan nama jenis sampah'
-					/>
-				</Form.Item>
-				<Form.Item
-					label='Harga'
-					colon={false}
-					name='hargaJenisSampah'
-					rules={[
-						{
-							required: true,
-							message: "Tolong masukkan harga sampah!",
-						},
-					]}
-				>
-					<Input
-						style={{
-							width: "100%",
-						}}
-						placeholder='Masukkan harga sampah'
-					/>
-				</Form.Item>
-				<Form.Item
-					label='Satuan'
-					colon={false}
-					name='satuan'
-					rules={[
-						{
-							required: true,
-							message: "Tolong masukkan satuan harga sampah!",
-						},
-					]}
-				>
-					<Select
-						placeholder="Masukan satuan"
-						allowClear
-						options={[
-							{
-								value: "Kilogram",
-								label: "Kilogram",
-							},
-							{
-								value: "Biji",
-								label: "Biji",
-							},
-							{
-								value: "Liter",
-								label: "Liter",
-							},
-						]}
-					/>
-				</Form.Item>
-
-				<Form.Item className='btn-submit'>
-					<Button
-						loading={loadingOnSubmit}
-						htmlType='submit'
-					>
-						Submit
-					</Button>
-				</Form.Item>
-			</Form>
-		</div>
-	);
+        <Form.Item className="btn-submit">
+          <Button
+            loading={loadingOnSubmit}
+			disabled={loadingOnSubmit}
+            htmlType="submit"
+            style={{fontWeight: "bold", letterSpacing: "1px"}}
+            type="primary"
+          >
+            Kirim
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
+  );
 }
 
 export default FormJenisSampah;

@@ -23,11 +23,13 @@ function Login() {
 				const user = userCredential.user;
 				dispatch(loginUser(user))
 				navigate("/");
+				setLoginOnSubmit(false)
 			})
 			.catch((error) => {
 				const errorCode = error.code;
 				const errorMessage = error.message;
 				message.error("Email atau Password salah!")
+				setLoginOnSubmit(false)
 			});
 	};
 

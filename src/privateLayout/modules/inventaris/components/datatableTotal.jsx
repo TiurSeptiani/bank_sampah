@@ -20,19 +20,23 @@ function DataTableTotal() {
       aggregatedData[namaNasabah].totalHarga += harga;
       aggregatedData[namaNasabah].totalBerat += parseFloat(beratSampah);
     });
-    return Object.values(aggregatedData);
+    const sortedAggregatedData = Object.values(aggregatedData).sort(
+      (a, b) => b.totalHarga - a.totalHarga
+    );
+    return sortedAggregatedData;
   };
 
   const columns = [
     {
       title: "No",
-      width: 10,
+      width: 70,
+      fixed: "left",
       render: (text, record, index) => index + 1,
     },
     {
       title: "Nama Nasabah",
       dataIndex: "namaNasabah",
-      width: 300,
+      width: 200,
     },
     {
       title: "Total Harga Setoran",

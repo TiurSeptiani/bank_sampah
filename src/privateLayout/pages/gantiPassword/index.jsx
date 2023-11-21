@@ -19,8 +19,9 @@ function Index() {
   const { data } = useSelector((state) => state.dataNasabah);
   const navigate = useNavigate();
 
-  console.log("Kumpulan User", data);
-  console.log("Data CurrentUser", dataCurrent);
+  const handleCancel = () => {
+    return navigate('/profile')
+  }
 
   const handleChangePassword = async (values) => {
     setLoadingOnSubmit(true);
@@ -81,7 +82,7 @@ function Index() {
 
   return (
     <div>
-      <GantiPassword {...{ handleChangePassword, setLoadingOnSubmit }} />
+      <GantiPassword {...{ handleChangePassword, setLoadingOnSubmit, handleCancel }} />
     </div>
   );
 }

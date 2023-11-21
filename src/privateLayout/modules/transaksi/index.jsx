@@ -12,21 +12,20 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CardPenarikan from "./components/cardPenarikan";
+import Title from "antd/es/typography/Title";
 
-function Transaksi({ handleTransaksi, handleDeleteDataTransaksi }) {
+function Transaksi({ handleTransaksi, handleDeleteDataTransaksi, loadingOnSubmit, formatCurrency }) {
 	const { data: dataNasabah } = useSelector((state) => state.dataNasabah);
 	const { data: dataTransaksi } = useSelector((state) => state.dataTransaksi);
-	console.log("data nasabah", dataNasabah);
-
+	const [loadingKirim, setLoadinKirim] = useState(false)
+	const [totalTransaksi, setTotalTransaksi] = useState(0);
 	const [selectedNasabah, setSelectedNasabah] = useState(null);
 
 	const handleNasabahSelect = (value) => {
 		setSelectedNasabah(value);
-
 		const selectedNasabahData = Object.values(dataNasabah).find(
 			(nasabah) => nasabah.namaLengkap === value
 		);
-
 		form.setFieldsValue({
 			saldo:  selectedNasabahData ? selectedNasabahData.saldo : 0,
 		});
@@ -35,6 +34,7 @@ function Transaksi({ handleTransaksi, handleDeleteDataTransaksi }) {
 	const [form] = Form.useForm();
 
 	const handleSubmit = (values) => {
+		setLoadinKirim(true)
 		const { namaNasabah, jumlahPenarikan } = values;
 		const selectedNasabahData = Object.values(dataNasabah).find(
 			(nasabah) => nasabah.namaLengkap === namaNasabah
@@ -48,17 +48,17 @@ function Transaksi({ handleTransaksi, handleDeleteDataTransaksi }) {
 			message.error(
 				"Jumlah penarikan tidak boleh lebih dari total saldo"
 			);
+			setLoadinKirim(false)
 		} else {
 			const dataForSubmit = {
 				...values,
-				tglPenarikan: moment().format("DD MMMM YYYY, HH:mm"),
+				tglPenarikan: moment().format("DD MMMM YYYY, HH:mm:ss"),
 				jenis: "Debit",
 			};
-			handleTransaksi(dataForSubmit);
+			handleTransaksi(dataForSubmit)
+			setLoadinKirim(false)
 		}
 	};
-
-	const [totalTransaksi, setTotalTransaksi] = useState(0);
 
     useEffect(() => {
         if (dataTransaksi) {
@@ -124,17 +124,19 @@ function Transaksi({ handleTransaksi, handleDeleteDataTransaksi }) {
 				</Form.Item>
 
 				<Form.Item className='btn-submit'>
-					<Button type='primary' htmlType='submit'>
-						Submit
+					<Button style={{fontWeight: "bold", letterSpacing: "1px"}} type='primary' loading={loadingKirim} disabled={loadingOnSubmit} htmlType='submit'>
+						Kirim
 					</Button>
 				</Form.Item>
 			</Form>
 
 			<Divider style={{ marginTop: "50px" }} orientation='left'>
-				Total Transaksi : {totalTransaksi}
+				<Title level={4}>
+				Hasil Transaksi
+				</Title>
 			</Divider>
 			<Col>
-				<CardPenarikan handleDeleteDataTransaksi={handleDeleteDataTransaksi} />
+				<CardPenarikan handleDeleteDataTransaksi={handleDeleteDataTransaksi} formatCurrency={formatCurrency} />
 			</Col>
 		</div>
 	);

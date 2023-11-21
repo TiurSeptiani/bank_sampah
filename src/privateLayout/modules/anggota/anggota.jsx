@@ -42,6 +42,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     {
       title: "No",
       width: 70,
+      fixed: "left",
       render: (text, record, index) => index + 1,
     },
     {
@@ -72,7 +73,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     {
       title: "Saldo",
       dataIndex: "saldo",
-      width: 200,
+      width: 150,
       render: (text) => {
         const formattedPrice = `Rp. ${parseInt(text).toLocaleString()}`;
         return <span>{formattedPrice}</span>;
@@ -84,11 +85,22 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     {
       title: "No",
       width: 70,
+      fixed: "left",
       render: (text, record, index) => index + 1,
     },
     {
       title: "Nama Nasabah",
       dataIndex: "namaLengkap",
+      width: 200,
+    },
+    {
+      title: "Email Nasabah",
+      dataIndex: "email",
+      width: 200,
+    },
+    {
+      title: "Password Nasabah",
+      dataIndex: "password",
       width: 200,
     },
     {
@@ -114,7 +126,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     {
       title: "Saldo",
       dataIndex: "saldo",
-      width: 200,
+      width: 150,
       render: (text) => {
         const formattedPrice = `Rp. ${parseInt(text).toLocaleString()}`;
         return <span>{formattedPrice}</span>;
@@ -144,7 +156,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
                     ghost
                     onClick={(e) => handleDelete(e, record.namaLengkap)}
                   >
-                    <DeleteOutlined />
+                    <DeleteOutlined /> Hapus
                   </Button>
                 </div>
               );
@@ -176,7 +188,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
                     ghost
                     onClick={(e) => handleDelete(e, record.namaLengkap)}
                   >
-                    <DeleteOutlined />
+                    <DeleteOutlined /> Hapus
                   </Button>
                 </div>
               );

@@ -48,7 +48,8 @@ const DataTable = ({
   const columns = [
     {
       title: "No",
-      width: 100,
+      width: 70,
+      fixed: "left",
       render: (text, record, index) =>
         (pagination.current - 1) * pagination.pageSize + index + 1,
     },
@@ -110,8 +111,6 @@ const DataTable = ({
         item.namaJenisSampah.toLowerCase().startsWith(searchText.toLowerCase())
       )
     : [];
-
-  console.log("JENIS SAMPAH", jenisSampah);
 
   return (
     <div>

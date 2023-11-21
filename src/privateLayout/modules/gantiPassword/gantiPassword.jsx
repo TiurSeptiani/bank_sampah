@@ -3,7 +3,11 @@ import { Button, Divider, Form, Input, message } from "antd";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-function GantiPassword({ handleChangePassword, setLoadingOnSubmit }) {
+function GantiPassword({
+  handleChangePassword,
+  setLoadingOnSubmit,
+  handleCancel,
+}) {
   const [loadingKirim, setLoadingKirim] = useState(false);
   const { data } = useSelector((state) => state.dataNasabah);
   const { currentUser } = useSelector((state) => state.auth);
@@ -118,13 +122,19 @@ function GantiPassword({ handleChangePassword, setLoadingOnSubmit }) {
         </Form.Item>
 
         <Form.Item className="btn-submit">
-          <Button
-            loading={loadingSimpan}
-            htmlType="submit"
-            disabled={setLoadingOnSubmit}
-          >
-            Submit
-          </Button>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Button htmlType="submit" onClick={() => handleCancel()}>
+              Kembali
+            </Button>
+
+            <Button
+              loading={loadingKirim}
+              htmlType="submit"
+              disabled={setLoadingOnSubmit}
+            >
+              Submit
+            </Button>
+          </div>
         </Form.Item>
       </Form>
     </div>

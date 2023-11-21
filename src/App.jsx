@@ -41,7 +41,7 @@ import { listDataPengguna } from "./store/reducers/registrasiUsers/registrasiUse
 const { Header, Sider, Content } = Layout;
 
 const App = () => {
-  // const { isAuth } = useSelector((state) => state.auth);
+  const { isAuth } = useSelector((state) => state.auth);
   const [collapsed, setCollapsed] = useState(false);
   const { data } = useSelector((state) => state.dataNasabah);
   const { currentUser } = useSelector((state) => state.auth);

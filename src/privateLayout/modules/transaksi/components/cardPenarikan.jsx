@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import { Button, Card, Col, Empty, Modal } from "antd";
+import React, { useState, useEffect } from "react";
+import { Button, Card, Col, Empty, Modal, Spin } from "antd";
 import { useSelector } from "react-redux";
+import { DeleteOutlined } from "@ant-design/icons";
+import moment from "moment";
 
-function CardPenarikan({ handleDeleteDataTransaksi }) {
+function CardPenarikan({ handleDeleteDataTransaksi, formatCurrency }) {
   const { data } = useSelector((state) => state.dataTransaksi);
   const [deleteId, setDeleteId] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  console.log("harga", data);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleDelete = (key) => {
     setDeleteId(key);
@@ -25,15 +26,34 @@ function CardPenarikan({ handleDeleteDataTransaksi }) {
     setDeleteId(null);
   };
 
-  const formatCurrency = (amount) => {
-    const formatter = new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    });
-    return formatter.format(amount);
-  };
+  // const formatCurrency = (amount) => {
+  //   const formatter = new Intl.NumberFormat("id-ID", {
+  //     style: "currency",
+  //     currency: "IDR",
+  //     minimumFractionDigits: 0,
+  //     maximumFractionDigits: 0,
+  //   });
+  //   return formatter.format(amount);
+  // };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, []); 
+
+  const sortedData = data
+    ? Object.entries(data)
+        .map(([key, value]) => ({ key, ...value }))
+        .sort((a, b) =>
+          moment(b.tglPenarikan, "DD MMMM YYYY, HH:mm:ss").diff(
+            moment(a.tglPenarikan, "DD MMMM YYYY, HH:mm:ss"),
+            "seconds"
+          )
+        )
+    : [];
 
   return (
     <div>
@@ -53,54 +73,68 @@ function CardPenarikan({ handleDeleteDataTransaksi }) {
             gap: "30px",
           }}
         >
-          {data ? (
-            Object.keys(data).map((key) => (
-              <Col key={key}>
-                <Card
-                  style={{ backgroundColor: "#f7efe5" }}
-                  hoverable
-                  title={
-                    <span
+          {isLoading ? (
+            <Spin />
+          ) : data ? (
+            sortedData.length > 0 ? (
+              sortedData.map((transaction) => (
+                <Col key={transaction.key}>
+                  <Card
+                    style={{ backgroundColor: "#f7efe5" }}
+                    hoverable
+                    title={
+                      <span
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          flexWrap: "wrap",
+                        }}
+                      >
+                        <Col>{transaction.jenis}</Col>
+                        <Button
+                          htmlType="button"
+                          onClick={() => handleDelete(transaction.key)}
+                        >
+                          <DeleteOutlined /> Hapus
+                        </Button>
+                      </span>
+                    }
+                    bordered={false}
+                  >
+                    <Col
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
                         flexWrap: "wrap",
+                        gap: "20px",
                       }}
                     >
-                      <Col>{data[key].jenis}</Col>
-                      <Button htmlType='button' onClick={() => handleDelete(key)}>
-                        Hapus
-                      </Button>
-                    </span>
-                  }
-                  bordered={false}
-                >
-                  <Col
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      flexWrap: "wrap",
-                      gap: "20px",
-                    }}
-                  >
-                    <Col>
-                      <h1>{data[key].namaNasabah}</h1>
-                      <h4>
-                        <Col>{data[key].tglPenarikan}</Col>
-                      </h4>
+                      <Col>
+                        <h1>{transaction.namaNasabah}</h1>
+                        <h4>
+                          <Col>
+                            {moment(
+                              transaction.tglPenarikan,
+                              "DD MMMM YYYY, HH:mm"
+                            ).format("DD MMMM YYYY, HH:mm")}
+                          </Col>
+                        </h4>
+                      </Col>
+                      <h2>{formatCurrency(transaction.jumlahPenarikan)}</h2>
                     </Col>
-                    <h2>{formatCurrency(data[key].jumlahPenarikan)}</h2>
-                  </Col>
-                </Card>
-              </Col>
-            ))
+                  </Card>
+                </Col>
+              ))
+            ) : (
+              <Empty />
+            )
           ) : (
             <Empty />
           )}
         </Col>
       </Col>
       <Modal
-        title='Konfirmasi Hapus'
+        title="Konfirmasi Hapus"
         visible={isModalVisible}
         onOk={handleConfirmDelete}
         onCancel={handleCancelDelete}
