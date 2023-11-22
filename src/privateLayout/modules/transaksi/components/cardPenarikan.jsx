@@ -80,7 +80,7 @@ function CardPenarikan({ handleDeleteDataTransaksi, formatCurrency }) {
               sortedData.map((transaction) => (
                 <Col key={transaction.key}>
                   <Card
-                    style={{ backgroundColor: "#f7efe5" }}
+                    style={{ backgroundColor: "#a2c579" }}
                     hoverable
                     title={
                       <span

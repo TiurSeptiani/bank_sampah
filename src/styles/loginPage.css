@@ -1,6 +1,6 @@
 .login-page {
-    background: rgb(255,157,51);
     height: 100vh;
+    background-color: #8989ad;
 }
 
 .container-login {
@@ -8,10 +8,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    
 }
 
 .content-login {
-    background-color: aquamarine;
+    background-color: #a2c579;
     padding: 20px;
     display: flex;
     align-items: center;
@@ -19,4 +21,21 @@
     border-radius: 8px;
     flex-direction: column;
     gap: 20px;
+    width: 20%;
+}
+
+.btn-for-login{
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (max-width: 1015px){
+    .content-login {
+        width: 30vw !important;
+    }
+}
+@media screen and (max-width: 627px){
+    .content-login {
+        width: 60vw !important;
+    }
 }

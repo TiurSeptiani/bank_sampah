@@ -69,6 +69,10 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       title: "Tanggal Bergabung",
       dataIndex: "tanggalBergabung",
       width: 200,
+      render: (text) => {
+        const formattedDate = new Date(text).toLocaleDateString("id-ID")
+        return <span>{formattedDate}</span>
+      }
     },
     {
       title: "Saldo",
@@ -122,6 +126,10 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       title: "Tanggal Bergabung",
       dataIndex: "tanggalBergabung",
       width: 200,
+      render: (text) => {
+        const formattedDate = new Date(text).toLocaleDateString("id-ID")
+        return <span>{formattedDate}</span>
+      }
     },
     {
       title: "Saldo",
@@ -178,7 +186,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
             title: "Aksi",
             dataIndex: rowKey,
             fixed: "right",
-            width: 70,
+            width: 90,
             render: (key, record) => {
               return (
                 <div>

@@ -20,15 +20,16 @@ function Index() {
 	const listJenisSampah = useSelector((state) => state.jenisSampah);
 	const { data } = useSelector((state) => state.dataInventaris);
 	const { data: dataNasabah } = useSelector((state) => state.dataNasabah);
+	console.log("NASABAH", dataNasabah);
 
 	useEffect(() => {
 		dispatch(listDataInventaris());
 		dispatch(listDataPengguna());
 	}, [dispatch]);
 
-	console.log("DATA INVENTARIS", data);
 
 	const createDataInventaris = async (data) => {
+		console.log("DATA SUBMIT", data);
 		setLoadingOnSubmit(true);
 		const jenisSampahArray = Object.values(listJenisSampah.data);
 		const selectedJenisSampah = jenisSampahArray.find(
@@ -38,6 +39,7 @@ function Index() {
 		if (selectedJenisSampah) {
 			const harga =
 				data.beratSampah * selectedJenisSampah.hargaJenisSampah;
+				console.log("HARGA", harga)
 			const dataForSubmit = {
 				...data,
 				harga,
@@ -66,6 +68,7 @@ function Index() {
 					setLoadingOnSubmit(false);
 					message.success("Data berhasil dikirim!");
 					dispatch(listDataInventaris());
+					dispatch(listDataPengguna());
 				} catch (error) {
 					setLoadingOnSubmit(false);
 					message.error("Gagal mengupdate saldo nasabah.");

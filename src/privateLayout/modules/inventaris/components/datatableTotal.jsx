@@ -42,6 +42,10 @@ function DataTableTotal() {
       title: "Total Harga Setoran",
       dataIndex: "totalHarga",
       width: 200,
+      render: (text) => {
+        const formattedPrice = `Rp. ${parseInt(text).toLocaleString()}`;
+        return <span>{formattedPrice}</span>;
+      },
     },
     {
       title: "Total Berat Setoran",

@@ -81,11 +81,12 @@ const App = () => {
 
   return isAuth ? (
     <Layout style={{ height: "100vh" }}>
-      <Sider trigger={null} collapsible collapsed={collapsed} style={{ overflow: "scroll"}}>
+      <Sider trigger={null} collapsible collapsed={collapsed} style={{ overflow: "scroll", backgroundColor: "#8989ad"}}>
         <Col>
           <Image src={Logo} preview={false} />
         </Col>
         <Menu
+        style={{backgroundColor: "#8989ad"}}
           onClick={({ key }) => {
             navigate(key);
           }}

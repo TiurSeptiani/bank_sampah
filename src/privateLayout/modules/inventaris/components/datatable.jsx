@@ -82,6 +82,10 @@ function DataTable({ handleDeleteDataSampah }) {
       title: "Harga",
       dataIndex: "harga",
       width: 250,
+      render: (text) => {
+        const formattedPrice = `Rp. ${parseInt(text).toLocaleString()}`;
+        return <span>{formattedPrice}</span>;
+      },
     },
   ];
 
