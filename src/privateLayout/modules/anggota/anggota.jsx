@@ -233,7 +233,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
           <Table
             columns={allColumnsPetugas}
             dataSource={filteredPetugasData}
-            scroll={{ x: "100vw" }}
+            // scroll={{ x: "100vw" }}
           />
         </Col>
       )}
@@ -250,7 +250,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
         <Table
           columns={allColumnsNasabah}
           dataSource={filteredAnggotaData}
-          scroll={{ x: "100vw" }}
+          // scroll={{ x: "100vw" }}
         />
       </Col>
 

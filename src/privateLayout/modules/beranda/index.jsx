@@ -73,7 +73,7 @@ function Beranda({ handleDeleteJenisSampah, loadingOnSubmit }) {
 			</Col>
 
 			<Col span={24} className='datatable mt-5'>
-				<Divider orientation='left'>List Update Harga Sampah</Divider>
+				<Divider orientation='left'>List Jenis Sampah</Divider>
 				<DataTable
 					{...{
 						handleDeleteJenisSampah,

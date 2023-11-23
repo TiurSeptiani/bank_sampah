@@ -114,13 +114,18 @@ const DataTable = ({
 
   return (
     <div>
-      <Col style={{ marginBottom: "20px" }}>
-        <Input
-          prefix={<SearchOutlined className="site-form-item-icon" />}
-          placeholder="Cari Nama Jenis Sampah"
-          onChange={(e) => setSearchText(e.target.value)}
-          value={searchText}
-        />
+      <Col style={{ marginBottom: "20px", display: "flex", gap: "10px" }}>
+        <Col span={20} style={{marginRight: "10px"}}>
+          <Input
+            prefix={<SearchOutlined className="site-form-item-icon" />}
+            placeholder="Cari Nama Jenis Sampah"
+            onChange={(e) => setSearchText(e.target.value)}
+            value={searchText}
+          />
+        </Col>
+        <Col span={3}>
+          <Button type="primary">Tambah Jenis Sampah</Button>
+        </Col>
       </Col>
 
       <Table

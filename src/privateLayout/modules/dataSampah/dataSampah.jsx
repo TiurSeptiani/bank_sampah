@@ -175,7 +175,7 @@ function DataSampah({ handleDeleteDataSampah }) {
                   pagination={false}
                   columns={allColumns}
                   dataSource={groupedData[month][bahanSampah]}
-                  scroll={{ x: "100vw" }}
+                  // scroll={{ x: "100vw" }}
                   footer={() => (
                     <Col>
                       <Title level={5}>

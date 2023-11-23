@@ -138,7 +138,7 @@ function DataTable({ handleDeleteDataSampah }) {
             pagination={false}
             columns={allColumns}
             dataSource={sortedData}
-            scroll={{ x: "100vw" }}
+            // scroll={{ x: "100vw" }}
           />
           <Modal
             title='Konfirmasi Hapus'
