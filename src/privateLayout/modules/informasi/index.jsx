@@ -9,7 +9,7 @@ function Informasi() {
   const items = [
     {
       key: "1",
-      label: <><h1>Keterangan Lokasi Bank Sampah Anugerah 04</h1></>,
+      label: <><h4>Keterangan Lokasi Bank Sampah Anugerah 04</h4></>,
       children: (
         <>
           <Image id="gambar-informasi-satu" src={sampul} alt="Sampul" />
@@ -23,7 +23,7 @@ function Informasi() {
     },
     {
       key: "2",
-      label: <><h1>Struktur dalam Bank Sampah Anugerah 04</h1></>,
+      label: <><h4>Struktur dalam Bank Sampah Anugerah 04</h4></>,
       children: (
         <>
           <Image id="gambar-informasi-dua" src={struktur} alt="Struktur" />

@@ -94,7 +94,7 @@ function Tabungan() {
             </span>
           </div>
           <div style={{ marginTop: "50px", marginBottom: "20px" }}>
-            <Divider orientation="left">Riwayat Transaksi</Divider>
+            <Divider orientation="left">Riwayat Penarikan</Divider>
 
             {dataTransaksi ? (
               Object.keys(dataTransaksi).map((transactionId) => {

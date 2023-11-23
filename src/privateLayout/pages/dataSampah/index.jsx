@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { handleDeleteOneDataInventaris, listDataInventaris } from '../../../store/reducers/dataInventaris/dataInventarisThunk';
 import { listDataPengguna } from '../../../store/reducers/registrasiUsers/registrasiUsersThunk';
 import { message } from 'antd';
+import "../../../styles/dataSampah/dataSampah.css"
 
 function Index() {
   const dispatch = useDispatch()

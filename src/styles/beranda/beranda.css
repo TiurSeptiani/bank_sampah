@@ -23,6 +23,10 @@
     margin-top: 50px;
 }
 
+.btn-hapus-jenis-small {
+	display: none;
+}
+
 @media screen and (max-width: 703px) {
 	.container {
 		flex-direction: column;
@@ -40,5 +44,15 @@
 
 	.icon {
 		display: none !important;
+	}
+}
+
+@media screen and (max-width: 1336px) {
+	.btn-hapus-large {
+		display: none;
+	}
+	.btn-hapus-jenis-small {
+		display: inline-block;
+		font-size: 1rem;
 	}
 }

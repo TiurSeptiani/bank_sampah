@@ -1,0 +1,27 @@
+.btn-hapus-anggota-petugas-small {
+    display: none;
+}
+
+.btn-hapus-anggota-nasabah-small {
+    display: none;
+}
+
+@media screen and (max-width: 1918px) {
+    .btn-hapus-anggota-petugas-large {
+        display: none;
+    }
+
+    .btn-hapus-anggota-petugas-small {
+        display: inline;
+        font-size: 1rem;
+    }
+
+    .btn-hapus-anggota-nasabah-large {
+        display: none;
+    }
+
+    .btn-hapus-anggota-nasabah-small {
+        display: inline;
+        font-size: 1rem;
+    }
+}

@@ -3,6 +3,7 @@ import Anggota from '../../modules/anggota/anggota'
 import { useDispatch } from 'react-redux'
 import { handleDeleteOnePengguna, listDataPengguna } from '../../../store/reducers/registrasiUsers/registrasiUsersThunk'
 import { message } from 'antd'
+import "../../../styles/anggota/style.css"
 
 function Index() {
   const dispatch = useDispatch()

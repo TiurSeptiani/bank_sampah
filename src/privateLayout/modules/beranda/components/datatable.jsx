@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, Space, Table, Input, Col, Empty, Modal } from "antd";
-import { DeleteOutlined, SearchOutlined } from "@ant-design/icons";
+import { DeleteOutlined, FileAddOutlined, SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { listDataPengguna } from "../../../../store/reducers/registrasiUsers/registrasiUsersThunk";
+import { useNavigate } from "react-router-dom";
 
 const DataTable = ({
   jenisSampah,
@@ -18,6 +19,22 @@ const DataTable = ({
   });
   const { currentUser } = useSelector((state) => state.auth);
   const { data } = useSelector((state) => state.dataNasabah);
+  const isPetugas = currentUser && data && Object.values(data).some((user) => user.status === "Petugas" && user.uid === currentUser.uid)
+  console.log("STATUS", isPetugas);
+  const navigate = useNavigate()
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
@@ -48,7 +65,7 @@ const DataTable = ({
   const columns = [
     {
       title: "No",
-      width: 70,
+      width: 60,
       fixed: "left",
       render: (text, record, index) =>
         (pagination.current - 1) * pagination.pageSize + index + 1,
@@ -61,7 +78,7 @@ const DataTable = ({
     {
       title: "Harga",
       dataIndex: "hargaJenisSampah",
-      width: 200,
+      width: 150,
       render: (text) => {
         const formattedPrice = `Rp. ${parseInt(text).toLocaleString()}`;
         return <span>{formattedPrice}</span>;
@@ -85,19 +102,31 @@ const DataTable = ({
             title: "Aksi",
             dataIndex: rowKey,
             fixed: "right",
-            width: 70,
+            width: 65,
             render: (key, record) => {
               return (
                 <div>
                   <Button
                     type="primary"
-                    className="more"
-                    ghost
+                    danger
+                    className="more btn-hapus-large"
+                    style={{fontWeight: "bold", letterSpacing: "1px"}}
                     onClick={(e) =>
                       handleDeleteClick(e, record.namaJenisSampah)
                     }
                   >
-                    <DeleteOutlined /> Hapus
+                    <DeleteOutlined /> <span className="hapus-jenis">Hapus</span>
+                  </Button>
+                  <Button
+                    type="primary"
+                    danger
+                    className="more btn-hapus-jenis-small"
+                    style={{fontWeight: "bold", letterSpacing: "1px"}}
+                    onClick={(e) =>
+                      handleDeleteClick(e, record.namaJenisSampah)
+                    }
+                  >
+                    <DeleteOutlined />
                   </Button>
                 </div>
               );
@@ -114,8 +143,10 @@ const DataTable = ({
 
   return (
     <div>
-      <Col style={{ marginBottom: "20px", display: "flex", gap: "10px" }}>
-        <Col span={20} style={{marginRight: "10px"}}>
+      <Col style={{ marginBottom: "20px", display: "flex", flexWrap: "wrap", gap: "10px" }}>
+        {isPetugas ? (
+          <>
+            <Col span={20}>
           <Input
             prefix={<SearchOutlined className="site-form-item-icon" />}
             placeholder="Cari Nama Jenis Sampah"
@@ -124,8 +155,21 @@ const DataTable = ({
           />
         </Col>
         <Col span={3}>
-          <Button type="primary">Tambah Jenis Sampah</Button>
+          <Button type="primary" style={{fontWeight: "bold", letterSpacing: "1px"}} onClick={() => navigate('/tambah-jenis-sampah')}><FileAddOutlined /> Tambah Jenis</Button>
         </Col>
+          </>
+        ) : (
+         <>
+           <Col span={24}>
+          <Input
+            prefix={<SearchOutlined className="site-form-item-icon" />}
+            placeholder="Cari Nama Jenis Sampah"
+            onChange={(e) => setSearchText(e.target.value)}
+            value={searchText}
+          />
+        </Col>
+         </>
+        )}
       </Col>
 
       <Table
@@ -142,7 +186,7 @@ const DataTable = ({
           (pagination.current - 1) * pagination.pageSize,
           pagination.current * pagination.pageSize
         )}
-        scroll={{ x: 100 }}
+        scroll={{ x: windowWidth <= 800 ? "100vw" : undefined }}
       />
 
       <Modal

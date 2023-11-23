@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Divider, Empty, Modal, Table, Typography } from "antd";
 import { useSelector } from "react-redux";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -10,6 +10,19 @@ function DataSampah({ handleDeleteDataSampah }) {
   const rowKey = "idBahanSampah";
   const [deleteId, setDeleteId] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const { Title, Text } = Typography;
   const groupedData = {};
@@ -139,11 +152,21 @@ function DataSampah({ handleDeleteDataSampah }) {
                 <div>
                   <Button
                     type="primary"
-                    className="more"
-                    ghost
+                    danger
+                    className="more btn-hapus-data-sampah-large"
+                    style={{fontWeight: "bold", letterSpacing: "1px"}}
                     onClick={(e) => handleDelete(e, record.namaNasabah)}
                   >
                     <DeleteOutlined /> Hapus
+                  </Button>
+                  <Button
+                    type="primary"
+                    danger
+                    className="more btn-hapus-data-sampah-small"
+                    style={{fontWeight: "bold", letterSpacing: "1px"}}
+                    onClick={(e) => handleDelete(e, record.namaNasabah)}
+                  >
+                    <DeleteOutlined />
                   </Button>
                 </div>
               );
@@ -175,11 +198,11 @@ function DataSampah({ handleDeleteDataSampah }) {
                   pagination={false}
                   columns={allColumns}
                   dataSource={groupedData[month][bahanSampah]}
-                  // scroll={{ x: "100vw" }}
+                  scroll={{ x: windowWidth <= 1190 ? "100vw" : undefined }}
                   footer={() => (
                     <Col>
                       <Title level={5}>
-                        Total Harga:
+                        Total Harga:{" "}
                         <Text keyboard>
                           Rp{" "}
                           {groupedData[month][bahanSampah]

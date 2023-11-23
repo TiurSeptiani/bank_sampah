@@ -6,3 +6,19 @@
 .datatable {
     margin-top: 50px;
 }
+
+.btn-hapus-inventaris-small {
+    display: none;
+}
+
+@media screen and (max-width: 1683px) {
+    .btn-hapus-inventaris-large {
+        display: none;
+    }
+
+    .btn-hapus-inventaris-small {
+        display: inline;
+        font-size: 1rem;
+    }
+
+}

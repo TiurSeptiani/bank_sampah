@@ -1,18 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Divider, Input, Modal, Space, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 
 function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
   const { data } = useSelector((state) => state.dataNasabah);
-
+  
+  const { currentUser } = useSelector((state) => state.auth);
   const rowKey = "namaLengkap";
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [searchTermPetugas, setSearchTermPetugas] = useState("");
   const [searchTermAnggota, setSearchTermAnggota] = useState("");
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  const { currentUser } = useSelector((state) => state.auth);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleDelete = (e, namaLengkap) => {
     e.preventDefault();
@@ -41,7 +53,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
   const columnsPetugas = [
     {
       title: "No",
-      width: 70,
+      width: 60,
       fixed: "left",
       render: (text, record, index) => index + 1,
     },
@@ -53,7 +65,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     {
       title: "Alamat",
       dataIndex: "alamat",
-      width: 200,
+      width: 300,
     },
     {
       title: "RT",
@@ -70,19 +82,11 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       dataIndex: "tanggalBergabung",
       width: 200,
       render: (text) => {
-        const formattedDate = new Date(text).toLocaleDateString("id-ID")
-        return <span>{formattedDate}</span>
-      }
-    },
-    {
-      title: "Saldo",
-      dataIndex: "saldo",
-      width: 150,
-      render: (text) => {
-        const formattedPrice = `Rp. ${parseInt(text).toLocaleString()}`;
-        return <span>{formattedPrice}</span>;
+        const formattedDate = new Date(text).toLocaleDateString("id-ID");
+        return <span>{formattedDate}</span>;
       },
     },
+    
   ];
 
   const columnsNasabah = [
@@ -103,14 +107,9 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       width: 200,
     },
     {
-      title: "Password Nasabah",
-      dataIndex: "password",
-      width: 200,
-    },
-    {
       title: "Alamat",
       dataIndex: "alamat",
-      width: 200,
+      width: 300,
     },
     {
       title: "RT",
@@ -127,17 +126,8 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       dataIndex: "tanggalBergabung",
       width: 200,
       render: (text) => {
-        const formattedDate = new Date(text).toLocaleDateString("id-ID")
-        return <span>{formattedDate}</span>
-      }
-    },
-    {
-      title: "Saldo",
-      dataIndex: "saldo",
-      width: 150,
-      render: (text) => {
-        const formattedPrice = `Rp. ${parseInt(text).toLocaleString()}`;
-        return <span>{formattedPrice}</span>;
+        const formattedDate = new Date(text).toLocaleDateString("id-ID");
+        return <span>{formattedDate}</span>;
       },
     },
   ];
@@ -151,6 +141,15 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       ? [
           ...columnsPetugas,
           {
+            title: "Saldo",
+            dataIndex: "saldo",
+            width: 150,
+            render: (text) => {
+              const formattedPrice = `Rp. ${parseInt(text).toLocaleString()}`;
+              return <span>{formattedPrice}</span>;
+            },
+          },
+          {
             title: "Aksi",
             dataIndex: rowKey,
             fixed: "right",
@@ -160,16 +159,28 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
                 <div>
                   <Button
                     type="primary"
-                    className="more"
-                    ghost
+                    danger
+                    style={{ fontWeight: "bold", letterSpacing: "1px" }}
+                    className="more btn-hapus-anggota-petugas-large"
                     onClick={(e) => handleDelete(e, record.namaLengkap)}
                   >
                     <DeleteOutlined /> Hapus
+                  </Button>
+
+                  <Button
+                    type="primary"
+                    danger
+                    style={{ fontWeight: "bold", letterSpacing: "1px" }}
+                    className="more btn-hapus-anggota-petugas-small"
+                    onClick={(e) => handleDelete(e, record.namaLengkap)}
+                  >
+                    <DeleteOutlined />
                   </Button>
                 </div>
               );
             },
           },
+          
         ]
       : columnsPetugas;
 
@@ -181,6 +192,20 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     )
       ? [
           ...columnsNasabah,
+          {
+            title: "Password Nasabah",
+            dataIndex: "password",
+            width: 200,
+          },
+          {
+            title: "Saldo",
+            dataIndex: "saldo",
+            width: 150,
+            render: (text) => {
+              const formattedPrice = `Rp. ${parseInt(text).toLocaleString()}`;
+              return <span>{formattedPrice}</span>;
+            },
+          },
 
           {
             title: "Aksi",
@@ -192,16 +217,29 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
                 <div>
                   <Button
                     type="primary"
-                    className="more"
-                    ghost
+                    danger
+                    className="more btn-hapus-anggota-nasabah-large"
+                    style={{ fontWeight: "bold", letterSpacing: "1px" }}
                     onClick={(e) => handleDelete(e, record.namaLengkap)}
                   >
                     <DeleteOutlined /> Hapus
                   </Button>
+
+                  <Button
+                    type="primary"
+                    danger
+                    className="more btn-hapus-anggota-nasabah-small"
+                    style={{ fontWeight: "bold", letterSpacing: "1px" }}
+                    onClick={(e) => handleDelete(e, record.namaLengkap)}
+                  >
+                    <DeleteOutlined />
+                  </Button>
                 </div>
               );
             },
+            
           },
+          
         ]
       : columnsNasabah;
 
@@ -233,7 +271,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
           <Table
             columns={allColumnsPetugas}
             dataSource={filteredPetugasData}
-            // scroll={{ x: "100vw" }}
+            scroll={{ x: windowWidth <= 1190 ? "100vw" : undefined }}
           />
         </Col>
       )}
@@ -250,7 +288,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
         <Table
           columns={allColumnsNasabah}
           dataSource={filteredAnggotaData}
-          // scroll={{ x: "100vw" }}
+          scroll={{ x: windowWidth <= 1190 ? "100vw" : undefined }}
         />
       </Col>
 

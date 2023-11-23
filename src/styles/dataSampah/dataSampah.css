@@ -1,0 +1,15 @@
+.btn-hapus-data-sampah-small {
+    display: none;
+}
+
+@media screen and (max-width: 1919px) {
+    .btn-hapus-data-sampah-large {
+        display: none;
+    }
+
+    .btn-hapus-data-sampah-small {
+        display: inline;
+        font-size: 1rem;
+    }
+
+}

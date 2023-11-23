@@ -1,11 +1,14 @@
 import { Button, Form, Input, Select } from "antd";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 function FormJenisSampah({ handleOnSubmit, loadingOnSubmit }) {
   const handleSubmit = (values) => {
     handleOnSubmit(values);
   };
+
+  const navigate = useNavigate()
 
   return (
     <div>
@@ -78,6 +81,16 @@ function FormJenisSampah({ handleOnSubmit, loadingOnSubmit }) {
         </Form.Item>
 
         <Form.Item className="btn-submit">
+          <div style={{display: "flex", gap: "20px"}}>
+          <Button
+            style={{fontWeight: "bold", letterSpacing: "1px"}}
+            danger
+            onClick={() => navigate('/')}
+            ghost
+          >
+            Kembali
+          </Button>
+
           <Button
             loading={loadingOnSubmit}
 			disabled={loadingOnSubmit}
@@ -87,6 +100,7 @@ function FormJenisSampah({ handleOnSubmit, loadingOnSubmit }) {
           >
             Kirim
           </Button>
+          </div>
         </Form.Item>
       </Form>
     </div>

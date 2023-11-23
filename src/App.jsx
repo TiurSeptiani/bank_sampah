@@ -81,12 +81,12 @@ const App = () => {
 
   return isAuth ? (
     <Layout style={{ height: "100vh" }}>
-      <Sider trigger={null} collapsible collapsed={collapsed} style={{ overflow: "scroll", backgroundColor: "#8989ad"}}>
+      <Sider trigger={null} collapsible collapsed={collapsed} style={{ overflow: "scroll" }}>
         <Col>
           <Image src={Logo} preview={false} />
         </Col>
         <Menu
-        style={{backgroundColor: "#8989ad"}}
+        
           onClick={({ key }) => {
             navigate(key);
           }}
@@ -101,7 +101,6 @@ const App = () => {
             { key: "/transaksi", icon: <SwapOutlined />, label: "Transaksi", hidden: isNasabah },
             { key: "/inventaris", icon: <FormOutlined />, label: "Inventaris", hidden: isNasabah },
             { key: "/registrasi", icon: <UserAddOutlined />, label: "Registrasi", hidden: isNasabah },
-            { key: "/tambah-jenis-sampah", icon: <DiffOutlined />, label: "Tambah Jenis", hidden: isNasabah },
             { key: "/informasi", icon: <ExclamationCircleOutlined />, label: "Informasi" },
           ].filter(item => !item.hidden)}
         />
