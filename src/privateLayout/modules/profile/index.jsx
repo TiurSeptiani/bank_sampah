@@ -33,9 +33,6 @@ function Tabungan() {
   const isPetugas = Object.values(data).find(
     (user) => user.status === "Petugas" && user.uid === currentUser.uid
   );
-  const petugas = Object.values(data).find(
-    (user) => user.status === "Petugas" && user.uid === currentUser.uid
-  );
 
   const navigate = useNavigate();
 
@@ -90,7 +87,7 @@ function Tabungan() {
             <span className="saldo-tabungan-nama">Saldo Tabungan</span>
             <span className="saldo-tabungan">
               <h6 className="rupiah">Rp</h6>
-              <h1 className="saldo">{isNasabah.saldo}</h1>
+              <h1 className="saldo">{isNasabah.saldo.toLocaleString('id-ID')}</h1>
             </span>
           </div>
           <div style={{ marginTop: "50px", marginBottom: "20px" }}>
@@ -132,7 +129,7 @@ function Tabungan() {
                               <Col>{transaction.tglPenarikan}</Col>
                             </h4>
                           </Col>
-                          <h2> - Rp. {transaction.jumlahPenarikan}</h2>
+                          <h2> - Rp {transaction.jumlahPenarikan.toLocaleString('id-ID')}</h2>
                         </Col>
                       </Card>
                     </Col>
@@ -189,19 +186,19 @@ function Tabungan() {
           <div className="profile-body">
               <div className="profile-content" >
                 <Title level={5}>Nama Lengkap</Title>
-                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={petugas ? petugas.namaLengkap : ""} />
+                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={isPetugas ? isPetugas.namaLengkap : ""} />
               </div>
               <div className="profile-content" >
                 <Title level={5}>Email</Title>
-                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={petugas ? petugas.email : ""} />
+                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={isPetugas ? isPetugas.email : ""} />
               </div>
               <div className="profile-content" >
                 <Title level={5}>Nomor Handphone</Title>
-                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={petugas ? petugas.noHp : ""} />
+                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={isPetugas ? isPetugas.noHp : ""} />
               </div>
               <div className="profile-content" >
                 <Title level={5}>No RT</Title>
-                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={petugas ? petugas.noRt : ""} />
+                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={isPetugas ? isPetugas.noRt : ""} />
               </div>
           </div>
         </div>
