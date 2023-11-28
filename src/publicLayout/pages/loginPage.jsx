@@ -14,24 +14,36 @@ function Login() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const handleLogin = (data) => {
-		const { email, password } = data
-		setLoginOnSubmit(true);
-		signInWithEmailAndPassword(auth, email, password)
-			.then((userCredential) => {
-				message.success("Berhasil Login")
-				const user = userCredential.user;
-				dispatch(loginUser(user))
-				navigate("/");
-				setLoginOnSubmit(false)
-			})
-			.catch((error) => {
-				const errorCode = error.code;
-				const errorMessage = error.message;
-				message.error("Email atau Password salah!")
-				setLoginOnSubmit(false)
-			});
-	};
+	const handleLogin = async (data) => {
+		try {
+		  const { email, password } = data;
+		  setLoginOnSubmit(true);
+	  
+		  const userCredential = await signInWithEmailAndPassword(auth, email, password);
+		  const user = userCredential.user;
+	  
+		  message.success("Berhasil Login");
+	  
+		  const serializedUser = {
+			uid: user.uid,
+			email: user.email,
+		  };
+	  
+		  dispatch(loginUser(serializedUser));
+		  navigate("/");
+		  setLoginOnSubmit(false);
+	  
+		  return Promise.resolve();
+		} catch (error) {
+		  const errorMessage = error.message;
+		  message.error("Email atau Password salah!");
+		  setLoginOnSubmit(false);
+	  
+		  return Promise.reject(errorMessage);
+		}
+	  };
+	  
+	  
 
 	return (
 		<div className='login-page'>

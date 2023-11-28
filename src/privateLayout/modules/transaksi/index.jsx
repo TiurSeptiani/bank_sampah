@@ -103,7 +103,7 @@ function Transaksi({ handleTransaksi, handleDeleteDataTransaksi, loadingOnSubmit
 					<Input disabled />
 				</Form.Item>
 
-				<Form.Item
+				{/* <Form.Item
 					label='Jumlah Penarikan'
 					colon={false}
 					name='jumlahPenarikan'
@@ -121,7 +121,7 @@ function Transaksi({ handleTransaksi, handleDeleteDataTransaksi, loadingOnSubmit
 						}}
 						placeholder='Masukkan jumlah penarikkan'
 					/>
-				</Form.Item>
+				</Form.Item> */}
 
 				<Form.Item className='btn-submit'>
 					<Button style={{fontWeight: "bold", letterSpacing: "1px"}} type='primary' loading={loadingKirim} disabled={loadingOnSubmit} htmlType='submit'>

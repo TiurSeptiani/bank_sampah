@@ -10,11 +10,14 @@ function Index({ handleLogin, loadinOnSubmit }) {
   const handleSubmit = (data) => {
     setLoadingKirim(true);
     handleLogin(data)
-      .unwrap()
       .then(() => {
+        setLoadingKirim(false);
+      })
+      .catch((error) => {
         setLoadingKirim(false);
       });
   };
+  
 
   return (
     <div className="container-login">
