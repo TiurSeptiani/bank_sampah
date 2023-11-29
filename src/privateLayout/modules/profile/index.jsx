@@ -22,7 +22,7 @@ import {
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 function Profile({ handleResetSaldo }) {
-  const { Title, Text } = Typography;
+  const { Title } = Typography;
   const { currentUser } = useSelector((state) => state.auth);
   const { data } = useSelector((state) => state.dataNasabah);
   const { data: dataTransaksi } = useSelector((state) => state.dataTransaksi);
@@ -45,12 +45,13 @@ function Profile({ handleResetSaldo }) {
       label: <a onClick={() => navigate("/ganti-password")}>Ganti Password</a>,
       key: "0",
     },
-    {
+    isPetugas && {
       label: "Reset Saldo",
       onClick: resetSaldo,
       key: "1",
-    },
+    }
   ];
+
 
   const handleItemClick = (item) => {
     if (item.onClick) {
