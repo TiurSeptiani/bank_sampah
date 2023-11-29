@@ -26,15 +26,6 @@ function CardPenarikan({ handleDeleteDataTransaksi, formatCurrency }) {
     setDeleteId(null);
   };
 
-  // const formatCurrency = (amount) => {
-  //   const formatter = new Intl.NumberFormat("id-ID", {
-  //     style: "currency",
-  //     currency: "IDR",
-  //     minimumFractionDigits: 0,
-  //     maximumFractionDigits: 0,
-  //   });
-  //   return formatter.format(amount);
-  // };
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -120,7 +111,13 @@ function CardPenarikan({ handleDeleteDataTransaksi, formatCurrency }) {
                           </Col>
                         </h4>
                       </Col>
-                      <h2>{formatCurrency(transaction.jumlahPenarikan)}</h2>
+                      <Col>
+                      <div>
+                        <p>Saldo Awal : {transaction.saldoAwal}</p>
+                        <p>Potongan 10% Sebesar : {transaction.saldoAdministrasi}</p>
+                      </div>
+                      <h2>{formatCurrency(transaction.saldoNasabah)}</h2>
+                      </Col>
                     </Col>
                   </Card>
                 </Col>

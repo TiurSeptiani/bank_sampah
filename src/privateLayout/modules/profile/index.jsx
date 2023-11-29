@@ -21,11 +21,13 @@ import {
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-function Tabungan() {
-  const { Title, Text } = Typography
+function Profile({ handleResetSaldo }) {
+  const { Title, Text } = Typography;
   const { currentUser } = useSelector((state) => state.auth);
   const { data } = useSelector((state) => state.dataNasabah);
   const { data: dataTransaksi } = useSelector((state) => state.dataTransaksi);
+  const { data: administrasi } = useSelector((state) => state.administrasi);
+  const navigate = useNavigate();
 
   const isNasabah = Object.values(data).find(
     (user) => user.status === "Nasabah" && user.uid === currentUser.uid
@@ -34,14 +36,27 @@ function Tabungan() {
     (user) => user.status === "Petugas" && user.uid === currentUser.uid
   );
 
-  const navigate = useNavigate();
+  const resetSaldo = () => {
+    handleResetSaldo();
+  };
 
   const items = [
     {
       label: <a onClick={() => navigate("/ganti-password")}>Ganti Password</a>,
       key: "0",
-    }
+    },
+    {
+      label: "Reset Saldo",
+      onClick: resetSaldo,
+      key: "1",
+    },
   ];
+
+  const handleItemClick = (item) => {
+    if (item.onClick) {
+      item.onClick();
+    }
+  };
 
   return (
     <Col id="tabungan">
@@ -87,7 +102,9 @@ function Tabungan() {
             <span className="saldo-tabungan-nama">Saldo Tabungan</span>
             <span className="saldo-tabungan">
               <h6 className="rupiah">Rp</h6>
-              <h1 className="saldo">{isNasabah.saldo.toLocaleString('id-ID')}</h1>
+              <h1 className="saldo">
+                {isNasabah.saldo.toLocaleString("id-ID")}
+              </h1>
             </span>
           </div>
           <div style={{ marginTop: "50px", marginBottom: "20px" }}>
@@ -125,11 +142,35 @@ function Tabungan() {
                         >
                           <Col>
                             <h1>{transaction.namaNasabah}</h1>
-                            <h4>
+                            <p>
                               <Col>{transaction.tglPenarikan}</Col>
-                            </h4>
+                            </p>
                           </Col>
-                          <h2> - Rp {transaction.jumlahPenarikan.toLocaleString('id-ID')}</h2>
+                          <Col
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <p>
+                              {" "}
+                              Saldo Awal sebesar Rp{" "}
+                              {transaction.saldoAwal.toLocaleString("id-ID")}
+                            </p>
+                            <p>
+                              {" "}
+                              Potongan 10% sebesar Rp{" "}
+                              {transaction.saldoAdministrasi.toLocaleString(
+                                "id-ID"
+                              )}
+                            </p>
+                            <h2>
+                              {" "}
+                              - Rp{" "}
+                              {transaction.saldoNasabah.toLocaleString("id-ID")}
+                            </h2>
+                          </Col>
                         </Col>
                       </Card>
                     </Col>
@@ -168,6 +209,7 @@ function Tabungan() {
                 <Dropdown
                   menu={{
                     items,
+                    onClick: handleItemClick,
                   }}
                   trigger={["click"]}
                 >
@@ -181,25 +223,51 @@ function Tabungan() {
                 </Dropdown>
               </div>
             </div>
-            
+          </div>
+          <div id="tabungan-body">
+            <span className="saldo-tabungan-nama">Saldo Bank Sampah</span>
+            <span className="saldo-tabungan">
+              <h6 className="rupiah">Rp</h6>
+              <h1 className="saldo">
+                {administrasi["-NkH00pbl-K93Jd7xatN"].saldo.toLocaleString(
+                  "id-ID"
+                )}
+              </h1>
+            </span>
           </div>
           <div className="profile-body">
-              <div className="profile-content" >
-                <Title level={5}>Nama Lengkap</Title>
-                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={isPetugas ? isPetugas.namaLengkap : ""} />
-              </div>
-              <div className="profile-content" >
-                <Title level={5}>Email</Title>
-                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={isPetugas ? isPetugas.email : ""} />
-              </div>
-              <div className="profile-content" >
-                <Title level={5}>Nomor Handphone</Title>
-                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={isPetugas ? isPetugas.noHp : ""} />
-              </div>
-              <div className="profile-content" >
-                <Title level={5}>No RT</Title>
-                <Input style={{fontWeight: "bold", letterSpacing: "2px"}} disabled defaultValue={isPetugas ? isPetugas.noRt : ""} />
-              </div>
+            <div className="profile-content">
+              <Title level={5}>Nama Lengkap</Title>
+              <Input
+                style={{ fontWeight: "bold", letterSpacing: "2px" }}
+                disabled
+                defaultValue={isPetugas ? isPetugas.namaLengkap : ""}
+              />
+            </div>
+            <div className="profile-content">
+              <Title level={5}>Email</Title>
+              <Input
+                style={{ fontWeight: "bold", letterSpacing: "2px" }}
+                disabled
+                defaultValue={isPetugas ? isPetugas.email : ""}
+              />
+            </div>
+            <div className="profile-content">
+              <Title level={5}>Nomor Handphone</Title>
+              <Input
+                style={{ fontWeight: "bold", letterSpacing: "2px" }}
+                disabled
+                defaultValue={isPetugas ? isPetugas.noHp : ""}
+              />
+            </div>
+            <div className="profile-content">
+              <Title level={5}>No RT</Title>
+              <Input
+                style={{ fontWeight: "bold", letterSpacing: "2px" }}
+                disabled
+                defaultValue={isPetugas ? isPetugas.noRt : ""}
+              />
+            </div>
           </div>
         </div>
       )}
@@ -207,4 +275,4 @@ function Tabungan() {
   );
 }
 
-export default Tabungan;
+export default Profile;

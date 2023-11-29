@@ -5,6 +5,7 @@ import dataSampahSlice from "./reducers/dataSampah/dataSampahSlice";
 import dataInventarisSlice from "./reducers/dataInventaris/dataInventarisSlice";
 import authSlice from "./reducers/auth/authSlice";
 import dataTransaksiSlice from "./reducers/dataTransaksi/dataTransaksiSlice";
+import administrasiSlice from "./reducers/administrasi/administrasiSlice";
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
         dataSampah: dataSampahSlice,
         dataInventaris : dataInventarisSlice,
         auth : authSlice,
-        dataTransaksi : dataTransaksiSlice
+        dataTransaksi : dataTransaksiSlice,
+        administrasi: administrasiSlice
     },
 })

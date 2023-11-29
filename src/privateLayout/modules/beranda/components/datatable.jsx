@@ -20,7 +20,6 @@ const DataTable = ({
   const { currentUser } = useSelector((state) => state.auth);
   const { data } = useSelector((state) => state.dataNasabah);
   const isPetugas = currentUser && data && Object.values(data).some((user) => user.status === "Petugas" && user.uid === currentUser.uid)
-  console.log("STATUS", isPetugas);
   const navigate = useNavigate()
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
