@@ -1,8 +1,6 @@
-// App.jsx
 import React, { useEffect, useState } from "react";
 import {
   CalculatorOutlined,
-  DiffOutlined,
   ExclamationCircleOutlined,
   FormOutlined,
   HomeOutlined,
@@ -11,11 +9,8 @@ import {
   MenuUnfoldOutlined,
   SwapOutlined,
   TeamOutlined,
-  UploadOutlined,
   UserAddOutlined,
   UserOutlined,
-  VideoCameraOutlined,
-  WalletOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme, Col, Image, message } from "antd";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -81,7 +76,7 @@ const App = () => {
 
   return isAuth ? (
     <Layout style={{ height: "100vh" }}>
-      <Sider trigger={null} collapsible collapsed={collapsed} style={{ overflow: "scroll" }}>
+      <Sider className="sidebar-app" trigger={null} collapsible collapsed={collapsed} style={{ overflow: "scroll" }}>
         <Col>
           <Image src={Logo} preview={false} />
         </Col>

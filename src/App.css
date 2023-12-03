@@ -17,3 +17,13 @@ body {
 .content::-webkit-scrollbar {
 	display: none;
 }
+
+.sidebar-app {
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.sidebar-app::-webkit-scrollbar {
+	display: none;
+}
+
