@@ -11,7 +11,6 @@ const DataTable = ({
   loadingOnSubmit,
 }) => {
   const rowKey = "idJenisSampah";
-  const [loadingHapus, setLoadingHapus] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [pagination, setPagination] = useState({
     current: 1,
@@ -19,7 +18,7 @@ const DataTable = ({
   });
   const { currentUser } = useSelector((state) => state.auth);
   const { data } = useSelector((state) => state.dataNasabah);
-  const isPetugas = currentUser && data && Object.values(data).some((user) => user.status === "Petugas" && user.uid === currentUser.uid)
+  const isPengurus = currentUser && data && Object.values(data).some((user) => user.status === "Pengurus" && user.uid === currentUser.uid)
   const navigate = useNavigate()
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -93,7 +92,7 @@ const DataTable = ({
     currentUser &&
     data &&
     Object.values(data).some(
-      (user) => user.status === "Petugas" && user.uid === currentUser.uid
+      (user) => user.status === "Pengurus" && user.uid === currentUser.uid
     )
       ? [
           ...columns,
@@ -143,7 +142,7 @@ const DataTable = ({
   return (
     <div>
       <Col style={{ marginBottom: "20px", display: "flex", flexWrap: "wrap", gap: "10px" }}>
-        {isPetugas ? (
+        {isPengurus ? (
           <>
             <Col span={20}>
           <Input

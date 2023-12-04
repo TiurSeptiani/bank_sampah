@@ -215,8 +215,8 @@ function Registrasi({ handleCreateUser, loadingOnSubmit }) {
 						allowClear
 						options={[
 							{
-								value: "Petugas",
-								label: "Petugas",
+								value: "Pengurus",
+								label: "Pengurus",
 							},
 							{
 								value: "Nasabah",

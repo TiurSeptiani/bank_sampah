@@ -138,7 +138,7 @@ function DataSampah({ handleDeleteDataSampah }) {
     currentUser &&
     data &&
     Object.values(data).some(
-      (user) => user.status === "Petugas" && user.uid === currentUser.uid
+      (user) => user.status === "Pengurus" && user.uid === currentUser.uid
     )
       ? [
           ...columns,

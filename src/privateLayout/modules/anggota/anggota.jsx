@@ -58,7 +58,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
       render: (text, record, index) => index + 1,
     },
     {
-      title: "Nama Petugas",
+      title: "Nama Pengurus",
       dataIndex: "namaLengkap",
       width: 200,
     },
@@ -132,11 +132,11 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     },
   ];
 
-  const allColumnsPetugas =
+  const allColumnsPengurus =
     currentUser &&
     data &&
     Object.values(data).some(
-      (user) => user.status === "Petugas" && user.uid === currentUser.uid
+      (user) => user.status === "Pengurus" && user.uid === currentUser.uid
     )
       ? [
           ...columnsPetugas,
@@ -188,7 +188,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     currentUser &&
     data &&
     Object.values(data).some(
-      (user) => user.status === "Petugas" && user.uid === currentUser.uid
+      (user) => user.status === "Pengurus" && user.uid === currentUser.uid
     )
       ? [
           ...columnsNasabah,
@@ -247,7 +247,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     (item) => item.status === "Nasabah"
   );
   const petugasData = Object.values(data).filter(
-    (item) => item.status === "Petugas"
+    (item) => item.status === "Pengurus"
   );
   const filteredPetugasData = petugasData.filter((item) =>
     item.namaLengkap.toLowerCase().includes(searchTermPetugas.toLowerCase())
@@ -260,7 +260,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     <>
       {petugasData.length > 0 && (
         <Col>
-          <Divider orientation="left">List Petugas</Divider>
+          <Divider orientation="left">List Pengurus</Divider>
           <Input
             placeholder="Cari nama petugas"
             value={searchTermPetugas}
@@ -269,7 +269,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
             prefix={<SearchOutlined className="site-form-item-icon" />}
           />
           <Table
-            columns={allColumnsPetugas}
+            columns={allColumnsPengurus}
             dataSource={filteredPetugasData}
             scroll={{ x: windowWidth <= 1190 ? "100vw" : undefined }}
           />

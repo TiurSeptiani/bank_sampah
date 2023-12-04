@@ -108,7 +108,7 @@ function DataTable({ handleDeleteDataSampah }) {
     currentUser &&
     data &&
     Object.values(dataNasabah).some(
-      (user) => user.status === "Petugas" && user.uid === currentUser.uid
+      (user) => user.status === "Pengurus" && user.uid === currentUser.uid
     )
       ? [
           ...columns,

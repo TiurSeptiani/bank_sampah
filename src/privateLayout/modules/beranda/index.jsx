@@ -11,11 +11,11 @@ function Beranda({ handleDeleteJenisSampah, loadingOnSubmit }) {
 	const dataTransaksi = useSelector((state) => state.dataTransaksi.data);
 	const [totalTransaksi, setTotalTransaksi] = useState(0);
 
-	const countNasabah = Object.values(dataNasabah).filter(
+	const hitungNasabah = Object.values(dataNasabah).filter(
 		(user) => user.status === "Nasabah"
 	).length;
-	const countPetugas = Object.values(dataNasabah).filter(
-		(user) => user.status === "Petugas"
+	const hitungPengurus = Object.values(dataNasabah).filter(
+		(user) => user.status === "Pengurus"
 	).length;
 
 
@@ -30,7 +30,7 @@ function Beranda({ handleDeleteJenisSampah, loadingOnSubmit }) {
 	const dataCard = [
 		{
 			title: "Jumlah Nasabah",
-			dataIndex: countNasabah,
+			dataIndex: hitungNasabah,
 			icon: <TeamOutlined />,
 		},
 		{
@@ -39,8 +39,8 @@ function Beranda({ handleDeleteJenisSampah, loadingOnSubmit }) {
 			icon: <SwapOutlined />,
 		},
 		{
-			title: "Jumlah Petugas",
-			dataIndex: countPetugas,
+			title: "Jumlah Pengurus",
+			dataIndex: hitungPengurus,
 			icon: <TeamOutlined />,
 		},
 	];

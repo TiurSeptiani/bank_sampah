@@ -29,11 +29,13 @@ function Profile({ handleResetSaldo }) {
   const { data: administrasi } = useSelector((state) => state.administrasi);
   const navigate = useNavigate();
 
+  console.log("DATA ADMINISTRASI", administrasi);
+
   const isNasabah = Object.values(data).find(
     (user) => user.status === "Nasabah" && user.uid === currentUser.uid
   );
-  const isPetugas = Object.values(data).find(
-    (user) => user.status === "Petugas" && user.uid === currentUser.uid
+  const isPengurus = Object.values(data).find(
+    (user) => user.status === "Pengurus" && user.uid === currentUser.uid
   );
 
   const resetSaldo = () => {
@@ -45,7 +47,7 @@ function Profile({ handleResetSaldo }) {
       label: <a onClick={() => navigate("/ganti-password")}>Ganti Password</a>,
       key: "0",
     },
-    isPetugas && {
+    isPengurus && {
       label: "Reset Saldo",
       onClick: resetSaldo,
       key: "1",
@@ -186,7 +188,7 @@ function Profile({ handleResetSaldo }) {
         </div>
       )}
 
-      {isPetugas && (
+      {isPengurus && (
         <div id="tabungan-container-petugas">
           <div className="tabungan-header">
             <div className="tabungan-foto">
@@ -200,10 +202,10 @@ function Profile({ handleResetSaldo }) {
             <div className="tabungan-nama">
               <div className="tabungan-nama-container">
                 <span className="tabungan-nama-h1">
-                  {isPetugas.namaLengkap}
+                  {isPengurus.namaLengkap}
                 </span>
                 <span className="tabungan-nama-h2">
-                  Status: {isPetugas.status}
+                  Status: {isPengurus.status}
                 </span>
               </div>
               <div className="tabungan-nama-setting">
@@ -230,9 +232,8 @@ function Profile({ handleResetSaldo }) {
             <span className="saldo-tabungan">
               <h6 className="rupiah">Rp</h6>
               <h1 className="saldo">
-                {administrasi["-NkH00pbl-K93Jd7xatN"].saldo.toLocaleString(
-                  "id-ID"
-                )}
+                {Object.keys(administrasi)[0] &&
+                  administrasi[Object.keys(administrasi)[0]].saldo.toLocaleString("id-ID")}
               </h1>
             </span>
           </div>
@@ -242,7 +243,7 @@ function Profile({ handleResetSaldo }) {
               <Input
                 style={{ fontWeight: "bold", letterSpacing: "2px" }}
                 disabled
-                defaultValue={isPetugas ? isPetugas.namaLengkap : ""}
+                defaultValue={isPengurus ? isPengurus.namaLengkap : ""}
               />
             </div>
             <div className="profile-content">
@@ -250,7 +251,7 @@ function Profile({ handleResetSaldo }) {
               <Input
                 style={{ fontWeight: "bold", letterSpacing: "2px" }}
                 disabled
-                defaultValue={isPetugas ? isPetugas.email : ""}
+                defaultValue={isPengurus ? isPengurus.email : ""}
               />
             </div>
             <div className="profile-content">
@@ -258,7 +259,7 @@ function Profile({ handleResetSaldo }) {
               <Input
                 style={{ fontWeight: "bold", letterSpacing: "2px" }}
                 disabled
-                defaultValue={isPetugas ? isPetugas.noHp : ""}
+                defaultValue={isPengurus ? isPengurus.noHp : ""}
               />
             </div>
             <div className="profile-content">
@@ -266,7 +267,7 @@ function Profile({ handleResetSaldo }) {
               <Input
                 style={{ fontWeight: "bold", letterSpacing: "2px" }}
                 disabled
-                defaultValue={isPetugas ? isPetugas.noRt : ""}
+                defaultValue={isPengurus ? isPengurus.noRt : ""}
               />
             </div>
           </div>

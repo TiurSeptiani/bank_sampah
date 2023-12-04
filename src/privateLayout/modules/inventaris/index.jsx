@@ -28,14 +28,14 @@ function Inventaris({
     }
   };
 
-  const isPetugas = Object.values(dataNasabah).some(
-    (user) => user.status === "Petugas" && user.uid === currentUser.uid
+  const isPengurus = Object.values(dataNasabah).some(
+    (user) => user.status === "Pengurus" && user.uid === currentUser.uid
   );
 
   return (
     <div>
       <Form
-        disabled={!isPetugas}
+        disabled={!isPengurus}
         layout="vertical"
         form={form}
         onFinish={handleSubmit}

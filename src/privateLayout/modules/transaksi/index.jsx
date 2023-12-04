@@ -103,26 +103,6 @@ function Transaksi({ handleTransaksi, handleDeleteDataTransaksi, loadingOnSubmit
 					<Input disabled />
 				</Form.Item>
 
-				{/* <Form.Item
-					label='Jumlah Penarikan'
-					colon={false}
-					name='jumlahPenarikan'
-					rules={[
-						{
-							required: true,
-							message: "Tolong masukkan jumlah penarikkan",
-						},
-					]}
-				>
-					<InputNumber
-						min={1}
-						style={{
-							width: "100%",
-						}}
-						placeholder='Masukkan jumlah penarikkan'
-					/>
-				</Form.Item> */}
-
 				<Form.Item className='btn-submit'>
 					<Button style={{fontWeight: "bold", letterSpacing: "1px"}} type='primary' loading={loadingKirim} disabled={loadingOnSubmit} htmlType='submit'>
 						Kirim
