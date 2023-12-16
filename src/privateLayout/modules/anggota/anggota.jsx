@@ -14,6 +14,8 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
   const [searchTermAnggota, setSearchTermAnggota] = useState("");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+
+  // Berfungsi untuk mengatur scroll tabel, semakin kecil ukuran layar maka scroll pada tabel akan muncul
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -26,30 +28,46 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     };
   }, []);
 
+
+  // Fungsi untuk menghapus data Nasabah, dengan cara menangkap namanya
   const handleDelete = (e, namaLengkap) => {
+    // Berfungsi untuk menghilangkan perilaku default browser ketika ini di click, perilakunya yaitu terefresh sendiri ketika fungsi ini di jalankan
     e.preventDefault();
+
+    // Setelah nama berhasil di ambil, selanjutnya menangkap UNIK KEY yang dimiliki oleh Nasabah didalam FIREBASE
+    // Selanjutnya tangkap UNIK KEY yang dimiliki nasabah tersebut dengan cara melakukan pengkondisian, cek apakah variabel "data" dengan "namaLengkap" yang ada di dalam nya, sama dengan "namaLengkap" yang ada di dalam parameter "handleDelete" di atas?
+    // Jika tidak ada yang sama, maka fungsi ini tidak akan bekerja
+    // Jika sama, simpan UNIK KEY nya kedalam "id" dibawah ini
     const id = Object.keys(data).find(
       (key) => data[key].namaLengkap === namaLengkap
     );
+
+    // Jika UNIK KEY berhasil di tangkap, kirim UNIK KEY nya kedalam "showDeleteModal" untuk di hapus dari FIREBASE
     if (id) {
       showDeleteModal(id);
     }
   };
 
+// Disini kita telah mendapatkan "id" nya
   const showDeleteModal = (id) => {
+
+    // Kirim "id" nya kedalam "setDeleteId" yang kita deklarasikan di atas, panggil mutatornya seperti dibawah ini, agar "deleteId" memiliki nilai
     setDeleteId(id);
     setIsModalVisible(true);
   };
 
+  // Fungsi dibawah ini adalah fungsi untuk tombol "Ok", jika user ingin menghapusnya
   const handleDeleteConfirm = () => {
     handleDeletePengguna(deleteId);
     setIsModalVisible(false);
   };
 
+  // Fungsi dibawah ini adalah fungsi untuk tombol "Cancel", jika user ingin batal menghapus
   const handleCancelDelete = () => {
     setIsModalVisible(false);
   };
 
+  // Data untuk tabel petugas
   const columnsPetugas = [
     {
       title: "No",
@@ -89,6 +107,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     
   ];
 
+  // Data untuk Tabel Nasabah
   const columnsNasabah = [
     {
       title: "No",
@@ -132,6 +151,8 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
     },
   ];
 
+  // Tampilan PETUGAS pada kolom "Petugas"
+  // Di dalam tabel Petugas akan ada penambahan kolom baru yaitu "Saldo" dan tombol "Hapus" user pengguna 
   const allColumnsPengurus =
     currentUser &&
     data &&
@@ -157,6 +178,9 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
             render: (key, record) => {
               return (
                 <div>
+
+                  {/* Tombol ini akan tampil pada ukuran layar LAPTOP atau KOMPUTER */}
+                  {/* Dan akan menghilang jika ukuran layar kecil atau handphone  */}
                   <Button
                     type="primary"
                     danger
@@ -167,6 +191,9 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
                     <DeleteOutlined /> Hapus
                   </Button>
 
+
+                {/* Tombol ini akan tampil pada ukuran layar Kecil atau hanphone */}
+                  {/* Dan akan menghilang jika ukuran layar LAPTOP atau KOMPUTER  */}
                   <Button
                     type="primary"
                     danger
@@ -184,6 +211,7 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
         ]
       : columnsPetugas;
 
+      // Tampilan PETUGAS pada kolom "Nasabah"
   const allColumnsNasabah =
     currentUser &&
     data &&
@@ -215,6 +243,8 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
             render: (key, record) => {
               return (
                 <div>
+                   {/* Tombol ini akan tampil pada ukuran layar LAPTOP atau KOMPUTER */}
+                  {/* Dan akan menghilang jika ukuran layar kecil atau handphone  */}
                   <Button
                     type="primary"
                     danger
@@ -225,6 +255,8 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
                     <DeleteOutlined /> Hapus
                   </Button>
 
+                {/* Tombol ini akan tampil pada ukuran layar Kecil atau hanphone */}
+                  {/* Dan akan menghilang jika ukuran layar LAPTOP atau KOMPUTER  */}
                   <Button
                     type="primary"
                     danger
@@ -258,9 +290,12 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
 
   return (
     <>
+    {/* Jika terdapat data dengan status pengurus. Atau bacanya jika petugasData memiliki data lebih besar dari 0 (artinya data dengan status "pengurus" tersedia), maka tampilkan sejumlah data yang ada kedalam TABEL PENGURUS */}
       {petugasData.length > 0 && (
         <Col>
           <Divider orientation="left">List Pengurus</Divider>
+
+          {/* Fitur pencarian nama Pengurus */}
           <Input
             placeholder="Cari nama petugas"
             value={searchTermPetugas}
@@ -276,8 +311,11 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
         </Col>
       )}
 
+
       <Col>
         <Divider orientation="left">List Anggota</Divider>
+
+        {/* Fitur pencarian nama Nasabah */}
         <Input
           placeholder="Cari nama nasabah"
           value={searchTermAnggota}
@@ -292,6 +330,8 @@ function Anggota({ handleDeletePengguna, loadingOnSubmit }) {
         />
       </Col>
 
+
+{/* Ini adalah POP UP konfirmasi untuk menghapus data pengguna (Nasabah dan Petugas) */}
       <Modal
         title="Konfirmasi Hapus Anggota"
         visible={isModalVisible}

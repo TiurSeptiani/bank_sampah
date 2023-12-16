@@ -23,12 +23,18 @@ function Index() {
     return navigate('/profile')
   }
 
+  // Data dari component modules/gantiPassword akan berada disini
   const handleChangePassword = async (values) => {
     setLoadingOnSubmit(true);
 
+    // Ambil dta yang ada dari hasil pengiriman component modules secara spesifik
+    // atau cara dibawah ini disebut destructuring objek
     const { passwordBaru, passwordLama } = values;
 
     const auth = getAuth();
+
+    // Penting juga mengambil data currentUser yang digunakan login saat ini
+    // Untuk nanti dikirim ke FIREBASE
     const user = auth.currentUser;
 
     try {

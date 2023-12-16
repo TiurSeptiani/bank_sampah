@@ -12,27 +12,45 @@ function GantiPassword({
   const { data } = useSelector((state) => state.dataNasabah);
   const { currentUser } = useSelector((state) => state.auth);
 
+
+  // Pengkondisian untuk mengecek dan menyesuaikan data dari pengguna yang ingin mengganti password saat ini
   const user =
     currentUser &&
     data &&
     Object.values(data).some((user) => user.uid === currentUser.uid);
 
+
+// Fungsi untuk mengirim data hasil perubahan / ganti password
   const handleSubmit = (values) => {
     setLoadingKirim(true);
+
+    // Mengecek apakah user ada dan datanya sama, jika iya maka lanjutkan proses dibawah
     if (user) {
+
+      // menemukan data yang sesuai antara "kumpulan list semua pengguna aplikasi" dengan data currentUser yang login saat ini
       const userData = Object.values(data).find(
         (userData) => userData.uid === currentUser.uid
       );
 
+      // Melakukan pengecekkan, apakah password lama yang pengguna ketik saat ini, sama dengan password lama sebelumnya, jika iya maka =
       if (values.passwordLama === userData.password) {
+
+        // Lakukan pengkondisian lagi, yang mengecek pengetikan password dan konfirmasi password sama
         if (values.passwordBaru === values.konfirmasiPasswordBaru) {
+
+          // Jika sudah sama maka kirim value ke API dan ubah passwordnya
           handleChangePassword(values);
           setLoadingKirim(false);
         } else {
+
+          // Tampil pesan dibawah jika password baru dan konfirmasi password baru yang diketik tidak seusai
           message.error("Password baru dan konfirmasi password tidak sesuai");
           setLoadingKirim(false);
+
         }
       } else {
+
+        // Jika terjadi error lain, yang dimana password lama yang di ketikkan pada form saat ini tidak sesuai dengan password lama sebelumnya sudah dibuat.
         message.error("Password lama tidak sesuai");
         setLoadingKirim(false);
       }

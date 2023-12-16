@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 function FormJenisSampah({ handleOnSubmit, loadingOnSubmit }) {
+
+  // Fungsi untuk TOMBOL KIRIM pada tambah jenis sampah
   const handleSubmit = (values) => {
     handleOnSubmit(values);
   };

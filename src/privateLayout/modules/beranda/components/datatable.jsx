@@ -36,30 +36,49 @@ const DataTable = ({
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
-  const showDeleteModal = (id) => {
-    setDeleteId(id);
-    setIsModalVisible(true);
-  };
 
+  // Berjalan pertama ketika button hapus di click
   const handleDeleteClick = (e, namaJenisSampah) => {
     e.preventDefault();
+
+    // Mengambil uniq key jenis sampah yang di click
     const id = Object.keys(jenisSampah.data).find(
       (key) => jenisSampah.data[key].namaJenisSampah === namaJenisSampah
     );
+
+    // apakah variabel "id" di atas mendapatkan uniq key?
     if (id) {
+      // Jika "id" memiliki uniq key tampilkan POP UP delete
+      // kirim "id" sebagai parameter/data
       showDeleteModal(id);
     }
   };
 
+  // Sekarang POP UP memiliki data "id"
+  const showDeleteModal = (id) => {
+
+    // Simpan "id" kedalam variabel "setDeleteId"
+    setDeleteId(id);
+
+    // Tampilkan POP UP
+    setIsModalVisible(true);
+  };
+
+  // Jika user menekan "OK", maka "handleDeleteJenisSampah" akan bekerja
   const handleConfirmDelete = () => {
     handleDeleteJenisSampah(deleteId);
+
+    // Jika sudah bekerja, POP UP di tutup
     setIsModalVisible(false);
   };
 
+  // Jika user menekan "Cancel", maka POP UP di tutup
   const handleCancelDelete = () => {
     setIsModalVisible(false);
   };
 
+  // Data Kolom Tabel ada disini
+  // Tamilan kolom nasabah
   const columns = [
     {
       title: "No",
@@ -67,7 +86,7 @@ const DataTable = ({
       fixed: "left",
       render: (text, record, index) =>
         (pagination.current - 1) * pagination.pageSize + index + 1,
-    },
+    },  
     {
       title: "Nama Jenis Sampah",
       dataIndex: "namaJenisSampah",
@@ -88,13 +107,19 @@ const DataTable = ({
       width: 100,
     },
   ];
+
+  // Tampilan tabel khusus pengurus, dengan pengkondisian dibawha ini :
   const allColumns =
+
+  // Jika "currentUser" / data user yang login saat ini dan "data" didalamnya mempunyai kesamaan yaitu memiliki status sebagai "Pengurus" dan memiliki "UID" yang sama maka :
     currentUser &&
     data &&
     Object.values(data).some(
       (user) => user.status === "Pengurus" && user.uid === currentUser.uid
     )
-      ? [
+      ?
+      // Tambahkan kolom Aksi yang di dalamnya mengandung tombol Hapus
+      [
           ...columns,
           {
             title: "Aksi",
@@ -133,6 +158,8 @@ const DataTable = ({
         ]
       : columns;
 
+      // Ini adalah fungsi untuk memfilter nama jenis sampah sesuai dengan yang di ketik oleh user
+      // atau bisa di bilang Ini adalah fitur pencarian
   const filteredData = jenisSampah.data
     ? Object.values(jenisSampah.data).filter((item) =>
         item.namaJenisSampah.toLowerCase().startsWith(searchText.toLowerCase())

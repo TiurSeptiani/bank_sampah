@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 
 const { Title } = Typography;
 function Beranda({ handleDeleteJenisSampah, loadingOnSubmit }) {
+	// Pada saat 
+
 	const jenisSampah = useSelector((state) => state.jenisSampah);
 	const dataNasabah = useSelector((state) => state.dataNasabah.data);
 	const dataTransaksi = useSelector((state) => state.dataTransaksi.data);
@@ -19,14 +21,20 @@ function Beranda({ handleDeleteJenisSampah, loadingOnSubmit }) {
 	).length;
 
 
+	// useEffect berfungsi untuk memicu apapun yang ada di dalamnya, useEffect akan berjalan ketika component yang memilikinya di jalankan.
     useEffect(() => {
 		
+		// Disini kita akan menghitung total transaksi yang masuk, dengan cara mengecek API dataTransaksi.
+		// Bacanya seperti ini : jika "dataTransaksi" ada ?
         if (dataTransaksi) {
+
+			// Jika "dataTransaksi" ada, maka hitung totalnya, dan masukkan hasil totalnya ke dalam "setTotalTransaksi"
             setTotalTransaksi(Object.keys(dataTransaksi).length);
         }
     }, [dataTransaksi])
 
 
+	// Disini adalah informasi jumlah nasabah, pengurus dan transaksi
 	const dataCard = [
 		{
 			title: "Jumlah Nasabah",
@@ -48,6 +56,8 @@ function Beranda({ handleDeleteJenisSampah, loadingOnSubmit }) {
 	return (
 		<Row>
 			<Col span={24} className='container'>
+
+				{/* Kemudian disini kita lakukan maping atau pemetaan atau looping sejumlah data yang ada di dalam variabel "dataCard" di atas */}
 				{dataCard.map((data, Index) => (
 					<Card
 						key={data.title}
@@ -74,6 +84,9 @@ function Beranda({ handleDeleteJenisSampah, loadingOnSubmit }) {
 
 			<Col span={24} className='datatable mt-5'>
 				<Divider orientation='left'>List Jenis Sampah</Divider>
+
+			{/* Ini adalah Table data dari semua jenis sampah */}
+			{/* Didalamnya mengirim : handleDeleteSampah(Hapus Sampah), loadingOnSubmit(Untuk menangani loading pada button), dan data seluruh jenis sampah (jenisSampah) */}
 				<DataTable
 					{...{
 						handleDeleteJenisSampah,

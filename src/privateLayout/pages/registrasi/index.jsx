@@ -19,6 +19,7 @@ function Index() {
     dispatch(listDataPengguna());
   }, [dispatch]);
 
+  // Ini fungsi induk dari CREATE USER, akan berjalan jika fungsi KIRIM pada compoenent anak di tekan
   const handleCreateUser = (data) => {
     setLoadingOnSubmit(true);
     const {
@@ -47,6 +48,9 @@ function Index() {
       .then((userCredential) => {
         const uid = userCredential.user.uid;
         const dataForSubmit = { ...saveData, uid };
+
+        // Mengirim data ke API, melalui "handleCreateOneUser"
+        // API di panggil melalui "handleCreateOneUser"
         dispatch(handleCreateOneUser(dataForSubmit))
           .unwrap()
           .then(() => {

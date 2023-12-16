@@ -29,8 +29,6 @@ function Profile({ handleResetSaldo }) {
   const { data: administrasi } = useSelector((state) => state.administrasi);
   const navigate = useNavigate();
 
-  console.log("DATA ADMINISTRASI", administrasi);
-
   const isNasabah = Object.values(data).find(
     (user) => user.status === "Nasabah" && user.uid === currentUser.uid
   );
@@ -38,6 +36,7 @@ function Profile({ handleResetSaldo }) {
     (user) => user.status === "Pengurus" && user.uid === currentUser.uid
   );
 
+  // FUNGSI UNTUK TOMBOL RESET SALDO
   const resetSaldo = () => {
     handleResetSaldo();
   };
@@ -63,6 +62,8 @@ function Profile({ handleResetSaldo }) {
 
   return (
     <Col id="tabungan">
+
+      {/* JIKA DIA NASABAH, MAKA AKAN MENAMPILKAN DATA DIBAWAH INI */}
       {isNasabah && (
         <div id="tabungan-container-nasabah">
           <div className="tabungan-header">
@@ -113,6 +114,7 @@ function Profile({ handleResetSaldo }) {
           <div style={{ marginTop: "50px", marginBottom: "20px" }}>
             <Divider orientation="left">Riwayat Penarikan</Divider>
 
+            {/* Menampilkan data transaksi KHUSUS NASABAH  */}
             {dataTransaksi ? (
               Object.keys(dataTransaksi).map((transactionId) => {
                 const transaction = dataTransaksi[transactionId];
@@ -188,6 +190,8 @@ function Profile({ handleResetSaldo }) {
         </div>
       )}
 
+
+      {/* Jika dia pengurus, maka akan menampilkan data dan tampilan di bawah (KHUSUS PENGURUS) */}
       {isPengurus && (
         <div id="tabungan-container-petugas">
           <div className="tabungan-header">

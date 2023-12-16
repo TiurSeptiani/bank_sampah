@@ -19,6 +19,8 @@ function Index() {
     dispatch(listAdministrasi());
   }, [dispatch]);
 
+
+  // Fungsi RESET SALDO akan berjalan ketika tombol reset pada component MODULES di tekan
   const handleResetSaldo = async () => {
     setLoadingOnSubmit(true);
     const administrasiKey = Object.keys(administrasi.data)[0];

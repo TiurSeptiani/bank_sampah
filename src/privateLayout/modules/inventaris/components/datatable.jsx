@@ -25,6 +25,9 @@ function DataTable({ handleDeleteDataSampah }) {
     };
   }, []);
 
+
+
+// Fungsi untuk TOMBOL HAPUS pada tabel, menghapus data sampah yang telah kita masukkan kedalam tabel
   const handleDelete = (e, namaNasabah) => {
     e.preventDefault();
     const id = Object.keys(data).find(

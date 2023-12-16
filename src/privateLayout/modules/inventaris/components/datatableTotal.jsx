@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 function DataTableTotal() {
   const { data } = useSelector((state) => state.dataInventaris);
 
+  // TABEL menampilkan total keseluruhan data inventaris setiap nasabah yang masuk
+
   const getAggregatedData = () => {
     if (!data) return [];
     const aggregatedData = {};

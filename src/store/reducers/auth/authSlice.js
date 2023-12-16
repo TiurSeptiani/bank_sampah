@@ -3,6 +3,9 @@ import { getCurrentUser, loginUser, logoutUser } from "./authThunk";
 
 const initialState = {
   currentUser: [],
+
+  // isAuth digunakan sebagai pemicu apakah kita sedang login atau tidak
+  // Disini kita mengecek apakah di dalam local storage ada "isAuth" dan memiliki nilai "true" ? jika iya makan isAuth yang dibawah akan bernilai "Benar" kan kita bisa berganti dari tampilan login ke tampilan home
   isAuth: localStorage.getItem("isAuth") === "true"
 };
 

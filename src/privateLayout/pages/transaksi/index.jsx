@@ -24,6 +24,7 @@ function Index() {
     dispatch(listAdministrasi())
   }, [dispatch]);
 
+  // Fungsi untuk format menjadi mata uang indonesia
   const formatCurrency = (amount) => {
     const formatter = new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -34,6 +35,8 @@ function Index() {
     return formatter.format(amount);
   };
 
+  // Fungsi untuk mengirim adata transaksi ke API
+  // Ini akan berjalan ketika fungsi TOMBOL KIRIM di tekan
   const handleTransaksi = async (data) => {
     setLoadingOnSubmit(true);
   
@@ -44,17 +47,28 @@ function Index() {
     );
   
     if (nasabah) {
+
+      // Tangkap data UNIK KEY dari pengguna yang melakukan penarikan pada FIREBASE 
       const nasabahKey = Object.keys(dataNasabah).find(
         (key) => dataNasabah[key] === nasabah
       );
   
+      // Tangkap data UNIK KEY dari penampungan saldo administrasi yang melakukan pembagian hasil
       const administrasiKey = Object.keys(administrasiData.data)[0];
   
+      
+        // Disini kita menjumlahkan saldo nsabah dengan mengalikan 90&
       const saldoNasabah = saldo * 0.9; 
+
+      // Disini kita menjumlahkan saldo administrasi/bank sampah dengaan mengalikan 10%
       const saldoAdministrasi = saldo * 0.1;
+
+      // Jika UNIK KEY administrasi dan nasabah telah tersedia
   
       if (administrasiKey && nasabahKey) {
-  
+
+        
+        // Kelompokkan datanya dan kirim kedalam " dispatch(handleCreateDataTransaksi(dataForSubmit)"
         const dataForSubmit = {
           saldoAwal: saldo,
           saldoAdministrasi,
@@ -65,10 +79,13 @@ function Index() {
         };
   
         try {
+
+          // 
           await axios.patch(`${apiDev}/data-pengguna/${nasabahKey}.json`, {
             saldo: 0,
           });
   
+          // Masukkan hasil pembagian 10% dari pengguna kedlaam API khusus penamping saldo administrasi
           await axios.patch(`${apiDev}/administrasi/${administrasiKey}.json`, {
             saldo: saldoAdministrasi,
           });
@@ -98,7 +115,7 @@ function Index() {
     }
   };
   
-
+  // Fungsi untuk menghapus data TRANSAKSI nasabah
   const handleDeleteDataTransaksi = (id) => {
     setLoadingOnSubmit(true);
     dispatch(handleDeleteOneDataTransaksi(id))

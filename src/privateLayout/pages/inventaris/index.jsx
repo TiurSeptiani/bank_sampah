@@ -28,8 +28,9 @@ function Index() {
 	}, [dispatch]);
 
 
+
+	// Ini adalah fungsi induk yang di jalankan ketika fungsi anak pada component modules telah ditekan
 	const createDataInventaris = async (data) => {
-		console.log("DATA SUBMIT", data);
 		setLoadingOnSubmit(true);
 		const jenisSampahArray = Object.values(listJenisSampah.data);
 		const selectedJenisSampah = jenisSampahArray.find(
@@ -39,7 +40,6 @@ function Index() {
 		if (selectedJenisSampah) {
 			const harga =
 				data.beratSampah * selectedJenisSampah.hargaJenisSampah;
-				console.log("HARGA", harga)
 			const dataForSubmit = {
 				...data,
 				harga,
@@ -83,6 +83,8 @@ function Index() {
 		}
 	};
 
+
+	// Fungsi untuk menghapus data inventaris, ini akan di jalankan ketika tombol pada component modules di tekan
 	const handleDeleteDataSampah = async (id) => {
 		setLoadingOnSubmit(true);
 

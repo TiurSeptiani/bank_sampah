@@ -10,6 +10,7 @@ function JenisSampah() {
 	const [loadingOnSubmit, setLoadingOnSubmit] = useState(false);
 	const navigate = useNavigate()
 
+	// INI AKAN BERJALAN KETIKA TOMBOL KIRIM PADA COMPONENT MODULES DI TEKAN
 	const handleOnSubmit = (data) => {
 		setLoadingOnSubmit(true);
 		dispatch(addJenisSampah(data))

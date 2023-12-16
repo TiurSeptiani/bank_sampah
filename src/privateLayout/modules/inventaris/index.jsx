@@ -17,16 +17,23 @@ function Inventaris({
 
   const [form] = Form.useForm();
 
+  // Fungsi untuk menjalankan TOMBOL KIRIM dan mengirim data inventaris ke API
   const handleSubmit = (values) => {
     if (values) {
       const data = {
         ...values,
+        // Menambah tglSetor kedalam variabel data
         tglSetor: new Date().getTime()
       };
+
+      // Kemudian kirim variabel "data" di atas dan kirim kedalam fungsi "createDataInventaris"
       createDataInventaris(data);
+
+      // Setelah di kirim, reset / bersihkan form dari data yang sebelumnya kita ketik, 
       form.resetFields();
     }
   };
+
 
   const isPengurus = Object.values(dataNasabah).some(
     (user) => user.status === "Pengurus" && user.uid === currentUser.uid
@@ -38,6 +45,8 @@ function Inventaris({
         disabled={!isPengurus}
         layout="vertical"
         form={form}
+
+        // Panggil fungsi "handleSubmit" di atas kedalam sini
         onFinish={handleSubmit}
       >
         <Form.Item
@@ -58,6 +67,7 @@ function Inventaris({
             }}
             placeholder="Masukkan nama nasabah"
           >
+            {/* Looping / tampilkan semua nama pengguna ke dalam sini */}
             {Object.values(dataNasabah).map((nasabah) => (
               <Select.Option
                 key={nasabah.namaLengkap}

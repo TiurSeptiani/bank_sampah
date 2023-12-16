@@ -21,6 +21,8 @@ function Transaksi({ handleTransaksi, handleDeleteDataTransaksi, loadingOnSubmit
 	const [totalTransaksi, setTotalTransaksi] = useState(0);
 	const [selectedNasabah, setSelectedNasabah] = useState(null);
 
+	
+	// FUngsi untuk menangkap nama nsabah dan saldonya
 	const handleNasabahSelect = (value) => {
 		setSelectedNasabah(value);
 		const selectedNasabahData = Object.values(dataNasabah).find(
@@ -33,6 +35,7 @@ function Transaksi({ handleTransaksi, handleDeleteDataTransaksi, loadingOnSubmit
 
 	const [form] = Form.useForm();
 
+	// Fungsi untuk tombol KIRIM pada transaksi,
 	const handleSubmit = (values) => {
 		setLoadinKirim(true)
 		const { namaNasabah, jumlahPenarikan } = values;
@@ -40,21 +43,27 @@ function Transaksi({ handleTransaksi, handleDeleteDataTransaksi, loadingOnSubmit
 			(nasabah) => nasabah.namaLengkap === namaNasabah
 		);
 
+		// Tanngkap saldo nasbaah
 		const nasabahSaldo = selectedNasabahData
 			? selectedNasabahData.saldo
 			: 0;
 
+			// Jika jumlah penarikan lebih besar dari saldo, maka akan menampilkan pesan dibawah
 		if (jumlahPenarikan > nasabahSaldo) {
 			message.error(
 				"Jumlah penarikan tidak boleh lebih dari total saldo"
 			);
 			setLoadinKirim(false)
 		} else {
+
+			// Jika jumlah penarikan lebih sesuai dengan saldo, maka akan menampilkan pesan dan menambahkan data "JENIS" dan "tglPenarikan" dibawah
 			const dataForSubmit = {
 				...values,
 				tglPenarikan: moment().format("DD MMMM YYYY, HH:mm:ss"),
 				jenis: "Debit",
 			};
+
+			// Kirim data ke fungsi yang ada di induk/pages
 			handleTransaksi(dataForSubmit)
 			setLoadinKirim(false)
 		}
