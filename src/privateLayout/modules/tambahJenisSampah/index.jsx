@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 function FormJenisSampah({ handleOnSubmit, loadingOnSubmit }) {
 
-  // Fungsi untuk TOMBOL KIRIM pada tambah jenis sampah
+  //  Fungsi ini akan di jalankan pada Form dibawah, berjalan ketika TOMBOL KIRIM di tekkan
   const handleSubmit = (values) => {
     handleOnSubmit(values);
   };
@@ -14,6 +14,7 @@ function FormJenisSampah({ handleOnSubmit, loadingOnSubmit }) {
 
   return (
     <div>
+      {/* Panggil fungsi 'handleSubmit' di atas kedalam form dibawah ini */}
       <Form layout="vertical" onFinish={handleSubmit}>
         <Form.Item
           label="Nama Jenis Sampah"
@@ -83,25 +84,31 @@ function FormJenisSampah({ handleOnSubmit, loadingOnSubmit }) {
         </Form.Item>
 
         <Form.Item className="btn-submit">
-          <div style={{display: "flex", gap: "20px"}}>
-          <Button
-            style={{fontWeight: "bold", letterSpacing: "1px"}}
-            danger
-            onClick={() => navigate('/')}
-            ghost
-          >
-            Kembali
-          </Button>
+          <div style={{ display: "flex", gap: "20px" }}>
 
-          <Button
-            loading={loadingOnSubmit}
-			disabled={loadingOnSubmit}
-            htmlType="submit"
-            style={{fontWeight: "bold", letterSpacing: "1px"}}
-            type="primary"
-          >
-            Kirim
-          </Button>
+
+            <Button
+              style={{ fontWeight: "bold", letterSpacing: "1px" }}
+              danger
+
+              // Jika penguna menekan tombol "Kembali" maka di arahkan ke halaman Beranda:
+              onClick={() => navigate('/')}
+
+
+              ghost
+            >
+              Kembali
+            </Button>
+
+            <Button
+              loading={loadingOnSubmit}
+              disabled={loadingOnSubmit}
+              htmlType="submit"
+              style={{ fontWeight: "bold", letterSpacing: "1px" }}
+              type="primary"
+            >
+              Kirim
+            </Button>
           </div>
         </Form.Item>
       </Form>

@@ -20,15 +20,25 @@ function Index() {
   }, [dispatch]);
 
 
-  // Fungsi RESET SALDO akan berjalan ketika tombol reset pada component MODULES di tekan
+  // Fungsi ini dilankan pada fungsi "resetSaldo" yang ada di dalam modules
+  // berfungsi untuk mereset saldo mejadi 0
   const handleResetSaldo = async () => {
     setLoadingOnSubmit(true);
+
+    // Ambil UNIK KEY nya
     const administrasiKey = Object.keys(administrasi.data)[0];
+
+    // Jika UNIK KEY sudah di dapatkan maka :
     if (administrasiKey) {
+      // Buat variabel "resetSaldo" dengan nilai 0
       const resetSaldo = 0;
+
+      // dan kirim variabel "administrasiKey" beserta variabel "resetSaldo" di atas ke LINK API administrasi dawah ini
       await axios.patch(`${apiDev}/administrasi/${administrasiKey}.json`, {
         saldo: resetSaldo,
       });
+
+      // Jika berhasil di hapus maka jalankan kembali fungsi API "listAdministrasi" agar menampilkan data terupdate setelah terjadi perubahan
       dispatch(listAdministrasi());
       setLoadingOnSubmit(false);
     } else {

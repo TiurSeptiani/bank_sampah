@@ -80,7 +80,7 @@ function Index() {
   
         try {
 
-          // 
+          // kirim variabel "nasabahKey" yang berisi UNIK KEY dari nasabah yang sedang di proses saat ini
           await axios.patch(`${apiDev}/data-pengguna/${nasabahKey}.json`, {
             saldo: 0,
           });
@@ -118,11 +118,15 @@ function Index() {
   // Fungsi untuk menghapus data TRANSAKSI nasabah
   const handleDeleteDataTransaksi = (id) => {
     setLoadingOnSubmit(true);
+
+    // Kirim parameter "id" kedalam fungsi API dibawah ini :
     dispatch(handleDeleteOneDataTransaksi(id))
       .unwrap()
       .then(() => {
         setLoadingOnSubmit(false);
         message.success("Data transaksi berhasil dihapus");
+
+        // Jika berhasil, maka update tampilan dan data saat terjadi perubahan
         dispatch(handleGetListDataTransaksi());
       });
   };

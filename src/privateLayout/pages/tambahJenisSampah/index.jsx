@@ -10,14 +10,18 @@ function JenisSampah() {
 	const [loadingOnSubmit, setLoadingOnSubmit] = useState(false);
 	const navigate = useNavigate()
 
-	// INI AKAN BERJALAN KETIKA TOMBOL KIRIM PADA COMPONENT MODULES DI TEKAN
+	// FUngsi ini akan di jalankan pada fungsi "handleSubmit" pada modules
 	const handleOnSubmit = (data) => {
 		setLoadingOnSubmit(true);
+
+		// Kirim parameter "data" di atas kedalam fungsi API untuk dikirim ke database
 		dispatch(addJenisSampah(data))
 			.unwrap()
 			.then(() => {
 				message.success("Berhasi Menambah Jenis Sampah!");
 				setLoadingOnSubmit(false);
+
+				// Jika berhasil, arahkan pengguna ke halaman beranda
 				navigate('/')
 			});
 	};
