@@ -7,6 +7,7 @@ import {
 	datatableHargaSampah,
 	handleDeleteOneJenisSampah,
 } from "../../../store/reducers/hargaSampah/hargaSampahThunk"
+import { listAdministrasi } from "../../../store/reducers/administrasi/administrasiThunk";
 import { listDataPengguna } from "../../../store/reducers/registrasiUsers/registrasiUsersThunk";
 import { handleGetListDataTransaksi } from "../../../store/reducers/dataTransaksi/dataTransaksiThunk";
 
@@ -19,6 +20,7 @@ function Index() {
 		dispatch(datatableHargaSampah());
 		dispatch(listDataPengguna());
 		dispatch(handleGetListDataTransaksi());
+		dispatch(listAdministrasi());
 	}, [dispatch]);
 
 	// Fungsi dibawah ini tujuannya untuk menghapus jenis sampah

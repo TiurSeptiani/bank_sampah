@@ -1,6 +1,6 @@
 .container {
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-evenly;
 	flex-wrap: wrap;
 	color: #fff;
 	gap: 10px;

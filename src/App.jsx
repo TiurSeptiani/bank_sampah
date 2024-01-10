@@ -91,7 +91,7 @@ const App = () => {
           items={[
             { key: "/", icon: <HomeOutlined />, label: "Beranda" },
             { key: "/profile", icon: <UserOutlined />, label: "Profile" },
-            { key: "/data-anggota", icon: <TeamOutlined />, label: "Anggota" },
+            { key: "/data-anggota", icon: <TeamOutlined />, label: "Anggota", hidden: isNasabah },
             { key: "/data-sampah", icon: <CalculatorOutlined />, label: "Data Sampah", hidden: isNasabah },
             { key: "/transaksi", icon: <SwapOutlined />, label: "Transaksi", hidden: isNasabah },
             { key: "/inventaris", icon: <FormOutlined />, label: "Inventaris", hidden: isNasabah },
