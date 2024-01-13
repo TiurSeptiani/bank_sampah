@@ -12,7 +12,7 @@ import {
   UserAddOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, Button, theme, Col, Image, message } from "antd";
+import { Layout, Menu, Button, theme, Col, Image, message, Empty } from "antd";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Beranda from "./privateLayout/pages/beranda/data.jsx";
 import Inventaris from "./privateLayout/pages/inventaris/index.jsx";
@@ -27,11 +27,14 @@ import Informasi from "./privateLayout/pages/informasi/index.jsx";
 
 import Logo from "./assets/logo.png";
 import Login from "./publicLayout/pages/loginPage.jsx";
+import LupaPassword from "./publicLayout/pages/lupaPasswordPages.jsx";
+
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../src/firebase.js";
 import { getCurrentUser, logoutUser } from "./store/reducers/auth/authThunk.js";
 import { onAuthStateChanged } from "firebase/auth";
 import { listDataPengguna } from "./store/reducers/registrasiUsers/registrasiUsersThunk.js";
+import Message from "./EmptyMessage.jsx";
 
 const { Header, Sider, Content } = Layout;
 
@@ -81,7 +84,7 @@ const App = () => {
           <Image src={Logo} preview={false} />
         </Col>
         <Menu
-        
+
           onClick={({ key }) => {
             navigate(key);
           }}
@@ -93,9 +96,9 @@ const App = () => {
             { key: "/profile", icon: <UserOutlined />, label: "Profile" },
             { key: "/data-anggota", icon: <TeamOutlined />, label: "Anggota", hidden: isNasabah },
             { key: "/data-sampah", icon: <CalculatorOutlined />, label: "Data Sampah", hidden: isNasabah },
-            { key: "/transaksi", icon: <SwapOutlined />, label: "Transaksi", hidden: isNasabah },
+            { key: "/transaksi", icon: <SwapOutlined />, label: "Transaksi", hidden: isNasabah},
             { key: "/inventaris", icon: <FormOutlined />, label: "Inventaris", hidden: isNasabah },
-            { key: "/registrasi", icon: <UserAddOutlined />, label: "Registrasi", hidden: isNasabah },
+            { key: "/registrasi", icon: <UserAddOutlined />, label: "Registrasi", hidden: isNasabah},
             { key: "/informasi", icon: <ExclamationCircleOutlined />, label: "Informasi" },
           ].filter(item => !item.hidden)}
         />
@@ -142,12 +145,15 @@ const App = () => {
         >
           <Routes>
             <Route path="/" element={<Beranda />} />
-            <Route path="/data-anggota" element={<Anggota />} />
-            <Route path="/registrasi" element={<Registrasi />} />
-            <Route path="/inventaris" element={<Inventaris />} />
+            <Route
+              path="/data-anggota"
+              element={isNasabah ? <Message /> : <Anggota />}
+            />
+            <Route path="/registrasi" element={isNasabah ? <Message /> : <Registrasi />} />
+            <Route path="/inventaris" element={isNasabah ? <Message /> : <Inventaris />} />
             <Route path="/tambah-jenis-sampah" element={<JenisSampah />} />
-            <Route path="/data-sampah" element={<DataSampah />} />
-            <Route path="/transaksi" element={<Transaksi />} />
+            <Route path="/data-sampah" element={isNasabah ? <Message /> : <DataSampah />} />
+            <Route path="/transaksi" element={isNasabah ? <Message /> :<Transaksi />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/ganti-password" element={<GantiPassword />} />
             <Route path="/informasi" element={<Informasi />} />
@@ -159,6 +165,7 @@ const App = () => {
     <Layout style={{ height: "100vh" }}>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/reset-password" element={<LupaPassword />} />
       </Routes>
     </Layout>
   );

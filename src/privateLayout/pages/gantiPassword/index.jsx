@@ -23,18 +23,13 @@ function Index() {
     return navigate('/profile')
   }
 
-  // Data dari component modules/gantiPassword akan berada disini
   const handleChangePassword = async (values) => {
     setLoadingOnSubmit(true);
 
-    // Ambil dta yang ada dari hasil pengiriman component modules secara spesifik
-    // atau cara dibawah ini disebut destructuring objek
     const { passwordBaru, passwordLama } = values;
 
     const auth = getAuth();
 
-    // Penting juga mengambil data currentUser yang digunakan login saat ini
-    // Untuk nanti dikirim ke FIREBASE
     const user = auth.currentUser;
 
     try {
@@ -45,38 +40,42 @@ function Index() {
       await reauthenticateWithCredential(user, credentials);
       await updatePassword(user, passwordBaru);
 
-      const foundUser = Object.values(data).find(
-        (user) => user.uid === dataCurrent.uid
-      );
+      message.success("Password berhasil di ganti");
+      navigate("/profile");
+      setLoadingOnSubmit(false);
 
-      if (foundUser) {
-        const key = Object.keys(data).find(
-          (key) => data[key].uid == foundUser.uid
-        );
+      // const foundUser = Object.values(data).find(
+      //   (user) => user.uid === dataCurrent.uid
+      // );
 
-        if (key) {
-          try {
-            await axios.patch(`${apiDev}/data-pengguna/${key}.json`, {
-              password: passwordBaru,
-            });
-            message.success("Password berhasil di ganti");
-            navigate("/profile");
-            setLoadingOnSubmit(false);
-          } catch (error) {
-            console.error("Error updating user data in the database:", error);
-            message.error("Gagal mengganti password");
-            setLoadingOnSubmit(false);
-          }
-        } else {
-          console.error("User ID not found.");
-          message.error("ID pengguna tidak ditemukan");
-          setLoadingOnSubmit(false);
-        }
-      } else {
-        console.error("User not found in data.");
-        message.error("Pengguna tidak ditemukan");
-        setLoadingOnSubmit(false);
-      }
+      // if (foundUser) {
+      //   const key = Object.keys(data).find(
+      //     (key) => data[key].uid == foundUser.uid
+      //   );
+
+      //   if (key) {
+      //     try {
+      //       await axios.patch(`${apiDev}/data-pengguna/${key}.json`, {
+      //         password: passwordBaru,
+      //       });
+      //       message.success("Password berhasil di ganti");
+      //       navigate("/profile");
+      //       setLoadingOnSubmit(false);
+      //     } catch (error) {
+      //       console.error("Error updating user data in the database:", error);
+      //       message.error("Gagal mengganti password");
+      //       setLoadingOnSubmit(false);
+      //     }
+      //   } else {
+      //     console.error("User ID not found.");
+      //     message.error("ID pengguna tidak ditemukan");
+      //     setLoadingOnSubmit(false);
+      //   }
+      // } else {
+      //   console.error("User not found in data.");
+      //   message.error("Pengguna tidak ditemukan");
+      //   setLoadingOnSubmit(false);
+      // }
     } catch (error) {
       message.error("Tidak dapat mengganti password");
       console.log(error);

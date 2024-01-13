@@ -18,7 +18,6 @@ function Registrasi({ handleCreateUser, loadingOnSubmit }) {
 	const { currentUser } = useSelector(state => state.auth)
 	const { data } = useSelector((state) => state.dataNasabah)
 
-	// Fungsi untuk TOMBOL KIRIM : mengirim data anggota yang ingin daftar ke API
 	const handleSubmit = (value) => {
 		setLoadingKirim(true);
 		const { password, confirm_password } = value;
@@ -41,7 +40,6 @@ function Registrasi({ handleCreateUser, loadingOnSubmit }) {
 
 	return (
 		<div>
-			{/* Panggil fungsi "handleSubmit" kedalam sini */}
 			<Form layout='vertical' onFinish={handleSubmit}>
 				<Form.Item
 					label='Nama Lengkap'

@@ -24,9 +24,25 @@
     width: 20%;
 }
 
+.btn-for-lupa-password {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn-click-here {
+    cursor: pointer;
+    color: blue;
+}
+
+.btn-click-here:hover {
+    color: rgba(0, 0, 255, 0.518);
+}
+
 .btn-for-login{
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 
 @media screen and (max-width: 1015px){
